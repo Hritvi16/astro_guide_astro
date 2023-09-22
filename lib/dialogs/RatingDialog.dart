@@ -24,7 +24,6 @@ class RatingDialog extends StatelessWidget {
     return GetBuilder<RatingController>(
       builder: (controller) {
         return Dialog(
-          backgroundColor: Colors.white,
           insetPadding: EdgeInsets.symmetric(horizontal: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -56,7 +55,6 @@ class RatingDialog extends StatelessWidget {
                     ratingController.review.user??"",
                     style: GoogleFonts.manrope(
                         fontSize: 16,
-                        color: MyColors.black,
                         fontWeight: FontWeight.w500
                     ),
                   ),
@@ -73,7 +71,6 @@ class RatingDialog extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Image.asset(
                           "assets/sign_up/profile.png",
-                          color: MyColors.black,
                         ),
                       ),
                     )
@@ -109,7 +106,6 @@ class RatingDialog extends StatelessWidget {
                           ratingController.review.astrologer??"",
                           style: GoogleFonts.manrope(
                               fontSize: 14,
-                              color: MyColors.black,
                               fontWeight: FontWeight.w600
                           ),
                         ),
@@ -127,11 +123,11 @@ class RatingDialog extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: TextFormField(
                       onChanged: (value) {
+                        print(value);
                         ratingController.update();
                       },
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.notoColorEmoji(
                         fontSize: 16.0,
-                        color: MyColors.black,
                         letterSpacing: 0,
                         fontWeight: FontWeight.w400,
                       ),

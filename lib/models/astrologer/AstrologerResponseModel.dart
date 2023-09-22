@@ -18,6 +18,7 @@ class AstrologerResponseModel with _$AstrologerResponseModel {
     required int code,
     required String message,
     AstrologerModel? data,
+    List<CountryModel>? countries,
     List<CityModel>? cities,
     List<LanguageModel>? languages,
     List<SpecModel>? specifications,

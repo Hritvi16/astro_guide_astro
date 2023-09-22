@@ -14,6 +14,11 @@ class MeetingRepository {
     return calls;
   }
 
+  Future<JSON> manage(String token, String endpoint, Map<String, dynamic> data) async {
+    var calls = await apiService.post(endpoint: ApiConstants.chatAPI+endpoint, body: data, token: token);
+    return calls;
+  }
+
   Future<JSON> validate(Map<String, dynamic> data, String token) async {
     var update = await apiService.post(endpoint: ApiConstants.meetingAPI+ApiConstants.validate, body: data, token: token);
     return update;
@@ -26,6 +31,12 @@ class MeetingRepository {
 
   Future<JSON> waitlist(Map<String, dynamic> data, String token) async {
     var update = await apiService.post(endpoint: ApiConstants.meetingAPI+ApiConstants.waitlist, body: data, token: token);
+    return update;
+  }
+
+
+  Future<JSON> missed(Map<String, dynamic> data, String token) async {
+    var update = await apiService.post(endpoint: ApiConstants.meetingAPI+ApiConstants.missed, body: data, token: token);
     return update;
   }
 

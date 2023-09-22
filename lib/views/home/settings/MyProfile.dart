@@ -37,7 +37,8 @@ class MyProfile extends StatelessWidget {
       builder: (controller) {
         return myProfileController.load ?
         Scaffold(
-          resizeToAvoidBottomInset: false,
+          // resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           body: getBody(),
         )
         : LoadingScreen();
@@ -54,9 +55,6 @@ class MyProfile extends StatelessWidget {
           child: ClipPath(
             clipper: CustomClipPath(),
             child: Container(
-              height: standardUpperFixedDesignHeight,
-              padding: EdgeInsets.symmetric(
-                  horizontal: standardHorizontalPagePadding),
               decoration: BoxDecoration(
                   color: MyColors.colorPrimary,
                   image: const DecorationImage(
@@ -255,10 +253,11 @@ class MyProfile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
+              enabled: false,
+              readOnly: true,
               keyboardType: TextInputType.name,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -301,9 +300,9 @@ class MyProfile extends StatelessWidget {
                 FilteringTextInputFormatter.digitsOnly
               ],
               controller: myProfileController.mobile,
+              textInputAction: TextInputAction.next,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -318,14 +317,20 @@ class MyProfile extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   prefixIcon: GestureDetector(
                     onTap: () {
-
+                      myProfileController.changeCode();
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 14),
-                          child: Image.asset(
+                          child: myProfileController.country.imageFullUrl.startsWith("http") ?
+                          Image.network(
+                            myProfileController.country.imageFullUrl,
+                            height: 24,
+                            width: 33,
+                          )
+                              : Image.asset(
                             "assets/country/India.png",
                             height: 24,
                             width: 33,
@@ -334,7 +339,7 @@ class MyProfile extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            '+91',
+                            myProfileController.country.code,
                             style: GoogleFonts.manrope(
                               fontSize: 16.0,
                               color: MyColors.black,
@@ -370,10 +375,10 @@ class MyProfile extends StatelessWidget {
               keyboardType: TextInputType.name,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
+              textInputAction: TextInputAction.next,
               controller: myProfileController.email,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -417,6 +422,7 @@ class MyProfile extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: DropdownSearch<CityModel>(
+                enabled: false,
                 popupProps:  const PopupProps.menu(
                     showSearchBox: true,
                     searchFieldProps: TextFieldProps(
@@ -431,7 +437,6 @@ class MyProfile extends StatelessWidget {
                 dropdownDecoratorProps:  DropDownDecoratorProps(
                     baseStyle: GoogleFonts.manrope(
                       fontSize: 16.0,
-                      color: MyColors.black,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -470,36 +475,40 @@ class MyProfile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
-              onTap: () {
-                BottomPicker.date(
-                  title:  "Set your Date of Birth",
-                  titleStyle: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.colorButton,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  onSubmit: (value) {
-                    myProfileController.setDOB(value);
-                  },
-                  bottomPickerTheme:  BottomPickerTheme.plumPlate,
-                  buttonText: "Done",
-                  buttonTextStyle: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.black,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  buttonSingleColor: Colors.transparent,
-                  displayButtonIcon: false,
-                ).show(context);
-              },
+              // onTap: () {
+              //   BottomPicker.date(
+              //     title:  "Set your Date of Birth",
+              //     titleStyle: GoogleFonts.manrope(
+              //       fontSize: 16.0,
+              //       color: MyColors.colorButton,
+              //       letterSpacing: 0,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //     onSubmit: (value) {
+              //       myProfileController.setDOB(value);
+              //     },
+              //     backgroundColor: MyColors.backgroundColor(),
+              //     closeIconColor: MyColors.iconColor(),
+              //     bottomPickerTheme:  BottomPickerTheme.plumPlate,
+              //     buttonText: "Done",
+              //     buttonTextStyle: GoogleFonts.manrope(
+              //       fontSize: 16.0,
+              //       letterSpacing: 0,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //     pickerTextStyle: GoogleFonts.manrope(
+              //       fontSize: 14.0,
+              //     ),
+              //     buttonSingleColor: Colors.transparent,
+              //     displayButtonIcon: false,
+              //   ).show(context);
+              // },
               controller: myProfileController.dob,
               readOnly: true,
+              enabled: false,
               keyboardType: TextInputType.datetime,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -574,6 +583,7 @@ class MyProfile extends StatelessWidget {
         Radio(
           value: value,
           groupValue: myProfileController.gender,
+          activeColor: MyColors.colorButton,
           onChanged: (val) {
             myProfileController.changeGender(value);
           },
@@ -605,7 +615,6 @@ class MyProfile extends StatelessWidget {
               },
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -725,7 +734,7 @@ class MyProfile extends StatelessWidget {
                 onTap: myProfileController.onStepCancel,
                 child: standardButton(
                   context: context,
-                  backgroundColor: MyColors.white,
+                  backgroundColor: MyColors.cardColor(),
                   borderColor: MyColors.borderColor(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -734,7 +743,7 @@ class MyProfile extends StatelessWidget {
                         "assets/controls/arrow_previous.png",
                         height: standardArrowH,
                         width: standardArrowW,
-                        color: MyColors.black,
+                        // color: MyColors.black,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: standardHTIS),
@@ -742,7 +751,7 @@ class MyProfile extends StatelessWidget {
                           'Previous',
                           style: GoogleFonts.manrope(
                             fontSize: 16.0,
-                            color: MyColors.black,
+                            // color: MyColors.black,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w600,
                           ),

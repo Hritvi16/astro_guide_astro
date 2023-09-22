@@ -3,6 +3,7 @@ import 'package:astro_guide_astro/models/chat/ChatMissedModel.dart';
 import 'package:astro_guide_astro/models/chat/ChatResponseModel.dart';
 import 'package:astro_guide_astro/models/chat/CheckChatResponseModel.dart';
 import 'package:astro_guide_astro/models/chat/ChatListModel.dart';
+import 'package:astro_guide_astro/models/quickReplies/QuickRepliesListModel.dart';
 import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/chat/ChatModel.dart';
 import 'package:astro_guide_astro/repositories/ChatRepository.dart';
@@ -54,5 +55,17 @@ class ChatProvider {
     var response = await chatRepository.fetchByID(token, endpoint, body);
 
     return ResponseModel.fromJson(response);
+  }
+
+  Future<QuickRepliesListModel> fetchQuickReplies(String token, String endpoint) async {
+    var response = await chatRepository.fetch(token, endpoint);
+
+    return QuickRepliesListModel.fromJson(response);
+  }
+
+  Future<ResponseModel> delete(String token, String endpoint) async {
+    var responseModel = await chatRepository.fetch(token, endpoint);
+
+    return ResponseModel.fromJson(responseModel);
   }
 }

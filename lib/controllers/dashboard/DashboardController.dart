@@ -5,6 +5,7 @@ import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/chartData/ChartData.dart';
 import 'package:astro_guide_astro/models/report/BasicReportModel.dart';
 import 'package:astro_guide_astro/models/report/ReportModel.dart';
+import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
 import 'package:astro_guide_astro/providers/DashboardProvider.dart';
 import 'package:astro_guide_astro/repositories/AstrologerRepository.dart';
@@ -38,6 +39,8 @@ class DashboardController extends GetxController {
   late bool fload;
   late bool oload;
 
+  SessionHistoryModel? session;
+
   @override
   void onInit() {
     super.onInit();
@@ -66,6 +69,7 @@ class DashboardController extends GetxController {
       if(response.code==1) {
         report = response.data!;
         month_summary.addAll(report.month_summary);
+        session = response.session;
         update();
         calculate();
       }
@@ -105,7 +109,9 @@ class DashboardController extends GetxController {
   }
 
   void goto(String page, {dynamic arguments}) {
-    Get.toNamed(page, arguments: arguments);
+    Get.toNamed(page, arguments: arguments)?.then((value) {
+      getDashboard();
+    });
   }
 
   void calculate() {
@@ -119,28 +125,28 @@ class DashboardController extends GetxController {
     // print("Avg Monthly Call Minutes:- ${getAvgMonthMinutes(report.total_call_sec)}");
 
     total_mins = [
-        ChartData("Chat", getTotalMinutes(report.total_chat_sec)),
-        ChartData("Call", getTotalMinutes(report.total_call_sec)),
+        ChartData("Chat".tr, getTotalMinutes(report.total_chat_sec)),
+        ChartData("Call".tr, getTotalMinutes(report.total_call_sec)),
       ];
 
     avg_daily_mins = [
-        ChartData("Chat", getAvgDailyMinutes(report.total_chat_sec)),
-        ChartData("Call", getAvgDailyMinutes(report.total_call_sec)),
+        ChartData("Chat".tr, getAvgDailyMinutes(report.total_chat_sec)),
+        ChartData("Call".tr, getAvgDailyMinutes(report.total_call_sec)),
       ];
 
     avg_monthly_mins = [
-        ChartData("Chat", getAvgMonthMinutes(report.total_chat_sec)),
-        ChartData("Call", getAvgMonthMinutes(report.total_call_sec)),
+        ChartData("Chat".tr, getAvgMonthMinutes(report.total_chat_sec)),
+        ChartData("Call".tr, getAvgMonthMinutes(report.total_call_sec)),
       ];
 
     rating = [
-        ChartData("Chat", getAvgRating(report.total_chat_rating, report.total_chat_user)),
-        ChartData("Call", getAvgRating(report.total_call_rating, report.total_call_user)),
+        ChartData("Chat".tr, getAvgRating(report.total_chat_rating, report.total_chat_user)),
+        ChartData("Call".tr, getAvgRating(report.total_call_rating, report.total_call_user)),
       ];
 
     user_rating = [
-        ChartData("Chat", report.total_chat_user.toDouble()),
-        ChartData("Call", report.total_call_user.toDouble()),
+        ChartData("Chat".tr, report.total_chat_user.toDouble()),
+        ChartData("Call".tr, report.total_call_user.toDouble()),
       ];
 
     // chart.addAll(
@@ -160,6 +166,7 @@ class DashboardController extends GetxController {
   }
   
   double getTotalMinutes(int seconds) {
+    print(seconds);
     return (seconds/60).toPrecision(2);
   }
 

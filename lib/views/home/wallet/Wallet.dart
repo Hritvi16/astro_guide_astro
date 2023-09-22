@@ -2,6 +2,7 @@
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/controllers/wallet/WalletController.dart';
+import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/astrologer/AstrologerModel.dart';
 import 'package:astro_guide_astro/models/package/PackageModel.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
@@ -10,6 +11,7 @@ import 'package:astro_guide_astro/shared/widgets/button/Button.dart';
 import 'package:astro_guide_astro/shared/widgets/customAppBar/CustomAppBar.dart';
 import 'package:astro_guide_astro/size/MySize.dart';
 import 'package:astro_guide_astro/size/WidgetSize.dart';
+import 'package:astro_guide_astro/views/loadingScreen/LoadingScreen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -32,8 +34,7 @@ class Wallet extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           // backgroundColor: MyColors.white,
-          bottomNavigationBar: getPayDesign(context),
-          body: getBody(context),
+          body: walletController.load ? getBody(context) : LoadingScreen(),
         );
       },
     );
@@ -60,7 +61,7 @@ class Wallet extends StatelessWidget {
                   )
               ),
               child: SafeArea(
-                child: CustomAppBar('My Wallet'),
+                child: CustomAppBar('My Wallet'.tr),
               ),
             ),
           ),
@@ -87,7 +88,19 @@ class Wallet extends StatelessWidget {
                     SizedBox(
                       height: 28,
                     ),
-                    getCustomAmountDesign(context)
+                    getOverallSummary(),
+                    SizedBox(
+                      height: 28,
+                    ),
+                    getSummary("Today's".tr, "${CommonConstants.rupee}${walletController.wallet.today_amount.toStringAsFixed(2)}", "${CommonConstants.rupee}${(walletController.wallet.today_amount-walletController.wallet.today_earning).toStringAsFixed(2)}", "${CommonConstants.rupee}${walletController.wallet.today_earning.toStringAsFixed(2)}"),
+                    SizedBox(
+                      height: 28,
+                    ),
+                    getSummary("Monthly".tr, "${CommonConstants.rupee}${walletController.wallet.monthly_amount.toStringAsFixed(2)}", "${CommonConstants.rupee}${(walletController.wallet.monthly_amount-walletController.wallet.monthly_earning).toStringAsFixed(2)}", "${CommonConstants.rupee}${walletController.wallet.monthly_earning.toStringAsFixed(2)}"),
+                    SizedBox(
+                      height: 28,
+                    ),
+                    getSummary("Yearly".tr, "${CommonConstants.rupee}${walletController.wallet.yearly_amount.toStringAsFixed(2)}", "${CommonConstants.rupee}${(walletController.wallet.yearly_amount-walletController.wallet.yearly_earning).toStringAsFixed(2)}", "${CommonConstants.rupee}${walletController.wallet.yearly_earning.toStringAsFixed(2)}"),
                   ],
                 ),
               ),
@@ -119,7 +132,7 @@ class Wallet extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              "Available Balance",
+              "Available Balance".tr,
               style: GoogleFonts.playfairDisplay(
                 fontSize: 20.0,
                 color: MyColors.black,
@@ -128,7 +141,7 @@ class Wallet extends StatelessWidget {
               ),
             ),
             Text(
-              "${CommonConstants.rupee} ${walletController.wallet%1==0 ? walletController.wallet.toInt().toString() : walletController.wallet.toStringAsFixed(2)}",
+              "${CommonConstants.rupee} ${walletController.balance%1==0 ? walletController.balance.toDouble().toString() : walletController.balance.toStringAsFixed(2)}",
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
                 color: MyColors.colorGrey,
@@ -143,249 +156,143 @@ class Wallet extends StatelessWidget {
   }
 
 
-  Widget getCustomAmountDesign(BuildContext context) {
+  Widget getInfoDesign(String title, String info) {
+    return GestureDetector(
+      onTap: () {
+      },
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        decoration: BoxDecoration(
+            color: MyColors.colorPrimary.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+                color: MyColors.colorButton
+            )
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+                title,
+                style: GoogleFonts.manrope(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                    color: MyColors.labelColor()
+                )
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                  info,
+                  style: GoogleFonts.manrope(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                      color: MyColors.labelColor()
+                  )
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getOverallSummary() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Custom Amount",
-          style: GoogleFonts.manrope(
-            fontSize: 18.0,
-            color: MyColors.black,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        getHeading("Overall Summary".tr),
         SizedBox(
-          height: 12,
+          height: 10,
         ),
-        TextFormField(
-          onChanged: (value) {
-            walletController.selectPackage(null, context);
-          },
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly
+        Row(
+          children: [
+            Flexible(
+                child: getInfoDesign("Total Sales".tr, "${CommonConstants.rupee}${walletController.wallet.total.toStringAsFixed(2)}")
+            ),
+            SizedBox(
+              width: standardHorizontalPagePadding,
+            ),
+            Flexible(
+                child: getInfoDesign("Commission".tr, "${CommonConstants.rupee}${(walletController.wallet.total-walletController.wallet.earnings).toStringAsFixed(2)}")
+            ),
           ],
-          style: GoogleFonts.manrope(
-            fontSize: 16.0,
-            color: MyColors.black,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w400,
-          ),
-          controller: walletController.amount,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: MyColors.colorButton,
-              ),
-              borderRadius: BorderRadius.circular(16),
+        ),
+        SizedBox(
+          height: standardHorizontalPagePadding,
+        ),
+        Row(
+          children: [
+            Flexible(
+                child: getInfoDesign("My Earnings".tr, "${CommonConstants.rupee}${walletController.wallet.earnings.toStringAsFixed(2)}")
             ),
-            hintText: "Enter Amount",
+            SizedBox(
+              width: standardHorizontalPagePadding,
+            ),
+            Flexible(
+                child: getInfoDesign("Paid".tr, "${CommonConstants.rupee}${walletController.wallet.paid.toStringAsFixed(2)}")
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 16),
-              child: Text(
-                CommonConstants.rupee,
-                style: GoogleFonts.manrope(
-                  fontSize: 16.0,
-                  color: MyColors.black,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+  Widget getSummary(String title, String total,  String commission,  String earnings) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        getHeading("${title} ${'Summary'.tr}"),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Flexible(
+              child: getInfoDesign("Total Sales".tr, total)
             ),
-          ),
-          validator: (value) {
-            if ((value??"").isEmpty) {
-              return "* Required";
-            }  else {
-              return null;
-            }
-          },
-        ),
-        Image.asset(
-          "assets/common/or.png"
-        ),
-        Text(
-          "Recharge Wallet",
-          style: GoogleFonts.manrope(
-            fontSize: 18.0,
-            color: MyColors.black,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w600,
-          ),
+            SizedBox(
+              width: standardHorizontalPagePadding,
+            ),
+            Flexible(
+              child: getInfoDesign("Commission".tr, commission)
+            ),
+          ],
         ),
         SizedBox(
-          height: 5,
+          height: standardHorizontalPagePadding,
         ),
-        Text(
-          "Choose from the available recharge packs.",
-          style: GoogleFonts.manrope(
-            fontSize: 16.0,
-            color: MyColors.colorGrey,
-            letterSpacing: 0,
-            fontWeight: FontWeight.w400,
-          ),
+
+        Row(
+          children: [
+            Flexible(
+              child: getInfoDesign("My Earnings".tr, earnings)
+            ),
+            SizedBox(
+              width: standardHorizontalPagePadding,
+            ),
+            Flexible(
+              child: SizedBox()
+            ),
+          ],
         ),
-        SizedBox(
-          height: 12,
-        ),
-        GridView.custom(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            mainAxisExtent: standardPackageCardHeight
-            // childAspectRatio: 3/4,
-          ),
-          childrenDelegate: SliverChildBuilderDelegate(
-                (context, index) {
-              return getPackageDesign(index, walletController.packages[index], context);
-            },
-            childCount: walletController.packages.length,
-          ),
-        )
 
       ],
     );
   }
 
-
-  Widget getPackageDesign(int ind, PackageModel package, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        walletController.selectPackage(package, context);
-      },
-      child: Container(
-        height: standardPackageCardHeight,
-        padding: EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: walletController.package==package ? MyColors.colorPrimary : MyColors.white,
-          border: Border.all(
-            color: walletController.package==package ? MyColors.colorPrimary : MyColors.colorPCBorder,
-            width: 2
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(standardImageRadius),
-            topRight: Radius.circular(standardImageRadius),
-            bottomLeft: Radius.circular(standardPackageCardRadius),
-            bottomRight: Radius.circular(standardPackageCardRadius),
-          ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: standardPackageCardSHeight,
-              width: double.infinity,
-              padding: EdgeInsets.only(top: 15, bottom: 5),
-              decoration: BoxDecoration(
-                color: walletController.package==package ? MyColors.colorButton : MyColors.colorPCBorder,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(standardImageRadius),
-                  topRight: Radius.circular(standardImageRadius),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset(
-                    "assets/signs/"+((ind+1)%3==1 ? "star.png" : (ind+1)%3==2 ? "swastik.png" : "om.png"),
-                    color: walletController.package==package ? MyColors.colorOrange : MyColors.colorGrey,
-                    height: (ind+1)%3==1 ? standardPackageStarHeight : (ind+1)%3==2 ? standardPackageSwastikHeight : standardPackageOmHeight,
-                  ),
-                  Text(
-                    "${package.amount.toString()} ${CommonConstants.rupee}",
-                    overflow: TextOverflow.clip,
-                    maxLines: 1,
-                    style: GoogleFonts.manrope(
-                      fontSize: 18.0,
-                      color: walletController.package==package ? MyColors.white : MyColors.black,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -2
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 6,
-            ),
-            Container(
-              height: standardPackageCardOHeight,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: walletController.package==package ? MyColors.colorSuccessDark : MyColors.colorSuccess,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                (package.discount??0)==0 ? "-" : package.discount.toString()+(package.type=="AMOUNT" ? CommonConstants.rupee : CommonConstants.per)+" Extra",
-                overflow: TextOverflow.clip,
-                maxLines: 1,
-                style: GoogleFonts.manrope(
-                    fontSize: 12.0,
-                    color: MyColors.white,
-                    fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+  Widget getHeading(String heading) {
+    return Text(
+      heading,
+      style: GoogleFonts.manrope(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          color: MyColors.labelColor()
+      )
     );
-  }
-
-  Widget? getPayDesign(BuildContext context) {
-    return walletController.amount.text.isNotEmpty || walletController.package!=null ?
-    PhysicalModel(
-      elevation: 10,
-      clipBehavior: Clip.antiAlias,
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(standardBottomBarRadius),
-          topRight: Radius.circular(standardBottomBarRadius)
-      ),
-      shadowColor: MyColors.black,
-      color: MyColors.white,
-      child: GestureDetector(
-        onTap: () {
-          walletController.proceed();
-        },
-        child: Container(
-          height: standardBottomBarHeight,
-          width: standardBottomBarWidth,
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          decoration: BoxDecoration(
-            color: MyColors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(standardBottomBarRadius),
-                topRight: Radius.circular(standardBottomBarRadius)
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 46),
-            child: standardButton(
-              context: context,
-              backgroundColor: MyColors.colorButton,
-              child: Center(
-                child: Text(
-                  'Proceed to pay',
-                  style: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.white,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    )
-    : null;
   }
 }

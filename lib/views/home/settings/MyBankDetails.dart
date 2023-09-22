@@ -376,7 +376,7 @@ class MyBankDetails extends StatelessWidget {
               : myBankDetailsController.bank.cheque.isNotEmpty ?
               GestureDetector(
                 onTap: () {
-                  myBankDetailsController.goto("/photoView", arguments: [ApiConstants.bankUrl+myBankDetailsController.bank.cheque]);
+                  myBankDetailsController.goto("/photoView", arguments: ApiConstants.bankUrl+myBankDetailsController.bank.cheque);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -500,7 +500,7 @@ class MyBankDetails extends StatelessWidget {
                 onTap: myBankDetailsController.onStepCancel,
                 child: standardButton(
                   context: context,
-                  backgroundColor: MyColors.white,
+                  backgroundColor: MyColors.cardColor(),
                   borderColor: MyColors.borderColor(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -509,7 +509,7 @@ class MyBankDetails extends StatelessWidget {
                         "assets/controls/arrow_previous.png",
                         height: standardArrowH,
                         width: standardArrowW,
-                        color: MyColors.black,
+                        // color: MyColors.black,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: standardHTIS),
@@ -517,7 +517,7 @@ class MyBankDetails extends StatelessWidget {
                           'Previous',
                           style: GoogleFonts.manrope(
                             fontSize: 16.0,
-                            color: MyColors.black,
+                            // color: MyColors.black,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w600,
                           ),

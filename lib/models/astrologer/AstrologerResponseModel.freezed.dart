@@ -25,6 +25,7 @@ mixin _$AstrologerResponseModel {
   int get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   AstrologerModel? get data => throw _privateConstructorUsedError;
+  List<CountryModel>? get countries => throw _privateConstructorUsedError;
   List<CityModel>? get cities => throw _privateConstructorUsedError;
   List<LanguageModel>? get languages => throw _privateConstructorUsedError;
   List<SpecModel>? get specifications => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $AstrologerResponseModelCopyWith<$Res> {
       int code,
       String message,
       AstrologerModel? data,
+      List<CountryModel>? countries,
       List<CityModel>? cities,
       List<LanguageModel>? languages,
       List<SpecModel>? specifications,
@@ -73,6 +75,7 @@ class _$AstrologerResponseModelCopyWithImpl<$Res,
     Object? code = null,
     Object? message = null,
     Object? data = freezed,
+    Object? countries = freezed,
     Object? cities = freezed,
     Object? languages = freezed,
     Object? specifications = freezed,
@@ -95,6 +98,10 @@ class _$AstrologerResponseModelCopyWithImpl<$Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as AstrologerModel?,
+      countries: freezed == countries
+          ? _value.countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as List<CountryModel>?,
       cities: freezed == cities
           ? _value.cities
           : cities // ignore: cast_nullable_to_non_nullable
@@ -140,6 +147,7 @@ abstract class _$$_AstrologerResponseModelCopyWith<$Res>
       int code,
       String message,
       AstrologerModel? data,
+      List<CountryModel>? countries,
       List<CityModel>? cities,
       List<LanguageModel>? languages,
       List<SpecModel>? specifications,
@@ -165,6 +173,7 @@ class __$$_AstrologerResponseModelCopyWithImpl<$Res>
     Object? code = null,
     Object? message = null,
     Object? data = freezed,
+    Object? countries = freezed,
     Object? cities = freezed,
     Object? languages = freezed,
     Object? specifications = freezed,
@@ -187,6 +196,10 @@ class __$$_AstrologerResponseModelCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as AstrologerModel?,
+      countries: freezed == countries
+          ? _value._countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as List<CountryModel>?,
       cities: freezed == cities
           ? _value._cities
           : cities // ignore: cast_nullable_to_non_nullable
@@ -215,11 +228,13 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
       required this.code,
       required this.message,
       this.data,
+      final List<CountryModel>? countries,
       final List<CityModel>? cities,
       final List<LanguageModel>? languages,
       final List<SpecModel>? specifications,
       final List<TypeModel>? types})
-      : _cities = cities,
+      : _countries = countries,
+        _cities = cities,
         _languages = languages,
         _specifications = specifications,
         _types = types;
@@ -235,6 +250,16 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
   final String message;
   @override
   final AstrologerModel? data;
+  final List<CountryModel>? _countries;
+  @override
+  List<CountryModel>? get countries {
+    final value = _countries;
+    if (value == null) return null;
+    if (_countries is EqualUnmodifiableListView) return _countries;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<CityModel>? _cities;
   @override
   List<CityModel>? get cities {
@@ -277,7 +302,7 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
 
   @override
   String toString() {
-    return 'AstrologerResponseModel(status: $status, code: $code, message: $message, data: $data, cities: $cities, languages: $languages, specifications: $specifications, types: $types)';
+    return 'AstrologerResponseModel(status: $status, code: $code, message: $message, data: $data, countries: $countries, cities: $cities, languages: $languages, specifications: $specifications, types: $types)';
   }
 
   @override
@@ -289,6 +314,8 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.data, data) || other.data == data) &&
+            const DeepCollectionEquality()
+                .equals(other._countries, _countries) &&
             const DeepCollectionEquality().equals(other._cities, _cities) &&
             const DeepCollectionEquality()
                 .equals(other._languages, _languages) &&
@@ -305,6 +332,7 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
       code,
       message,
       data,
+      const DeepCollectionEquality().hash(_countries),
       const DeepCollectionEquality().hash(_cities),
       const DeepCollectionEquality().hash(_languages),
       const DeepCollectionEquality().hash(_specifications),
@@ -332,6 +360,7 @@ abstract class _AstrologerResponseModel implements AstrologerResponseModel {
       required final int code,
       required final String message,
       final AstrologerModel? data,
+      final List<CountryModel>? countries,
       final List<CityModel>? cities,
       final List<LanguageModel>? languages,
       final List<SpecModel>? specifications,
@@ -348,6 +377,8 @@ abstract class _AstrologerResponseModel implements AstrologerResponseModel {
   String get message;
   @override
   AstrologerModel? get data;
+  @override
+  List<CountryModel>? get countries;
   @override
   List<CityModel>? get cities;
   @override

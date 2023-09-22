@@ -12,6 +12,8 @@ class CountryModel with _$CountryModel {
     required String name,
     required String nationality,
     required String code,
+    required String icon,
+    required String imageFullUrl,
   }) = _CountryModel;
 
   factory CountryModel.fromJson(JSON json) => _$CountryModelFromJson(json);

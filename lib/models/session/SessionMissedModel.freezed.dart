@@ -25,6 +25,7 @@ mixin _$SessionMissedModel {
   String get message => throw _privateConstructorUsedError;
   int get ch_id => throw _privateConstructorUsedError;
   SessionHistoryModel? get data => throw _privateConstructorUsedError;
+  double? get wallet => throw _privateConstructorUsedError;
   UserModel? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $SessionMissedModelCopyWith<$Res> {
       String message,
       int ch_id,
       SessionHistoryModel? data,
+      double? wallet,
       UserModel? user});
 
   $SessionHistoryModelCopyWith<$Res>? get data;
@@ -69,6 +71,7 @@ class _$SessionMissedModelCopyWithImpl<$Res, $Val extends SessionMissedModel>
     Object? message = null,
     Object? ch_id = null,
     Object? data = freezed,
+    Object? wallet = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,6 +95,10 @@ class _$SessionMissedModelCopyWithImpl<$Res, $Val extends SessionMissedModel>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as SessionHistoryModel?,
+      wallet: freezed == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as double?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -138,6 +145,7 @@ abstract class _$$_SessionMissedModelCopyWith<$Res>
       String message,
       int ch_id,
       SessionHistoryModel? data,
+      double? wallet,
       UserModel? user});
 
   @override
@@ -162,6 +170,7 @@ class __$$_SessionMissedModelCopyWithImpl<$Res>
     Object? message = null,
     Object? ch_id = null,
     Object? data = freezed,
+    Object? wallet = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_SessionMissedModel(
@@ -185,6 +194,10 @@ class __$$_SessionMissedModelCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as SessionHistoryModel?,
+      wallet: freezed == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as double?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -202,6 +215,7 @@ class _$_SessionMissedModel implements _SessionMissedModel {
       required this.message,
       required this.ch_id,
       this.data,
+      this.wallet,
       this.user});
 
   factory _$_SessionMissedModel.fromJson(Map<String, dynamic> json) =>
@@ -218,11 +232,13 @@ class _$_SessionMissedModel implements _SessionMissedModel {
   @override
   final SessionHistoryModel? data;
   @override
+  final double? wallet;
+  @override
   final UserModel? user;
 
   @override
   String toString() {
-    return 'SessionMissedModel(status: $status, code: $code, message: $message, ch_id: $ch_id, data: $data, user: $user)';
+    return 'SessionMissedModel(status: $status, code: $code, message: $message, ch_id: $ch_id, data: $data, wallet: $wallet, user: $user)';
   }
 
   @override
@@ -235,13 +251,14 @@ class _$_SessionMissedModel implements _SessionMissedModel {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.ch_id, ch_id) || other.ch_id == ch_id) &&
             (identical(other.data, data) || other.data == data) &&
+            (identical(other.wallet, wallet) || other.wallet == wallet) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, code, message, ch_id, data, user);
+  int get hashCode => Object.hash(
+      runtimeType, status, code, message, ch_id, data, wallet, user);
 
   @JsonKey(ignore: true)
   @override
@@ -265,6 +282,7 @@ abstract class _SessionMissedModel implements SessionMissedModel {
       required final String message,
       required final int ch_id,
       final SessionHistoryModel? data,
+      final double? wallet,
       final UserModel? user}) = _$_SessionMissedModel;
 
   factory _SessionMissedModel.fromJson(Map<String, dynamic> json) =
@@ -280,6 +298,8 @@ abstract class _SessionMissedModel implements SessionMissedModel {
   int get ch_id;
   @override
   SessionHistoryModel? get data;
+  @override
+  double? get wallet;
   @override
   UserModel? get user;
   @override

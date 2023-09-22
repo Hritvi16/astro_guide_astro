@@ -16,6 +16,14 @@ Map<String, String> telugu = {
   'Online': 'ఆన్‌లైన్',
   'Free Session': 'ఉచిత సెషన్',
   'Offers': 'ఆఫర్లు',
+  "Total Minutes" : "మొత్తం నిమిషాలు",
+  "Avg. Daily Minutes" : "సగటు రోజువారీ నిమిషాలు",
+  "Avg. Monthly Minutes" : "సగటు నెలవారీ నిమిషాలు",
+  "Avg. Ratings" : "సగటు రేటింగ్‌లు",
+  "Total Users Rated" : "మొత్తం వినియోగదారులు రేట్ చేసారు",
+  'Last 12 Months Minutes Summary Report' : 'గత 12 నెలల నిమిషాల సారాంశ నివేదిక',
+  'Last 12 Months Total' : 'గత 12 నెలలు మొత్తం',
+  'Summary Report' : 'సారాంశం నివేదిక',
 
   'Free Kundali' : 'ఉచిత కుండ్లి',
   'Match Kundali' : 'కుండ్లిని సరిపోల్చండిి',
@@ -55,11 +63,24 @@ Map<String, String> telugu = {
   'Session Type' : 'సెషన్ రకం',
   'Rate' : 'ధర',
   'SHOW CHAT' : 'చాట్ చూపించు',
+  'Uh-Oh' : 'ఓ-హో!',
+  "You've not done any money transaction yet!" : "మీరు ఇంకా డబ్బు లావాదేవీలేమీ చేయలేదు!",
+  "You've not recharged yet!"  : "మీరు ఇంకా రీఛార్జ్ చేయలేదు!",
+  "You've not taken any call consultations yet!" : "మీరు ఇంకా కాల్ సంప్రదింపులు ఏవీ తీసుకోలేదు!",
+  "You've not taken any chat consultations yet!" : "మీరు ఇంకా చాట్ సంప్రదింపులు ఏవీ తీసుకోలేదు!",
 
   //Settings
   'Settings' : 'సెట్టింగ్‌లు',
+  'Update Rate' : 'అప్డేట్ రేట్',
+  'Manage Gallery' : 'గ్యాలరీని నిర్వహించండి',
+  'Manage Language' : 'భాషను నిర్వహించండి',
+  'Manage Skills' : 'నైపుణ్యాలను నిర్వహించండి',
+  'Manage Specifications' : 'స్పెసిఫికేషన్‌లను నిర్వహించండి',
+  'Manage Bank Details' : 'బ్యాంక్ వివరాలను నిర్వహించండి',
   'Wishlist' : 'ఇష్టమైన',
   'Following' : 'ఫాలోయింగ్',
+  'Review' : 'సమీక్ష',
+  'Quick Replies' : 'త్వరిత ప్రత్యుత్తరాలు',
   'Notification' : 'నోటిఫికేషన్',
   'Appearance' : 'ప్రదర్శన',
   'Change App Language' : 'యాప్ లాంగ్వేజ్ మార్చండి',
@@ -82,6 +103,16 @@ Map<String, String> telugu = {
   //Wallet
   'My Wallet' : 'నా పర్సు',
   'Available Balance' : 'అందుబాటులో ఉన్న బ్యాలెన్స్',
+  "Overall Summary" : "మొత్తం సారాంశం",
+  'Summary' : 'సారాంశం',
+  "Today's" : "ఈరోజు",
+  "Monthly" : "నెలవారీ",
+  "Yearly" : "సంవత్సరానికి",
+  "Total Sales" : "అమ్మకాల మొత్తం",
+  "Commission" : "కమిషన్",
+  "My Earnings" : "నా సంపాదన",
+  "Paid" : "చెల్లించారు",
+
   'Custom Amount' : 'కస్టమ్ మొత్తం',
   'Enter Amount' : 'మొత్తాన్ని నమోదు చేయండి',
   'Recharge Wallet' : 'రీఛార్జ్ వాలెట్',
@@ -95,4 +126,15 @@ Map<String, String> telugu = {
 
   //Horoscope
   "Today's Horoscope" : "నేటి రాశిఫలం",
+
+  //Support
+  "Support" : "మద్దతు",
+  "Request" : "అభ్యర్థన",
+  "समर्थन का अनुरोध करें" : "మద్దతును అభ్యర్థించండి",
+  "Reason" : "కారణం",
+  "Select Reason" : "కారణం ఎంచుకోండి",
+  "Message" : "సందేశం",
+  "Write your query" : "మీ ప్రశ్నను వ్రాయండి",
+  "You have not asked for any support yet!" : "మీరు ఇంకా మద్దతు కోసం అడగలేదు!",
+
 };

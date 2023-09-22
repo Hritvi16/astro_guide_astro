@@ -222,7 +222,6 @@ class SupportChat extends StatelessWidget {
                 keyboardType: TextInputType.name,
                 style: GoogleFonts.manrope(
                   fontSize: 16.0,
-                  color: MyColors.black,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w400,
                 ),
@@ -288,6 +287,7 @@ class SupportChat extends StatelessWidget {
         itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
         ignoreGestures: true,
         itemSize: 30,
+        unratedColor: MyColors.colorUnrated,
         itemBuilder: (context, _) => Image.asset(
           "assets/common/star_outlined.png",
           color: MyColors.colorButton,

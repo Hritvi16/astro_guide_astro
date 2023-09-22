@@ -154,7 +154,7 @@ class MyBankDetailsController extends GetxController {
 
     print(data);
 
-    astrologerProvider.add(ApiConstants.bankAPI+ApiConstants.add, storage.read("access"), data).then((response) {
+    astrologerProvider.add(storage.read("access"), ApiConstants.bankAPI+ApiConstants.add, data).then((response) {
       print(response.toJson());
       if(response.code==1) {
         Essential.showSnackBar(response.message);

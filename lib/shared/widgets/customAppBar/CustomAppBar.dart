@@ -7,9 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 Widget CustomAppBar(String title, {Widget? options, bool? arrow, CrossAxisAlignment? crossAxisAlignment}) {
   return Padding(
-    padding:  EdgeInsets.symmetric(horizontal: standardHorizontalPagePadding, vertical: 10),
+    padding:  EdgeInsets.symmetric(horizontal: standardHorizontalPagePadding,),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -145,7 +145,6 @@ class SignUp extends StatelessWidget {
                             style: GoogleFonts.manrope(
                               fontWeight: FontWeight.w600,
                             ),
-
                             recognizer: TapGestureRecognizer()..onTap = () {
                               Get.back();
                             }
@@ -310,14 +309,20 @@ class SignUp extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     prefixIcon: GestureDetector(
                       onTap: () {
-
+                        signUpController.changeCode();
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 14),
-                            child: Image.asset(
+                            child: signUpController.country.imageFullUrl.startsWith("http") ?
+                            Image.network(
+                              signUpController.country.imageFullUrl,
+                              height: 24,
+                              width: 33,
+                            )
+                                : Image.asset(
                               "assets/country/India.png",
                               height: 24,
                               width: 33,
@@ -326,7 +331,7 @@ class SignUp extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                              '+91',
+                              signUpController.country.code,
                               style: GoogleFonts.manrope(
                                 fontSize: 16.0,
                                 color: MyColors.black,
@@ -357,9 +362,9 @@ class SignUp extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                signUpController.verified = true;
-                signUpController.update();
-                // signUpController.verify();
+                // signUpController.verified = true;
+                // signUpController.update();
+                signUpController.verify();
               },
               child: standardButton(
                 context: context,

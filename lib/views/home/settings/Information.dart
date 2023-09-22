@@ -20,7 +20,6 @@ class Information extends StatelessWidget {
     return GetBuilder<InformationController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: MyColors.white,
           body: getBody(context),
         );
       },

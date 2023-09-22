@@ -2,6 +2,7 @@ import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/controllers/call/CallController.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/services/StorageService.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/shared/CustomClipPath.dart';
 import 'package:astro_guide_astro/shared/widgets/customAppBar/CustomAppBar.dart';
@@ -26,24 +27,15 @@ class Call extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final statusBarHeight = MediaQuery.of(context).padding.top;
-    callController.storeCalling(callController);
-    print("---------------");
-    print(callController.load);
-    print(callController.type);
-    print(callController.type!="ACTIVE" && callController.type!="COMPLETED");
-    print("---------------");
+    StorageService.storeCalling(callController);
     return GetBuilder<CallController>(
       builder: (controller) {
-        print("load : ${callController.load}");
-        print("typee : ${callController.type}");
-        print(callController.type!="ACTIVE" && callController.type!="COMPLETED");
         return WillPopScope(
             onWillPop: callController.onWillPopScope,
             // child: callController.joined ?
             child: callController.load ? callController.type!="ACTIVE" && callController.type!="COMPLETED" ?
-            WaitingToJoin(callController.user.name, callController.user.profile, callController.cancelMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back) :
+            WaitingToJoin(callController.user.name, callController.user.profile??"", callController.cancelMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back) :
             Scaffold(
-              backgroundColor: MyColors.white,
               body: callController.type=="COMPLETED" ? getCompletedDesign(context) : getActiveDesign(context),
               bottomNavigationBar: callController.type=="COMPLETED" ? getBottom(context) : null,
             ) : LoadingScreen()
@@ -63,9 +55,6 @@ class Call extends StatelessWidget {
           child: ClipPath(
             clipper: CustomClipPath(),
             child: Container(
-              height: standardUpperFixedDesignHeight,
-              padding: EdgeInsets.symmetric(
-                  horizontal: standardHorizontalPagePadding),
               decoration: BoxDecoration(
                   color: MyColors.colorPrimary,
                   image: const DecorationImage(
@@ -119,6 +108,10 @@ class Call extends StatelessWidget {
                   height: 5,
                 ),
                 getTitleInfo("Duration", Essential.getChatDuration(null, callController.sessionHistory.started_at??"", callController.sessionHistory.ended_at??"")),
+                SizedBox(
+                  height: 5,
+                ),
+                getTitleInfo("Amount", "${CommonConstants.rupee}${Essential.getEarningAmount(callController.sessionHistory)}"),
               ]
             ),
           )
@@ -155,7 +148,7 @@ class Call extends StatelessWidget {
         style:GoogleFonts.manrope(
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: MyColors.black
+          color: MyColors.labelColor()
         ),
         children: [
           TextSpan(
@@ -170,28 +163,41 @@ class Call extends StatelessWidget {
     );
   }
 
-  Widget getIconInfo(String icon, String info, {Color? color}) {
+
+  Widget getIconInfo(String icon, String info, {Color? color, Color? textColor, double? textSize, bool flex = false}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Image.asset(
           icon,
-          height: 20,
-          width: 20,
+          height: 15,
+          width: 15,
           color: color??MyColors.colorButton,
         ),
         SizedBox(
-          width: 5,
+          width: 3,
         ),
-        Text(
+        flex ?
+        Flexible(
+          child: Text(
+            info,
+            style: GoogleFonts.manrope(
+              fontSize: textSize??12.0,
+              color: textColor??MyColors.colorGrey,
+              letterSpacing: 0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        )
+            : Text(
           info,
           style: GoogleFonts.manrope(
-            fontSize: 14.0,
-            color: MyColors.black,
+            fontSize: textSize??12.0,
+            color: textColor??MyColors.colorGrey,
             letterSpacing: 0,
             fontWeight: FontWeight.w600,
           ),
-        )
+        ),
       ],
     );
   }
@@ -362,17 +368,96 @@ class Call extends StatelessWidget {
           ],
         ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 10,
             ),
             Text(
-              callController.sessionHistory.review??"",
+              callController.review?.review??"",
               style: GoogleFonts.manrope(
                   fontSize: 14,
                   color: MyColors.colorInfoGrey,
                   fontWeight: FontWeight.w600
               ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            if ((callController.review?.reply??"").isEmpty) GestureDetector(
+                onTap: () {
+                  callController.manageReply();
+                },
+                child: getIconInfo("assets/common/reply.png", "Reply to this review", textColor: MyColors.colorButton, textSize: 14.0)
+            ) else Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Divider(
+                  thickness: 1,
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    Essential.getDateTime(callController.review?.replied_at??""),
+                    style: GoogleFonts.manrope(
+                      fontSize: 10.0,
+                      color: MyColors.colorGrey,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  callController.review?.reply??"",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.0,
+                    color: MyColors.black,
+                  ),
+                ),
+
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        callController.manageReply();
+                      },
+                      child: Text(
+                        "Edit",
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w700,
+                          color: MyColors.colorButton,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        callController.confirmDelete();
+                      },
+                      child: Text(
+                        "Delete",
+                        style: GoogleFonts.manrope(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w700,
+                          color: MyColors.colorInactive,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ],
         ),
@@ -385,6 +470,7 @@ class Call extends StatelessWidget {
       initialRating: callController.sessionHistory.rating??0,
       direction: Axis.horizontal,
       itemCount: 5,
+      unratedColor: MyColors.colorUnrated,
       itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
       ignoreGestures: true,
       itemSize: 16,

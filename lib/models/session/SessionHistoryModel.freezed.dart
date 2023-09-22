@@ -26,6 +26,7 @@ mixin _$SessionHistoryModel {
   String? get meeting_id => throw _privateConstructorUsedError;
   int? get k_id => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   String? get reason => throw _privateConstructorUsedError;
   String? get started_at => throw _privateConstructorUsedError;
   String? get ended_at => throw _privateConstructorUsedError;
@@ -43,7 +44,7 @@ mixin _$SessionHistoryModel {
   String? get cancelled_at => throw _privateConstructorUsedError;
   String? get reconnet_at => throw _privateConstructorUsedError;
   String? get rejected_at => throw _privateConstructorUsedError;
-  String get updated_at => throw _privateConstructorUsedError;
+  String? get updated_at => throw _privateConstructorUsedError;
   int? get astro_id => throw _privateConstructorUsedError;
   String? get astrologer => throw _privateConstructorUsedError;
   String? get astro_profile => throw _privateConstructorUsedError;
@@ -71,6 +72,7 @@ abstract class $SessionHistoryModelCopyWith<$Res> {
       String? meeting_id,
       int? k_id,
       String status,
+      String category,
       String? reason,
       String? started_at,
       String? ended_at,
@@ -88,7 +90,7 @@ abstract class $SessionHistoryModelCopyWith<$Res> {
       String? cancelled_at,
       String? reconnet_at,
       String? rejected_at,
-      String updated_at,
+      String? updated_at,
       int? astro_id,
       String? astrologer,
       String? astro_profile,
@@ -117,6 +119,7 @@ class _$SessionHistoryModelCopyWithImpl<$Res, $Val extends SessionHistoryModel>
     Object? meeting_id = freezed,
     Object? k_id = freezed,
     Object? status = null,
+    Object? category = null,
     Object? reason = freezed,
     Object? started_at = freezed,
     Object? ended_at = freezed,
@@ -134,7 +137,7 @@ class _$SessionHistoryModelCopyWithImpl<$Res, $Val extends SessionHistoryModel>
     Object? cancelled_at = freezed,
     Object? reconnet_at = freezed,
     Object? rejected_at = freezed,
-    Object? updated_at = null,
+    Object? updated_at = freezed,
     Object? astro_id = freezed,
     Object? astrologer = freezed,
     Object? astro_profile = freezed,
@@ -167,6 +170,10 @@ class _$SessionHistoryModelCopyWithImpl<$Res, $Val extends SessionHistoryModel>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String,
       reason: freezed == reason
           ? _value.reason
@@ -236,10 +243,10 @@ class _$SessionHistoryModelCopyWithImpl<$Res, $Val extends SessionHistoryModel>
           ? _value.rejected_at
           : rejected_at // ignore: cast_nullable_to_non_nullable
               as String?,
-      updated_at: null == updated_at
+      updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       astro_id: freezed == astro_id
           ? _value.astro_id
           : astro_id // ignore: cast_nullable_to_non_nullable
@@ -287,6 +294,7 @@ abstract class _$$_SessionHistoryModelCopyWith<$Res>
       String? meeting_id,
       int? k_id,
       String status,
+      String category,
       String? reason,
       String? started_at,
       String? ended_at,
@@ -304,7 +312,7 @@ abstract class _$$_SessionHistoryModelCopyWith<$Res>
       String? cancelled_at,
       String? reconnet_at,
       String? rejected_at,
-      String updated_at,
+      String? updated_at,
       int? astro_id,
       String? astrologer,
       String? astro_profile,
@@ -331,6 +339,7 @@ class __$$_SessionHistoryModelCopyWithImpl<$Res>
     Object? meeting_id = freezed,
     Object? k_id = freezed,
     Object? status = null,
+    Object? category = null,
     Object? reason = freezed,
     Object? started_at = freezed,
     Object? ended_at = freezed,
@@ -348,7 +357,7 @@ class __$$_SessionHistoryModelCopyWithImpl<$Res>
     Object? cancelled_at = freezed,
     Object? reconnet_at = freezed,
     Object? rejected_at = freezed,
-    Object? updated_at = null,
+    Object? updated_at = freezed,
     Object? astro_id = freezed,
     Object? astrologer = freezed,
     Object? astro_profile = freezed,
@@ -381,6 +390,10 @@ class __$$_SessionHistoryModelCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String,
       reason: freezed == reason
           ? _value.reason
@@ -450,10 +463,10 @@ class __$$_SessionHistoryModelCopyWithImpl<$Res>
           ? _value.rejected_at
           : rejected_at // ignore: cast_nullable_to_non_nullable
               as String?,
-      updated_at: null == updated_at
+      updated_at: freezed == updated_at
           ? _value.updated_at
           : updated_at // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       astro_id: freezed == astro_id
           ? _value.astro_id
           : astro_id // ignore: cast_nullable_to_non_nullable
@@ -496,6 +509,7 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
       this.meeting_id,
       this.k_id,
       required this.status,
+      required this.category,
       this.reason,
       this.started_at,
       this.ended_at,
@@ -513,7 +527,7 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
       this.cancelled_at,
       this.reconnet_at,
       this.rejected_at,
-      required this.updated_at,
+      this.updated_at,
       this.astro_id,
       this.astrologer,
       this.astro_profile,
@@ -537,6 +551,8 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
   final int? k_id;
   @override
   final String status;
+  @override
+  final String category;
   @override
   final String? reason;
   @override
@@ -572,7 +588,7 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
   @override
   final String? rejected_at;
   @override
-  final String updated_at;
+  final String? updated_at;
   @override
   final int? astro_id;
   @override
@@ -590,7 +606,7 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
 
   @override
   String toString() {
-    return 'SessionHistoryModel(id: $id, sess_id: $sess_id, session_id: $session_id, meeting_id: $meeting_id, k_id: $k_id, status: $status, reason: $reason, started_at: $started_at, ended_at: $ended_at, rate: $rate, amount: $amount, commission: $commission, type: $type, rating: $rating, review: $review, reply: $reply, reviewed_at: $reviewed_at, anonymous: $anonymous, requested_at: $requested_at, waitlisted_at: $waitlisted_at, cancelled_at: $cancelled_at, reconnet_at: $reconnet_at, rejected_at: $rejected_at, updated_at: $updated_at, astro_id: $astro_id, astrologer: $astrologer, astro_profile: $astro_profile, user_id: $user_id, user: $user, user_profile: $user_profile, token: $token)';
+    return 'SessionHistoryModel(id: $id, sess_id: $sess_id, session_id: $session_id, meeting_id: $meeting_id, k_id: $k_id, status: $status, category: $category, reason: $reason, started_at: $started_at, ended_at: $ended_at, rate: $rate, amount: $amount, commission: $commission, type: $type, rating: $rating, review: $review, reply: $reply, reviewed_at: $reviewed_at, anonymous: $anonymous, requested_at: $requested_at, waitlisted_at: $waitlisted_at, cancelled_at: $cancelled_at, reconnet_at: $reconnet_at, rejected_at: $rejected_at, updated_at: $updated_at, astro_id: $astro_id, astrologer: $astrologer, astro_profile: $astro_profile, user_id: $user_id, user: $user, user_profile: $user_profile, token: $token)';
   }
 
   @override
@@ -606,6 +622,8 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
                 other.meeting_id == meeting_id) &&
             (identical(other.k_id, k_id) || other.k_id == k_id) &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.reason, reason) || other.reason == reason) &&
             (identical(other.started_at, started_at) ||
                 other.started_at == started_at) &&
@@ -658,6 +676,7 @@ class _$_SessionHistoryModel implements _SessionHistoryModel {
         meeting_id,
         k_id,
         status,
+        category,
         reason,
         started_at,
         ended_at,
@@ -708,6 +727,7 @@ abstract class _SessionHistoryModel implements SessionHistoryModel {
       final String? meeting_id,
       final int? k_id,
       required final String status,
+      required final String category,
       final String? reason,
       final String? started_at,
       final String? ended_at,
@@ -725,7 +745,7 @@ abstract class _SessionHistoryModel implements SessionHistoryModel {
       final String? cancelled_at,
       final String? reconnet_at,
       final String? rejected_at,
-      required final String updated_at,
+      final String? updated_at,
       final int? astro_id,
       final String? astrologer,
       final String? astro_profile,
@@ -749,6 +769,8 @@ abstract class _SessionHistoryModel implements SessionHistoryModel {
   int? get k_id;
   @override
   String get status;
+  @override
+  String get category;
   @override
   String? get reason;
   @override
@@ -784,7 +806,7 @@ abstract class _SessionHistoryModel implements SessionHistoryModel {
   @override
   String? get rejected_at;
   @override
-  String get updated_at;
+  String? get updated_at;
   @override
   int? get astro_id;
   @override

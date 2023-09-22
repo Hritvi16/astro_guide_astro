@@ -15,6 +15,7 @@ class SessionMissedModel with _$SessionMissedModel {
     required String message,
     required int ch_id,
     SessionHistoryModel? data,
+    double? wallet,
     UserModel? user
   }) = _SessionMissedModel;
 

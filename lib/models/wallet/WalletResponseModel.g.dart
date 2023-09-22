@@ -13,9 +13,9 @@ _$_WalletResponseModel _$$_WalletResponseModelFromJson(
       code: json['code'] as int,
       message: json['message'] as String,
       amount: (json['amount'] as num?)?.toDouble(),
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => PackageModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      data: json['data'] == null
+          ? null
+          : WalletModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_WalletResponseModelToJson(

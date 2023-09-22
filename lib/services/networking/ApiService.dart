@@ -27,7 +27,7 @@ class ApiService {
     );
     print(response.body);
     if(response.statusCode==403) {
-      // Essential.logout();
+      Essential.logout();
     }
     else if(response.statusCode==401) {
       print(cnt);
@@ -42,12 +42,12 @@ class ApiService {
             return await get(endpoint: endpoint, token: storage.read("access")??CommonConstants.essential, query: query, cnt: cnt+1);
           }
           else {
-            // Essential.logout();
+            Essential.logout();
             return response.body is String ? json.decode(response.body) : response.body;
           }
         }
         else {
-          // Essential.logout();
+          Essential.logout();
           return response.body is String ? json.decode(response.body) : response.body;
         }
       });

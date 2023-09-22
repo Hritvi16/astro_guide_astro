@@ -1,7 +1,9 @@
 import 'package:astro_guide_astro/chat_ui/CustomShape.dart';
 import 'package:astro_guide_astro/colors/MyColors.dart';
+import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/chat/ChatModel.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class SentMessageScreen extends StatelessWidget {
@@ -51,7 +53,15 @@ class SentMessageScreen extends StatelessWidget {
                     Text(
                       chat.message,
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: color, fontSize: 14),
+                      style: TextStyle(
+
+                      ),
+                      // style: GoogleFonts.notoColorEmoji(
+                      //   color: color,
+                      //   fontSize: 14,
+                      //   letterSpacing: 0,
+                      //   height: 0,
+                      // ),
                     ),
                     SizedBox(
                       height: 2,
@@ -61,7 +71,7 @@ class SentMessageScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          DateFormat("dd MMM, yyyy  hh:mm a").format(DateTime.parse(chat.sent_at)),
+                          Essential.getDateTime(chat.sent_at),
                           style: TextStyle(
                               fontSize: 10,
                             color: MyColors.colorInfo,

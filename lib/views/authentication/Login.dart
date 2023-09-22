@@ -96,69 +96,78 @@ class Login extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: TextFormField(
-                          controller: loginController.mobile,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          style: GoogleFonts.manrope(
-                            fontSize: 16.0,
-                            color: MyColors.black,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: MyColors.colorButton,
+                      GetBuilder<LoginController>(
+                        builder: (controller)  {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: TextFormField(
+                              controller: loginController.mobile,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              style: GoogleFonts.manrope(
+                                fontSize: 16.0,
+                                color: MyColors.black,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w400,
                               ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            hintText: "Enter Mobile No.",
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                            prefixIcon: GestureDetector(
-                              onTap: () {
-
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 14),
-                                    child: Image.asset(
-                                      "assets/country/India.png",
-                                      height: 24,
-                                      width: 33,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: MyColors.colorButton,
                                     ),
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                                    child: Text(
-                                      '+91',
-                                      style: GoogleFonts.manrope(
-                                        fontSize: 16.0,
-                                        color: MyColors.black,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                  hintText: "Enter Mobile No.",
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                  prefixIcon: GestureDetector(
+                                    onTap: () {
+                                      loginController.changeCode();
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 14),
+                                          child: loginController.country.imageFullUrl.startsWith("http") ?
+                                          Image.network(
+                                            loginController.country.imageFullUrl,
+                                            height: 24,
+                                            width: 33,
+                                          )
+                                              : Image.asset(
+                                            "assets/country/India.png",
+                                            height: 24,
+                                            width: 33,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                                          child: Text(
+                                            loginController.country.code,
+                                            style: GoogleFonts.manrope(
+                                              fontSize: 16.0,
+                                              color: MyColors.black,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(right: 5),
+                                          color: MyColors.colorDivider,
+                                          width: 2,
+                                          height: 20,
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 5),
-                                    color: MyColors.colorDivider,
-                                    width: 2,
-                                    height: 20,
                                   )
-                                ],
                               ),
-                            )
-                          ),
-                        ),
+                            ),
+                          );
+                        }
                       ),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(

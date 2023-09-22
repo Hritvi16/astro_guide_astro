@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/languages/Languages.dart';
-import 'package:astro_guide_astro/shared/middleware/InternetMiddleware.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

@@ -4,6 +4,7 @@ import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/constants/UserConstants.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/models/country/CountryModel.dart';
 import 'package:astro_guide_astro/models/type/TypeModel.dart';
 import 'package:astro_guide_astro/models/city/CityModel.dart';
 import 'package:astro_guide_astro/models/language/LanguageModel.dart';
@@ -13,6 +14,7 @@ import 'package:astro_guide_astro/providers/CityProvider.dart';
 import 'package:astro_guide_astro/providers/CountryProvider.dart';
 import 'package:astro_guide_astro/providers/StateProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:astro_guide_astro/views/country/Country.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -53,8 +55,8 @@ class SignUpController extends GetxController {
   bool? refer;
   String? source;
 
-  // List<CountryModel> countries = [];
-  // CountryModel? country;
+  List<CountryModel> countries = [];
+  late CountryModel country;
   // CountryModel? nationality;
   // List<StateModel> states = [];
   // StateModel? state;
@@ -115,9 +117,10 @@ class SignUpController extends GetxController {
       "PASSPORT"
     ];
 
-    // countries.add(
-    //   CountryModel(id: 1, name: "INDIA", nationality: "INDIAN", code: "+91")
-    // );
+    countries = [
+      CountryModel(id: -1, name: "India", nationality: "Indian", icon: "assets/country/India.png", code: "+91", imageFullUrl: "assets/country/India.png")
+    ];
+    country = countries.first;
 
     error_p = error_d = error_i = error_g = error_pri = error_spec = error_lang = "";
 
@@ -133,7 +136,7 @@ class SignUpController extends GetxController {
     astrologerProvider.fetchValues(storage.read("access"), ApiConstants.values).then((response) {
       print(response.toJson());
       if(response.code==1) {
-        // countries = response.countries??[];
+        countries = response.countries??[];
         cities = response.cities??[];
         types = response.types??[];
         langs = response.languages??[];
@@ -193,10 +196,9 @@ class SignUpController extends GetxController {
   }
 
   bool validateStep(int current) {
+    print("validateeeeee");
     bool valid = false;
-
     if(current==0) {
-      print(step1.currentState!.validate());
       if(step1.currentState!.validate() && gender.isNotEmpty && image!=null) {
         eval1 = 1;
         error_p = "";
@@ -214,6 +216,7 @@ class SignUpController extends GetxController {
         if(gender.isEmpty) {
           error_g = "* Please select a gender";
         }
+        update();
         return false;
       }
     }
@@ -360,15 +363,14 @@ class SignUpController extends GetxController {
   }
 
   void verify() {
-
     final Map<String, String> data = {
-      UserConstants.mobile : mobile.text,
+      UserConstants.mobile : country.code+"-"+mobile.text,
     };
 
     astrologerProvider.login(data, CommonConstants.essential, ApiConstants.verify).then((response) {
       print(response.toJson());
       if(response.code==2) {
-        goto("/otp", {"mobile" : mobile.text, "code" : "+91"});
+        goto("/otp", {"mobile" : mobile.text, "code" : country.code});
       }
       else {
         Essential.showSnackBar(response.message);
@@ -383,7 +385,7 @@ class SignUpController extends GetxController {
 
     final FormData data = FormData({
       UserConstants.name : name.text,
-      UserConstants.mobile : mobile.text,
+      UserConstants.mobile : country.code+"-"+mobile.text,
       UserConstants.email : email.text,
       UserConstants.experience : exp.text,
       UserConstants.about : about.text,
@@ -425,7 +427,7 @@ class SignUpController extends GetxController {
     print(data.fields);
     print(data.files);
 
-    astrologerProvider.add(ApiConstants.add, CommonConstants.essential, data).then((response) {
+    astrologerProvider.add(CommonConstants.essential, ApiConstants.add, data).then((response) {
       print(response.toJson());
       if(response.code==1) {
         Essential.showSnackBar("You have successfully signed up");
@@ -642,5 +644,19 @@ class SignUpController extends GetxController {
   }
 
 
+  void changeCode() {
+    Get.bottomSheet(
+        isScrollControlled: true,
+        Country(countries, country)
+    ).then((value) {
+      print(value);
+
+      if(value!=null) {
+        countries = value['countries'];
+        country = value['country'];
+        update();
+      }
+    });
+  }
 
 }

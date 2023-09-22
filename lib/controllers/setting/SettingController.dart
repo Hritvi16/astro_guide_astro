@@ -54,11 +54,23 @@ class SettingController extends GetxController {
     });
   }
 
-  void logout() {
-    storage.write("access", "essential");
-    storage.write("refresh", "");
-    storage.write("status", "logged out");
-    Get.offAllNamed("/login");
+  Future<void> logout() async {
+    Essential.showLoadingDialog();
+    await Future.delayed(Duration(seconds: 2));
+
+    await astrologerProvider.settings(storage.read("access"), ApiConstants.logout).then((response) async {
+      print(response.toJson());
+      Get.back();
+      if(response.code==1) {
+        storage.write("access", "essential");
+        storage.write("refresh", "");
+        storage.write("status", "logged out");
+        Get.offAllNamed("/login");
+      }
+      else if(response.code!=-1){
+        Essential.showSnackBar(response.message);
+      }
+    });
   }
 
 
@@ -82,5 +94,20 @@ class SettingController extends GetxController {
   void dispose() {
     super.dispose();
   }
+
+
+  Future<void> updateRate() async {
+    await astrologerProvider.delete(storage.read("access"), ApiConstants.update+ApiConstants.rate).then((response) async {
+      print(response.toJson());
+
+      // if(response.code==1) {
+      //   Essential.showSnackBar(response.message);
+      // }
+      // else if(response.code!=-1){
+        Essential.showInfoDialog(response.message);
+      // }
+    });
+  }
+
 
 }

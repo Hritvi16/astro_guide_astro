@@ -24,7 +24,7 @@ mixin _$WalletResponseModel {
   int get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
-  List<PackageModel>? get data => throw _privateConstructorUsedError;
+  WalletModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,9 @@ abstract class $WalletResponseModelCopyWith<$Res> {
       int code,
       String message,
       double? amount,
-      List<PackageModel>? data});
+      WalletModel? data});
+
+  $WalletModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -85,8 +87,20 @@ class _$WalletResponseModelCopyWithImpl<$Res, $Val extends WalletResponseModel>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<PackageModel>?,
+              as WalletModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WalletModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $WalletModelCopyWith<$Res>(_value.data!, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
   }
 }
 
@@ -103,7 +117,10 @@ abstract class _$$_WalletResponseModelCopyWith<$Res>
       int code,
       String message,
       double? amount,
-      List<PackageModel>? data});
+      WalletModel? data});
+
+  @override
+  $WalletModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -141,9 +158,9 @@ class __$$_WalletResponseModelCopyWithImpl<$Res>
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
       data: freezed == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<PackageModel>?,
+              as WalletModel?,
     ));
   }
 }
@@ -156,8 +173,7 @@ class _$_WalletResponseModel implements _WalletResponseModel {
       required this.code,
       required this.message,
       this.amount,
-      final List<PackageModel>? data})
-      : _data = data;
+      this.data});
 
   factory _$_WalletResponseModel.fromJson(Map<String, dynamic> json) =>
       _$$_WalletResponseModelFromJson(json);
@@ -170,15 +186,8 @@ class _$_WalletResponseModel implements _WalletResponseModel {
   final String message;
   @override
   final double? amount;
-  final List<PackageModel>? _data;
   @override
-  List<PackageModel>? get data {
-    final value = _data;
-    if (value == null) return null;
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final WalletModel? data;
 
   @override
   String toString() {
@@ -194,13 +203,13 @@ class _$_WalletResponseModel implements _WalletResponseModel {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, code, message, amount,
-      const DeepCollectionEquality().hash(_data));
+  int get hashCode =>
+      Object.hash(runtimeType, status, code, message, amount, data);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +232,7 @@ abstract class _WalletResponseModel implements WalletResponseModel {
       required final int code,
       required final String message,
       final double? amount,
-      final List<PackageModel>? data}) = _$_WalletResponseModel;
+      final WalletModel? data}) = _$_WalletResponseModel;
 
   factory _WalletResponseModel.fromJson(Map<String, dynamic> json) =
       _$_WalletResponseModel.fromJson;
@@ -237,7 +246,7 @@ abstract class _WalletResponseModel implements WalletResponseModel {
   @override
   double? get amount;
   @override
-  List<PackageModel>? get data;
+  WalletModel? get data;
   @override
   @JsonKey(ignore: true)
   _$$_WalletResponseModelCopyWith<_$_WalletResponseModel> get copyWith =>

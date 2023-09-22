@@ -1,4 +1,5 @@
 import 'package:astro_guide_astro/models/package/PackageModel.dart';
+import 'package:astro_guide_astro/models/wallet/WalletModel.dart';
 import 'package:astro_guide_astro/shared/typedef.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,7 +14,7 @@ class WalletResponseModel with _$WalletResponseModel {
     required int code,
     required String message,
     double? amount,
-    List<PackageModel>? data,
+    WalletModel? data,
   }) = _WalletResponseModel;
 
   factory WalletResponseModel.fromJson(JSON json) => _$WalletResponseModelFromJson(json);

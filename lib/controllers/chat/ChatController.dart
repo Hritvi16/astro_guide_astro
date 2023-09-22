@@ -6,6 +6,7 @@ import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
 import 'package:astro_guide_astro/dialogs/RatingDialog.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/models/quickReplies/QuickRepliesModel.dart';
 import 'package:astro_guide_astro/models/review/ReviewModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/chat/ChatModel.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -28,6 +30,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:record/record.dart' as r;
+import 'package:just_audio/just_audio.dart' as p;
 
 class ChatController extends GetxController {
   ChatController();
@@ -40,7 +43,7 @@ class ChatController extends GetxController {
 
   int recordDuration = 0;
   Timer? recordTimer;
-  late final r.Record audioRecorder;
+  late r.Record audioRecorder;
   StreamSubscription<r.RecordState>? recordSub;
   r.RecordState recordState = r.RecordState.stop;
   StreamSubscription<r.Amplitude>? amplitudeSub;
@@ -62,6 +65,7 @@ class ChatController extends GetxController {
   TextEditingController message = TextEditingController();
 
   late bool send;
+  late bool showQR;
   int id = -1;
 
   late IO.Socket socket;
@@ -92,6 +96,10 @@ class ChatController extends GetxController {
   ReviewModel? review;
   late double wallet;
 
+  final player = p.AudioPlayer();
+  late ImageProvider imageProvider;
+
+  late List<QuickRepliesModel> replies;
 
   @override
   void onInit() {
@@ -100,14 +108,19 @@ class ChatController extends GetxController {
     cancel = false;
     reject = false;
     load = true;
+    showQR = true;
     seconds = 0;
     wallet = 0;
+    replies = [];
 
     tz.initializeTimeZones();
     location = tz.getLocation("GMT");
     ch_id = Get.arguments['ch_id'];
     type = Get.arguments['type'];
     action = Get.arguments['action'];
+    if(Get.arguments['wallet']!=null) {
+      wallet = Get.arguments['wallet'];
+    }
 
     // sessionHistory = Get.arguments;
     send = false;
@@ -121,13 +134,25 @@ class ChatController extends GetxController {
       user = UserModel(id: Get.arguments['user_id'], name: "", profile: '', mobile: '', );
     }
     else {
-      sessionHistory = SessionHistoryModel(id: id, sess_id: 0, status: type, rate: 0, commission: 0, type: type, requested_at: DateTime.now().toString(), updated_at: DateTime.now().toString());
+      sessionHistory = SessionHistoryModel(id: id, sess_id: 0, status: type, category: "CHAT", rate: 0, commission: 0, type: type, requested_at: DateTime.now().toString(), updated_at: DateTime.now().toString());
       user = Get.arguments['user'];
+    }
+
+    if((user.profile??"").isNotEmpty) {
+      imageProvider = NetworkImage(
+          ApiConstants.userUrl+(user.profile??"")
+      );
+    }
+    else {
+      imageProvider = AssetImage(
+          "assets/sign_up/profile.png"
+      );
     }
     start();
   }
 
   void initAudio() {
+    getMyQuickReplies();
     audioRecorder = r.Record();
 
     recordSub = audioRecorder.onStateChanged().listen((recordState) {
@@ -147,20 +172,19 @@ class ChatController extends GetxController {
           update();
         });
     positionChangedSubscription = audioPlayer.onPositionChanged.listen(
-          (position) {
+            (position) {
 
-            this.position = position;
-            update();
-      }
+          this.position = position;
+          update();
+        }
     );
     durationChangedSubscription = audioPlayer.onDurationChanged.listen(
-          (duration) {
-        this.duration = duration;
-        update();
-      }
+            (duration) {
+          this.duration = duration;
+          update();
+        }
     );
   }
-
 
   Future<void> startRecording() async {
     try {
@@ -182,10 +206,10 @@ class ChatController extends GetxController {
         // Record to file
         String path;
         final dir = await getApplicationDocumentsDirectory();
-          path = join(
-            dir.path,
-            '${sessionHistory.id}_audio_${DateTime.now().millisecondsSinceEpoch}.m4a',
-          );
+        path = join(
+          dir.path,
+          '${sessionHistory.id}_audio_${DateTime.now().millisecondsSinceEpoch}.m4a',
+        );
         await audioRecorder.start(path: path);
 
         // Record to stream
@@ -268,7 +292,6 @@ class ChatController extends GetxController {
     }
   }
 
-
   void startRecordTimer() {
     recordTimer?.cancel();
 
@@ -278,11 +301,7 @@ class ChatController extends GetxController {
     });
   }
 
-
-
   Future<void> stop() => audioPlayer.stop();
-
-
 
   start() {
     print(action);
@@ -294,7 +313,7 @@ class ChatController extends GetxController {
     }
   }
 
-  initializeSocket() {
+  initializeSocket() async {
     socket = IO.io(
       ApiConstants.urlS,
       IO.OptionBuilder().setTransports(['websocket']).setQuery(
@@ -312,7 +331,17 @@ class ChatController extends GetxController {
         initiateChat();
       }
       else if(action=="NOT DECIDED"){
-        startRing(60);
+        print("ssweb: not decided");
+        bool? go = await getSessionHistory();
+        print("ssweb:gooo ${go}");
+
+        if(go==true) {
+          Get.back();
+          Essential.showSnackBar(sessionHistory.reason??"Chat hs been ${sessionHistory.status}");
+        }
+        else {
+          startRing(60);
+        }
       }
     }
     else if(type=="ACTIVE"){
@@ -326,8 +355,20 @@ class ChatController extends GetxController {
     }
   }
 
+  Future<void> getMyQuickReplies() async {
+    print(storage.read("access"));
+    chatProvider.fetchQuickReplies(storage.read("access"), ApiConstants.quickReplies+ApiConstants.active).then((response) {
+      print(response.toJson());
+      if (response.code == 1) {
+        replies = [];
+        replies.addAll(response.data ?? []);
+      }
+      load = true;
+      update();
+    });
+  }
 
-  Future<void> getSessionHistory() async {
+  Future<bool?> getSessionHistory() async {
     Map <String, String> data = {
       SessionConstants.ch_id : ch_id.toString(),
       SessionConstants.sender : "A",
@@ -335,21 +376,48 @@ class ChatController extends GetxController {
     };
 
 
-    await chatProvider.fetchByID(storage.read("access"), ApiConstants.id, data).then((response) async {
+    return await chatProvider.fetchByID(storage.read("access"), ApiConstants.id, data).then((response) async {
       print(response.toJson());
       if(response.code==1) {
         chats.addAll(response.data??[]);
         user = response.user??user;
+        update();
+        if((user.profile??"").isNotEmpty) {
+          imageProvider = NetworkImage(
+              ApiConstants.userUrl+(user.profile??"")
+          );
+        }
+        else {
+          imageProvider = AssetImage(
+              "assets/sign_up/profile.png"
+          );
+        }
         sessionHistory = response.session_history ?? sessionHistory;
+
+        if(sessionHistory.status=="REJECTED" || sessionHistory.status=="WAITLISTED" || sessionHistory.status=="CANCELLED") {
+          // stopTimer();
+          update();
+          return true;
+        }
+        else if(sessionHistory.status=="REQUESTED") {
+          load = true;
+          return false;
+        }
+
         wallet = response.wallet??0;
         review = response.review;
         load = false;
         print(sessionHistory.toJson());
+
+
         started_at = tz.TZDateTime.parse(location, "${sessionHistory.started_at??""}+0000");
         cnt = 0;
         // started_at = tz.TZDateTime.parse(location, "${sessionHistory.started_at??""}+0000");
         rate = sessionHistory.rate;
         chat_type = sessionHistory.type;
+
+        print(sessionHistory.status);
+
 
         if(type=="ACTIVE") {
           if (chat_type == "FREE") {
@@ -367,6 +435,8 @@ class ChatController extends GetxController {
       }
       load = true;
       update();
+
+      return null;
 
     });
   }
@@ -419,59 +489,59 @@ class ChatController extends GetxController {
     socket.onDisconnect((data) => print('Socket.IO server disconnected'));
     socket.on(
       'initiate', (data) async {
-        CheckChatResponseModel checkChatResponse = CheckChatResponseModel.fromJson(json.decode(data));
+      CheckChatResponseModel checkChatResponse = CheckChatResponseModel.fromJson(json.decode(data));
 
-        if(checkChatResponse.code==1) {
-          stopTimer();
-          type = "ACTIVE";
+      if(checkChatResponse.code==1) {
+        stopTimer(false);
+        type = "ACTIVE";
 
-          cnt = 0;
+        cnt = 0;
 
-          load = false;
-          started_at = tz.TZDateTime.parse(location, "${checkChatResponse.started_at??""}+0000");
-          cnt = 0;
-          started_at = tz.TZDateTime.parse(location, "${checkChatResponse.started_at??""}+0000");
-          rate = checkChatResponse.rate??0;
-          chat_type = checkChatResponse.type??"PAID";
-          if(chat_type=="FREE") {
-            show = false;
-            update();
-            max = 600;
-          }
-          else {
-            show = true;
-            update();
-            calculateCountdown();
-          }
-          // started_at = DateTime.parse(checkChatResponse.started_at??"");
-          print("--------------------------------------------------------------------------------");
-          // startTimer();
-          print("-----------------------------================-----------------------------------");
-          getSessionHistory();
-
-        }
-        else if(checkChatResponse.code!=-1) {
-          cnt = 0;
-          Essential.showSnackBar(checkChatResponse.message);
+        load = false;
+        started_at = tz.TZDateTime.parse(location, "${checkChatResponse.started_at??""}+0000");
+        cnt = 0;
+        started_at = tz.TZDateTime.parse(location, "${checkChatResponse.started_at??""}+0000");
+        rate = checkChatResponse.rate??0;
+        chat_type = checkChatResponse.type??"PAID";
+        if(chat_type=="FREE") {
+          show = false;
+          update();
+          max = 600;
         }
         else {
-          await Essential.getNewAccessToken().then((value) async {
-            cnt++;
-            update();
-            if(value==true) {
-              if(cnt<=3) {
-                initiateChat();
-              }
-              else {
-                Essential.logout();
-              }
+          show = true;
+          update();
+          calculateCountdown();
+        }
+        // started_at = DateTime.parse(checkChatResponse.started_at??"");
+        print("--------------------------------------------------------------------------------");
+        // startTimer();
+        print("-----------------------------================-----------------------------------");
+        getSessionHistory();
+
+      }
+      else if(checkChatResponse.code!=-1) {
+        cnt = 0;
+        Essential.showSnackBar(checkChatResponse.message);
+      }
+      else {
+        await Essential.getNewAccessToken().then((value) async {
+          cnt++;
+          update();
+          if(value==true) {
+            if(cnt<=3) {
+              initiateChat();
             }
             else {
               Essential.logout();
             }
-          });
-        }
-      },
+          }
+          else {
+            Essential.logout();
+          }
+        });
+      }
+    },
     );
 
     socket.on(
@@ -479,7 +549,7 @@ class ChatController extends GetxController {
       ResponseModel response = ResponseModel.fromJson(json.decode(data));
 
       if(timer!=null) {
-        stopTimer();
+        stopTimer(true);
       }
 
       if(response.code==1) {
@@ -487,7 +557,7 @@ class ChatController extends GetxController {
         type = "REJECTED";
         if(reject==false) {
           // stopTimer();
-          Get.back();
+          back();
         }
         else {
           update();
@@ -522,7 +592,7 @@ class ChatController extends GetxController {
       EndChatResponseModel endChatResponse = EndChatResponseModel.fromJson(json.decode(data));
 
       if(timer!=null) {
-        stopTimer();
+        stopTimer(true);
       }
 
       if(endChatResponse.code==1) {
@@ -530,7 +600,7 @@ class ChatController extends GetxController {
         type = "COMPLETED";
         action = "COMPLETED";
         amount = endChatResponse.amount??0;
-        stopTimer();
+        stopTimer(true);
       }
       else if(endChatResponse.code!=-1) {
         cnt = 0;
@@ -561,7 +631,7 @@ class ChatController extends GetxController {
       ResponseModel response = ResponseModel.fromJson(json.decode(data));
 
       if(timer!=null) {
-        stopTimer();
+        stopTimer(true);
       }
 
       print(response.toJson());
@@ -600,16 +670,16 @@ class ChatController extends GetxController {
       EndChatResponseModel endChatResponse = EndChatResponseModel.fromJson(json.decode(data));
 
       if(timer!=null) {
-        stopTimer();
+        stopTimer(true);
       }
 
       if(endChatResponse.code==1) {
         cnt = 0;
         type = "CANCELLED";
-        stopTimer();
+        stopTimer(true);
         if(cancel==false) {
           // stopTimer();
-          Get.back();
+          back();
         }
         else {
           update();
@@ -646,14 +716,14 @@ class ChatController extends GetxController {
       print(response.toJson());
 
       if(timer!=null) {
-        stopTimer();
+        stopTimer(true);
       }
 
       if(response.code==1) {
         cnt = 0;
         type = "WAITLISTED";
         update();
-        Get.back();
+        back();
       }
       else if(response.code!=-1) {
         cnt = 0;
@@ -717,7 +787,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> initiateChat() async {
-    stopTimer();
+    stopTimer(false);
     action = "ACCEPT";
     update();
 
@@ -745,6 +815,23 @@ class ChatController extends GetxController {
     sendMessage(data, "");
   }
 
+  Future<void> sendQuickReply(String message) async {
+    Map <String, dynamic> data = {
+      SessionConstants.username : storage.read("access"),
+      SessionConstants.user_id : user.id,
+      SessionConstants.ch_id : ch_id,
+      SessionConstants.sender : SessionConstants.A,
+      SessionConstants.type : SessionConstants.M,
+      SessionConstants.message : message,
+      SessionConstants.m_id : id.toString(),
+      SessionConstants.m_type : "T",
+    };
+
+    print("dataaaa");
+    print(data['message']);
+    sendMessage(data, "");
+  }
+
   Future<void> sendMessage(Map <String, dynamic> data, String path) async {
 
     List<ChatModel> temp = [
@@ -756,7 +843,12 @@ class ChatController extends GetxController {
     message.text = "";
     send = false;
     update();
-    controller.jumpTo(controller.position.minScrollExtent);
+    try {
+      controller.jumpTo(controller.position.minScrollExtent);
+    }
+    catch(ex) {
+
+    }
 
     if(data['m_type']=="T") {
       socket.emit('message', data);
@@ -825,11 +917,7 @@ class ChatController extends GetxController {
 
   @override
   void dispose() {
-    recordTimer?.cancel();
-    recordSub?.cancel();
-    amplitudeSub?.cancel();
-    audioRecorder.dispose();
-    message.dispose();
+    disposeObjects();
     super.dispose();
   }
 
@@ -883,12 +971,11 @@ class ChatController extends GetxController {
     }
   }
 
-
   void cancelChat() async {
     print("chat cancelled");
     print(timer);
     if(timer!=null) {
-      stopTimer();
+      stopTimer(true);
     }
     cancel = true;
     update();
@@ -901,13 +988,13 @@ class ChatController extends GetxController {
     };
 
     socket.emit('cancel', data);
-    Get.back();
+    back();
 
   }
 
   void rejectChat() async {
     print("chat rejected");
-    stopTimer();
+    stopTimer(false);
     reject = true;
     update();
     Map <String, dynamic> data = {
@@ -919,9 +1006,8 @@ class ChatController extends GetxController {
 
 
     socket.emit('reject', data);
-    Get.back();
+    back();
   }
-
 
   void endChat(bool auto) async {
     this.auto = auto;
@@ -961,6 +1047,20 @@ class ChatController extends GetxController {
 
   void startRing(int time) {
     ring = time;
+
+    if(type=="REQUESTED") {
+      player.setAsset("assets/audio/notification.mp3");
+      player.play();
+      player.processingStateStream.listen((processingState) {
+        if (processingState == ProcessingState.completed &&
+            type == "REQUESTED") {
+          player.seek(Duration.zero);
+          player.play();
+          update();
+          print("completed");
+        }
+      });
+    }
     update();
     timer = Timer.periodic(Duration(seconds: 1), (_) {
       setRing();
@@ -981,7 +1081,7 @@ class ChatController extends GetxController {
     ring-=1;
     update();
     if(ring<=0) {
-      stopTimer();
+      stopTimer(false);
       print(type);
       if(type=="REQUESTED") {
         waitlistChat();
@@ -1031,7 +1131,6 @@ class ChatController extends GetxController {
     return '$hoursStr$minutesStr:$secondsStr';
   }
 
-
   void manageReply() {
     Get.dialog(
       RatingDialog(
@@ -1070,7 +1169,7 @@ class ChatController extends GetxController {
 
     print(data);
 
-    await chatProvider.manage(storage.read("access"), ApiConstants.rating, data).then((response) async {
+    await chatProvider.manage(storage.read("access"), ApiConstants.rating+ApiConstants.reply, data).then((response) async {
       if(response.code==1) {
         review = review?.copyWith(reply: null, replied_at: null);
         update();
@@ -1081,7 +1180,6 @@ class ChatController extends GetxController {
       }
     });
   }
-
 
   Future<void> sendVoice(String path) async {
     Map <String, dynamic> data = {
@@ -1107,14 +1205,42 @@ class ChatController extends GetxController {
     }
   }
 
+  void stopTimer(bool dispose) {
+    if(player.playing) {
+      player.stop();
+    }
+    if(timer!=null) {
+      timer!.cancel();
+      update();
+    }
 
-  void stopTimer() {
-    timer!.cancel();
+    if(dispose) {
+      disposeObjects();
+    }
+  }
+
+  void back() {
+    disposeObjects();
+    Get.back();
+  }
+
+  void manageQR(bool value) {
+    showQR = value;
     update();
   }
 
-
-  void back() {
-    Get.back();
+  void disposeObjects() {
+    print("disposeeee objectsss");
+    recordTimer?.cancel();
+    recordSub?.cancel();
+    amplitudeSub?.cancel();
+    audioRecorder.dispose();
+    message.dispose();
+    audioPlayer.dispose();
+    playerStateChangedSubscription.cancel();
+    durationChangedSubscription.cancel();
+    positionChangedSubscription.cancel();
+    socket.close();
+    socket.dispose();
   }
 }

@@ -39,6 +39,8 @@ class RatingController extends GetxController {
       SessionConstants.reply : reply.text.trim(),
     };
 
+    print(reply.text);
+
     chatProvider.manage(storage.read("access"), ApiConstants.rating+ApiConstants.reply, data).then((response) async {
       if(response.code==1) {
         back(result: review.copyWith(reply: reply.text.trim()));

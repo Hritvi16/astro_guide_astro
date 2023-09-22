@@ -16,6 +16,14 @@ Map<String, String> hindi = {
   'Online': 'ऑनलाइन',
   'Free Session': 'मुफ़्त सेशन',
   'Offers': 'ऑफर',
+  "Total Minutes" : "कुल मिनट",
+  "Avg. Daily Minutes" : "औसत दैनिक मिनट",
+  "Avg. Monthly Minutes" : "औसत मासिक मिनट",
+  "Avg. Ratings" : "औसत रेटिंग",
+  "Total Users Rated" : "कुल उपयोगकर्ता रेटेड",
+  'Last 12 Months Minutes Summary Report' : 'पिछले 12 महीने के मिनट की सारांश रिपोर्ट',
+  'Last 12 Months Total' : 'पिछले 12 महीने कुल',
+  'Summary Report' : 'सारांश रिपोर्ट',
 
   'Free Kundali' : 'मुफ़्त कुंडली',
   'Match Kundali' : 'कुंडली मिलान करें',
@@ -55,11 +63,24 @@ Map<String, String> hindi = {
   'Session Type' : 'सत्र प्रकार',
   'Rate' : 'कीमत',
   'SHOW CHAT' : 'चैट दिखाएँ',
+  'Uh-Oh' : 'उह-ओह!',
+  "You've not done any money transaction yet!" : "आपने अभी तक पैसे का कोई लेन-देन नहीं किया है!",
+  "You've not recharged yet!"  : "आपने अभी तक रिचार्ज नहीं कराया है!",
+  "You've not taken any call consultations yet!" : "आपने अभी तक कोई कॉल परामर्श नहीं लिया है!",
+  "You've not taken any chat consultations yet!" : "आपने अभी तक कोई चैट परामर्श नहीं लिया है",
 
   //Settings
   'Settings' : 'समायोजन',
+  'Update Rate' : 'अपडेट रेट',
+  'Manage Gallery' : 'गैलरी प्रबंधित करें',
+  'Manage Language' : 'भाषा प्रबंधित करें',
+  'Manage Skills' : 'कौशल प्रबंधित करें',
+  'Manage Specifications' : 'विशिष्टताएँ प्रबंधित करें',
+  'Manage Bank Details' : 'बैंक विवरण प्रबंधित करें',
   'Wishlist' : 'पसंदीदा',
   'Following' : 'फोल्लोविंग',
+  'Review' : 'समीक्षा',
+  'Quick Replies' : 'त्वरित उत्तर',
   'Notification' : 'अधिसूचना',
   'Appearance' : 'उपस्थिति',
   'Change App Language' : 'ऐप की भाषा बदलें',
@@ -82,6 +103,16 @@ Map<String, String> hindi = {
   //Wallet
   'My Wallet' : 'मेरा वॉलेट',
   'Available Balance' : 'उपलब्ध शेष राशि',
+  "Overall Summary" : "समग्र सारांश",
+  'Summary' : 'सारांश',
+  "Today's" : "आज का",
+  "Monthly" : "महीने के",
+  "Yearly" : "सालाना",
+  "Total Sales" : "कुल बिक्री",
+  "Commission" : "आयोग",
+  "My Earnings" : "मेरी कमाई",
+  "Paid" : "चुकाया गया",
+
   'Custom Amount' : 'कस्टम राशि',
   'Enter Amount' : 'राशि डालें',
   'Recharge Wallet' : 'रिचार्ज वॉलेट',
@@ -95,4 +126,14 @@ Map<String, String> hindi = {
 
   //Horoscope
   "Today's Horoscope" : "आज का राशिफल",
+
+  //Support
+  "Support" : "सहायता",
+  "Request" : "अनुरोध",
+  "Request Support" : "समर्थन का अनुरोध करें",
+  "Reason" : "कारण",
+  "Select Reason" : "कारण चुनें",
+  "Message" : "संदेश",
+  "Write your query" : "अपनी क्वेरी लिखें",
+  "You have not asked for any support yet!" : "आपने अभी तक कोई समर्थन नहीं मांगा है!",
 };

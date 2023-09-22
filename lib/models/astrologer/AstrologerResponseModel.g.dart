@@ -15,6 +15,9 @@ _$_AstrologerResponseModel _$$_AstrologerResponseModelFromJson(
       data: json['data'] == null
           ? null
           : AstrologerModel.fromJson(json['data'] as Map<String, dynamic>),
+      countries: (json['countries'] as List<dynamic>?)
+          ?.map((e) => CountryModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       cities: (json['cities'] as List<dynamic>?)
           ?.map((e) => CityModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -36,6 +39,7 @@ Map<String, dynamic> _$$_AstrologerResponseModelToJson(
       'code': instance.code,
       'message': instance.message,
       'data': instance.data,
+      'countries': instance.countries,
       'cities': instance.cities,
       'languages': instance.languages,
       'specifications': instance.specifications,

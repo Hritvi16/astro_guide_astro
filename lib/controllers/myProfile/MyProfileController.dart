@@ -1,20 +1,14 @@
 import 'dart:io';
 
-import 'package:astro_guide_astro/constants/CityConstants.dart';
-import 'package:astro_guide_astro/constants/CommonConstants.dart';
-import 'package:astro_guide_astro/constants/StateConstants.dart';
 import 'package:astro_guide_astro/constants/AstrologerConstants.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/city/CityModel.dart';
-import 'package:astro_guide_astro/models/country/CountryModel.dart';
-import 'package:astro_guide_astro/models/state/StateModel.dart';
 import 'package:astro_guide_astro/models/astrologer/AstrologerModel.dart';
-import 'package:astro_guide_astro/providers/CityProvider.dart';
-import 'package:astro_guide_astro/providers/CountryProvider.dart';
-import 'package:astro_guide_astro/providers/StateProvider.dart';
+import 'package:astro_guide_astro/models/country/CountryModel.dart';
 import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:astro_guide_astro/views/country/Country.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -45,6 +39,8 @@ class MyProfileController extends GetxController {
   late AstrologerModel astrologer;
   List<CityModel> cities = [];
   CityModel? city;
+  List<CountryModel> countries = [];
+  late CountryModel country;
   late TextEditingController pincode = TextEditingController();
 
   XFile? image;
@@ -74,6 +70,10 @@ class MyProfileController extends GetxController {
 
     load = false;
     error_g = "";
+    countries = [
+      CountryModel(id: -1, name: "India", nationality: "Indian", icon: "assets/country/India.png", code: "+91", imageFullUrl: "assets/country/India.png")
+    ];
+    country = countries.first;
     start();
     super.onInit();
   }
@@ -89,6 +89,7 @@ class MyProfileController extends GetxController {
       if(response.code==1) {
         astrologer = response.data!;
         cities = response.cities??[];
+        countries = response.countries??[];
         update();
         setAstrologerData();
       }
@@ -192,10 +193,9 @@ class MyProfileController extends GetxController {
   }
 
   void updateMyProfile() {
-
     final FormData data = FormData({
-      if(image!=null)
-        ApiConstants.file : MultipartFile(File(image!.path), filename: image!.name),
+      // if(image!=null)
+      //   ApiConstants.file : MultipartFile(File(image!.path), filename: image!.name),
       AstrologerConstants.name : name.text,
       AstrologerConstants.email : email.text,
       AstrologerConstants.dob : date.toString(),
@@ -204,7 +204,28 @@ class MyProfileController extends GetxController {
 
     print(data);
 
-    astrologerProvider.update(data, storage.read("access")).then((response) {
+    astrologerProvider.update(data, ApiConstants.myProfile+ApiConstants.update, storage.read("access")).then((response) {
+      print(response.toJson());
+      if(response.code==1) {
+        Essential.showSnackBar(response.message);
+        load = false;
+        update();
+        getMyProfile();
+      }
+      else {
+        Essential.showSnackBar(response.message);
+      }
+    });
+  }
+
+  void updateProfile() {
+    final FormData data = FormData({
+      ApiConstants.file : MultipartFile(File(image!.path), filename: image!.name),
+    });
+
+    print(data);
+
+    astrologerProvider.update(data,ApiConstants.profile, storage.read("access")).then((response) {
       print(response.toJson());
       if(response.code==1) {
         Essential.showSnackBar(response.message);
@@ -247,6 +268,7 @@ class MyProfileController extends GetxController {
     if (file != null) {
       image = file;
       update();
+      updateProfile();
     }
   }
 
@@ -260,15 +282,18 @@ class MyProfileController extends GetxController {
     if (pickedFileList!=null) {
       image = pickedFileList;
       update();
+      updateProfile();
     }
   }
 
   void setAstrologerData() {
+    String mob = astrologer.mobile;
+    String code = mob.substring(0, mob.indexOf("-"));
     name.text = astrologer.name;
-    mobile.text = astrologer.mobile;
-    email.text = astrologer.email??"";
-    about.text = astrologer.about??"";
-    gender = astrologer.gender??"";
+    mobile.text = mob.substring(mob.indexOf("-")+1);
+    email.text = astrologer.email;
+    about.text = astrologer.about;
+    gender = astrologer.gender;
     // pincode .text= astrologer.postal_code??"";
     if((astrologer.dob??"").isNotEmpty) {
       setDOB(DateTime.parse(astrologer.dob!));
@@ -278,8 +303,27 @@ class MyProfileController extends GetxController {
         city = element;
       }
     }
+    for (var element in countries) {
+      if(element.code==code) {
+        country = element;
+      }
+    }
     load = true;
     update();
   }
 
+  void changeCode() {
+    Get.bottomSheet(
+        isScrollControlled: true,
+        Country(countries, country)
+    ).then((value) {
+      print(value);
+
+      if(value!=null) {
+        countries = value['countries'];
+        country = value['country'];
+        update();
+      }
+    });
+  }
 }

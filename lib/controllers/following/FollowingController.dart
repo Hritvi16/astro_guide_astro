@@ -30,7 +30,7 @@ class FollowingController extends GetxController {
   }
 
   Future<void> getUsers() async {
-    await userProvider.fetchByID(storage.read("access"), ApiConstants.followAPI).then((response) async {
+    await userProvider.fetchByType(storage.read("access"), ApiConstants.followAPI).then((response) async {
       if(response.code==1) {
         users = [];
         users.addAll(response.data??[]);

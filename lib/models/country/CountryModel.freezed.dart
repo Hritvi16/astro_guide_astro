@@ -24,6 +24,8 @@ mixin _$CountryModel {
   String get name => throw _privateConstructorUsedError;
   String get nationality => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
+  String get imageFullUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +39,13 @@ abstract class $CountryModelCopyWith<$Res> {
           CountryModel value, $Res Function(CountryModel) then) =
       _$CountryModelCopyWithImpl<$Res, CountryModel>;
   @useResult
-  $Res call({int id, String name, String nationality, String code});
+  $Res call(
+      {int id,
+      String name,
+      String nationality,
+      String code,
+      String icon,
+      String imageFullUrl});
 }
 
 /// @nodoc
@@ -57,6 +65,8 @@ class _$CountryModelCopyWithImpl<$Res, $Val extends CountryModel>
     Object? name = null,
     Object? nationality = null,
     Object? code = null,
+    Object? icon = null,
+    Object? imageFullUrl = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,6 +85,14 @@ class _$CountryModelCopyWithImpl<$Res, $Val extends CountryModel>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageFullUrl: null == imageFullUrl
+          ? _value.imageFullUrl
+          : imageFullUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -87,7 +105,13 @@ abstract class _$$_CountryModelCopyWith<$Res>
       __$$_CountryModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String nationality, String code});
+  $Res call(
+      {int id,
+      String name,
+      String nationality,
+      String code,
+      String icon,
+      String imageFullUrl});
 }
 
 /// @nodoc
@@ -105,6 +129,8 @@ class __$$_CountryModelCopyWithImpl<$Res>
     Object? name = null,
     Object? nationality = null,
     Object? code = null,
+    Object? icon = null,
+    Object? imageFullUrl = null,
   }) {
     return _then(_$_CountryModel(
       id: null == id
@@ -123,6 +149,14 @@ class __$$_CountryModelCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageFullUrl: null == imageFullUrl
+          ? _value.imageFullUrl
+          : imageFullUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -134,7 +168,9 @@ class _$_CountryModel implements _CountryModel {
       {required this.id,
       required this.name,
       required this.nationality,
-      required this.code});
+      required this.code,
+      required this.icon,
+      required this.imageFullUrl});
 
   factory _$_CountryModel.fromJson(Map<String, dynamic> json) =>
       _$$_CountryModelFromJson(json);
@@ -147,10 +183,14 @@ class _$_CountryModel implements _CountryModel {
   final String nationality;
   @override
   final String code;
+  @override
+  final String icon;
+  @override
+  final String imageFullUrl;
 
   @override
   String toString() {
-    return 'CountryModel(id: $id, name: $name, nationality: $nationality, code: $code)';
+    return 'CountryModel(id: $id, name: $name, nationality: $nationality, code: $code, icon: $icon, imageFullUrl: $imageFullUrl)';
   }
 
   @override
@@ -162,12 +202,16 @@ class _$_CountryModel implements _CountryModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.nationality, nationality) ||
                 other.nationality == nationality) &&
-            (identical(other.code, code) || other.code == code));
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
+            (identical(other.imageFullUrl, imageFullUrl) ||
+                other.imageFullUrl == imageFullUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, nationality, code);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, nationality, code, icon, imageFullUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +232,9 @@ abstract class _CountryModel implements CountryModel {
       {required final int id,
       required final String name,
       required final String nationality,
-      required final String code}) = _$_CountryModel;
+      required final String code,
+      required final String icon,
+      required final String imageFullUrl}) = _$_CountryModel;
 
   factory _CountryModel.fromJson(Map<String, dynamic> json) =
       _$_CountryModel.fromJson;
@@ -201,6 +247,10 @@ abstract class _CountryModel implements CountryModel {
   String get nationality;
   @override
   String get code;
+  @override
+  String get icon;
+  @override
+  String get imageFullUrl;
   @override
   @JsonKey(ignore: true)
   _$$_CountryModelCopyWith<_$_CountryModel> get copyWith =>

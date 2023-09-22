@@ -18,7 +18,7 @@ class RequestSupportController extends GetxController {
   late List<String> reasons;
   String? reason;
 
-  TextEditingController message = TextEditingController();
+  late TextEditingController message;
 
   Timer? countdownTimer;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -30,6 +30,8 @@ class RequestSupportController extends GetxController {
     print("init");
 
     reasons = CommonConstants.reasons;
+    message = TextEditingController();
+    reason = null;
   }
 
   @override
@@ -53,6 +55,7 @@ class RequestSupportController extends GetxController {
         SupportConstants.reason: reason,
         SupportConstants.message: message.text,
       };
+      print(message.text);
 
       await supportProvider.request(storage.read("access"), ApiConstants.request, data).then((response) async {
         print(response.toJson());

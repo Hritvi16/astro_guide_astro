@@ -153,6 +153,7 @@ class SupportRatingDialog extends StatelessWidget {
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
+      unratedColor: MyColors.colorUnrated,
       itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
       itemSize: 30,
       itemBuilder: (context, index) => Image.asset(

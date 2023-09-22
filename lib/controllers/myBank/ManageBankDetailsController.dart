@@ -104,7 +104,9 @@ class ManageBankDetailsController extends GetxController {
           error_c = "* Please upload cheque image";
         }
         else {
-          validate();
+          if(!back) {
+            validate();
+          }
         }
       }
       else {
@@ -157,7 +159,7 @@ class ManageBankDetailsController extends GetxController {
     print(data.files);
     print(data.fields);
 
-    astrologerProvider.add(ApiConstants.bankAPI+action, storage.read("access"), data).then((response) {
+    astrologerProvider.add(storage.read("access"), ApiConstants.bankAPI+action, data).then((response) {
       print(response.toJson());
       if(response.code==1) {
         Get.back();

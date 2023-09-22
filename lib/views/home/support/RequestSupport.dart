@@ -54,7 +54,7 @@ class RequestSupport extends StatelessWidget {
                     )
                 ),
                 child: SafeArea(
-                  child: CustomAppBar('Request Support'),
+                  child: CustomAppBar('Request Support'.tr),
                 ),
               ),
             ),
@@ -77,7 +77,7 @@ class RequestSupport extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              standardTFLabel(text: 'Reason', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
+              standardTFLabel(text: 'Reason'.tr, optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: DropdownSearch<String>(
@@ -87,7 +87,6 @@ class RequestSupport extends StatelessWidget {
                     dropdownDecoratorProps:  DropDownDecoratorProps(
                         baseStyle: GoogleFonts.manrope(
                           fontSize: 16.0,
-                          color: MyColors.black,
                           letterSpacing: 0,
                           fontWeight: FontWeight.w400,
                         ),
@@ -98,7 +97,7 @@ class RequestSupport extends StatelessWidget {
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            hintText: "Select Reason",
+                            hintText: "Select Reason".tr,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         )
                     ),
@@ -114,7 +113,7 @@ class RequestSupport extends StatelessWidget {
                     },
                   )
               ),
-              standardTFLabel(text: 'Message', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
+              standardTFLabel(text: 'Message'.tr, optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TextFormField(
@@ -124,7 +123,6 @@ class RequestSupport extends StatelessWidget {
                   maxLines: 6,
                   style: GoogleFonts.manrope(
                     fontSize: 16.0,
-                    color: MyColors.black,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w400,
                   ),
@@ -135,7 +133,7 @@ class RequestSupport extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    hintText: "Write your query",
+                    hintText: "Write your query".tr,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
                   validator: (value) {
@@ -180,7 +178,7 @@ class RequestSupport extends StatelessWidget {
               )
           ),
           child: Text(
-              "Request",
+              "Request".tr,
               style: GoogleFonts.manrope(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,

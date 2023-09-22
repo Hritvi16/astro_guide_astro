@@ -136,7 +136,7 @@ class Support extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Text(
-                    "You have not asked for any support yet!",
+                    "You have not asked for any support yet!".tr,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.manrope(
                       fontSize: 16,

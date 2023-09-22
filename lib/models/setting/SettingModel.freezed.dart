@@ -20,9 +20,10 @@ SettingModel _$SettingModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SettingModel {
-  String get about => throw _privateConstructorUsedError;
-  String get tc => throw _privateConstructorUsedError;
-  String get privacy_policy => throw _privateConstructorUsedError;
+  String get about_64 => throw _privateConstructorUsedError;
+  String get a_privacy64 => throw _privateConstructorUsedError;
+  String get a_tc64 => throw _privateConstructorUsedError;
+  String get privacy_64 => throw _privateConstructorUsedError;
   String get mobile => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
@@ -41,9 +42,10 @@ abstract class $SettingModelCopyWith<$Res> {
       _$SettingModelCopyWithImpl<$Res, SettingModel>;
   @useResult
   $Res call(
-      {String about,
-      String tc,
-      String privacy_policy,
+      {String about_64,
+      String a_privacy64,
+      String a_tc64,
+      String privacy_64,
       String mobile,
       String email,
       String address,
@@ -63,26 +65,31 @@ class _$SettingModelCopyWithImpl<$Res, $Val extends SettingModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? about = null,
-    Object? tc = null,
-    Object? privacy_policy = null,
+    Object? about_64 = null,
+    Object? a_privacy64 = null,
+    Object? a_tc64 = null,
+    Object? privacy_64 = null,
     Object? mobile = null,
     Object? email = null,
     Object? address = null,
     Object? link = null,
   }) {
     return _then(_value.copyWith(
-      about: null == about
-          ? _value.about
-          : about // ignore: cast_nullable_to_non_nullable
+      about_64: null == about_64
+          ? _value.about_64
+          : about_64 // ignore: cast_nullable_to_non_nullable
               as String,
-      tc: null == tc
-          ? _value.tc
-          : tc // ignore: cast_nullable_to_non_nullable
+      a_privacy64: null == a_privacy64
+          ? _value.a_privacy64
+          : a_privacy64 // ignore: cast_nullable_to_non_nullable
               as String,
-      privacy_policy: null == privacy_policy
-          ? _value.privacy_policy
-          : privacy_policy // ignore: cast_nullable_to_non_nullable
+      a_tc64: null == a_tc64
+          ? _value.a_tc64
+          : a_tc64 // ignore: cast_nullable_to_non_nullable
+              as String,
+      privacy_64: null == privacy_64
+          ? _value.privacy_64
+          : privacy_64 // ignore: cast_nullable_to_non_nullable
               as String,
       mobile: null == mobile
           ? _value.mobile
@@ -113,9 +120,10 @@ abstract class _$$_SettingModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String about,
-      String tc,
-      String privacy_policy,
+      {String about_64,
+      String a_privacy64,
+      String a_tc64,
+      String privacy_64,
       String mobile,
       String email,
       String address,
@@ -133,26 +141,31 @@ class __$$_SettingModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? about = null,
-    Object? tc = null,
-    Object? privacy_policy = null,
+    Object? about_64 = null,
+    Object? a_privacy64 = null,
+    Object? a_tc64 = null,
+    Object? privacy_64 = null,
     Object? mobile = null,
     Object? email = null,
     Object? address = null,
     Object? link = null,
   }) {
     return _then(_$_SettingModel(
-      about: null == about
-          ? _value.about
-          : about // ignore: cast_nullable_to_non_nullable
+      about_64: null == about_64
+          ? _value.about_64
+          : about_64 // ignore: cast_nullable_to_non_nullable
               as String,
-      tc: null == tc
-          ? _value.tc
-          : tc // ignore: cast_nullable_to_non_nullable
+      a_privacy64: null == a_privacy64
+          ? _value.a_privacy64
+          : a_privacy64 // ignore: cast_nullable_to_non_nullable
               as String,
-      privacy_policy: null == privacy_policy
-          ? _value.privacy_policy
-          : privacy_policy // ignore: cast_nullable_to_non_nullable
+      a_tc64: null == a_tc64
+          ? _value.a_tc64
+          : a_tc64 // ignore: cast_nullable_to_non_nullable
+              as String,
+      privacy_64: null == privacy_64
+          ? _value.privacy_64
+          : privacy_64 // ignore: cast_nullable_to_non_nullable
               as String,
       mobile: null == mobile
           ? _value.mobile
@@ -178,9 +191,10 @@ class __$$_SettingModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SettingModel implements _SettingModel {
   _$_SettingModel(
-      {required this.about,
-      required this.tc,
-      required this.privacy_policy,
+      {required this.about_64,
+      required this.a_privacy64,
+      required this.a_tc64,
+      required this.privacy_64,
       required this.mobile,
       required this.email,
       required this.address,
@@ -190,11 +204,13 @@ class _$_SettingModel implements _SettingModel {
       _$$_SettingModelFromJson(json);
 
   @override
-  final String about;
+  final String about_64;
   @override
-  final String tc;
+  final String a_privacy64;
   @override
-  final String privacy_policy;
+  final String a_tc64;
+  @override
+  final String privacy_64;
   @override
   final String mobile;
   @override
@@ -206,7 +222,7 @@ class _$_SettingModel implements _SettingModel {
 
   @override
   String toString() {
-    return 'SettingModel(about: $about, tc: $tc, privacy_policy: $privacy_policy, mobile: $mobile, email: $email, address: $address, link: $link)';
+    return 'SettingModel(about_64: $about_64, a_privacy64: $a_privacy64, a_tc64: $a_tc64, privacy_64: $privacy_64, mobile: $mobile, email: $email, address: $address, link: $link)';
   }
 
   @override
@@ -214,10 +230,13 @@ class _$_SettingModel implements _SettingModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingModel &&
-            (identical(other.about, about) || other.about == about) &&
-            (identical(other.tc, tc) || other.tc == tc) &&
-            (identical(other.privacy_policy, privacy_policy) ||
-                other.privacy_policy == privacy_policy) &&
+            (identical(other.about_64, about_64) ||
+                other.about_64 == about_64) &&
+            (identical(other.a_privacy64, a_privacy64) ||
+                other.a_privacy64 == a_privacy64) &&
+            (identical(other.a_tc64, a_tc64) || other.a_tc64 == a_tc64) &&
+            (identical(other.privacy_64, privacy_64) ||
+                other.privacy_64 == privacy_64) &&
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.address, address) || other.address == address) &&
@@ -226,8 +245,8 @@ class _$_SettingModel implements _SettingModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, about, tc, privacy_policy, mobile, email, address, link);
+  int get hashCode => Object.hash(runtimeType, about_64, a_privacy64, a_tc64,
+      privacy_64, mobile, email, address, link);
 
   @JsonKey(ignore: true)
   @override
@@ -245,9 +264,10 @@ class _$_SettingModel implements _SettingModel {
 
 abstract class _SettingModel implements SettingModel {
   factory _SettingModel(
-      {required final String about,
-      required final String tc,
-      required final String privacy_policy,
+      {required final String about_64,
+      required final String a_privacy64,
+      required final String a_tc64,
+      required final String privacy_64,
       required final String mobile,
       required final String email,
       required final String address,
@@ -257,11 +277,13 @@ abstract class _SettingModel implements SettingModel {
       _$_SettingModel.fromJson;
 
   @override
-  String get about;
+  String get about_64;
   @override
-  String get tc;
+  String get a_privacy64;
   @override
-  String get privacy_policy;
+  String get a_tc64;
+  @override
+  String get privacy_64;
   @override
   String get mobile;
   @override

@@ -8,6 +8,7 @@ import 'package:astro_guide_astro/shared/widgets/customAppBar/CustomAppBar.dart'
 import 'package:astro_guide_astro/shared/widgets/label/Label.dart';
 import 'package:astro_guide_astro/size/MySize.dart';
 import 'package:astro_guide_astro/size/WidgetSize.dart';
+import 'package:astro_guide_astro/views/loadingScreen/LoadingScreen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,11 @@ class Review extends StatelessWidget {
     final theme = Theme.of(context);
     return GetBuilder<ReviewController>(
       builder: (controller) {
-        return Scaffold(
-          backgroundColor: MyColors.white,
+        return reviewController.load ?
+        Scaffold(
           body: getBody(context),
-        );
+        )
+            : LoadingScreen();
       },
     );
   }
@@ -71,14 +73,15 @@ class Review extends StatelessWidget {
               },
             ),
             child: SizedBox(
-              height: MySize.sizeh100(context) - standardUpperFixedDesignHeight - standardBottomBarHeight - standardVerticalGap,
+              height: MySize.sizeh100(context) - standardUpperFixedDesignHeight,
               child: reviewController.reviews.isNotEmpty ? SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: standardHorizontalPagePadding, vertical: standardVerticalGap),
-                  itemCount: reviewController.reviews.length,
+                  itemCount: reviewController.reviews.length>5 ? 5 : reviewController.reviews.length,
+                  // itemCount: reviewController.reviews.length,
                   separatorBuilder: (buildContext, index) {
                     return SizedBox(
                       height: standardVerticalGap,
@@ -227,7 +230,6 @@ class Review extends StatelessWidget {
             review.anonymous==0 ? review.user??"Anonymous" : "Anonymous",
             style: GoogleFonts.playfairDisplay(
               fontSize: 18.0,
-              color: MyColors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -239,9 +241,9 @@ class Review extends StatelessWidget {
                 text: "SERVICE: ",
                 style: GoogleFonts.manrope(
                   fontSize: 14.0,
-                  color: MyColors.black,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w400,
+                  color: MyColors.labelColor()
                 ),
                 children: [
                   TextSpan(
@@ -268,7 +270,6 @@ class Review extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.manrope(
               fontSize: 12.0,
-              color: MyColors.black,
             ),
           ),
           SizedBox(
@@ -304,12 +305,11 @@ class Review extends StatelessWidget {
                 review.reply??"",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.notoColorEmoji(
                   fontSize: 12.0,
-                  color: MyColors.black,
+                  letterSpacing: 0
                 ),
               ),
-
               SizedBox(
                 height: 5,
               ),

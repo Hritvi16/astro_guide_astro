@@ -26,6 +26,7 @@ mixin _$SessionResponseModel {
   UserModel? get user => throw _privateConstructorUsedError;
   SessionHistoryModel? get session_history =>
       throw _privateConstructorUsedError;
+  ReviewModel? get review => throw _privateConstructorUsedError;
   double? get wallet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,10 +47,12 @@ abstract class $SessionResponseModelCopyWith<$Res> {
       String message,
       UserModel? user,
       SessionHistoryModel? session_history,
+      ReviewModel? review,
       double? wallet});
 
   $UserModelCopyWith<$Res>? get user;
   $SessionHistoryModelCopyWith<$Res>? get session_history;
+  $ReviewModelCopyWith<$Res>? get review;
 }
 
 /// @nodoc
@@ -71,6 +74,7 @@ class _$SessionResponseModelCopyWithImpl<$Res,
     Object? message = null,
     Object? user = freezed,
     Object? session_history = freezed,
+    Object? review = freezed,
     Object? wallet = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,6 +98,10 @@ class _$SessionResponseModelCopyWithImpl<$Res,
           ? _value.session_history
           : session_history // ignore: cast_nullable_to_non_nullable
               as SessionHistoryModel?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as ReviewModel?,
       wallet: freezed == wallet
           ? _value.wallet
           : wallet // ignore: cast_nullable_to_non_nullable
@@ -124,6 +132,18 @@ class _$SessionResponseModelCopyWithImpl<$Res,
       return _then(_value.copyWith(session_history: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ReviewModelCopyWith<$Res>? get review {
+    if (_value.review == null) {
+      return null;
+    }
+
+    return $ReviewModelCopyWith<$Res>(_value.review!, (value) {
+      return _then(_value.copyWith(review: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -140,12 +160,15 @@ abstract class _$$_SessionResponseModelCopyWith<$Res>
       String message,
       UserModel? user,
       SessionHistoryModel? session_history,
+      ReviewModel? review,
       double? wallet});
 
   @override
   $UserModelCopyWith<$Res>? get user;
   @override
   $SessionHistoryModelCopyWith<$Res>? get session_history;
+  @override
+  $ReviewModelCopyWith<$Res>? get review;
 }
 
 /// @nodoc
@@ -164,6 +187,7 @@ class __$$_SessionResponseModelCopyWithImpl<$Res>
     Object? message = null,
     Object? user = freezed,
     Object? session_history = freezed,
+    Object? review = freezed,
     Object? wallet = freezed,
   }) {
     return _then(_$_SessionResponseModel(
@@ -187,6 +211,10 @@ class __$$_SessionResponseModelCopyWithImpl<$Res>
           ? _value.session_history
           : session_history // ignore: cast_nullable_to_non_nullable
               as SessionHistoryModel?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as ReviewModel?,
       wallet: freezed == wallet
           ? _value.wallet
           : wallet // ignore: cast_nullable_to_non_nullable
@@ -204,6 +232,7 @@ class _$_SessionResponseModel implements _SessionResponseModel {
       required this.message,
       this.user,
       this.session_history,
+      this.review,
       this.wallet});
 
   factory _$_SessionResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -220,11 +249,13 @@ class _$_SessionResponseModel implements _SessionResponseModel {
   @override
   final SessionHistoryModel? session_history;
   @override
+  final ReviewModel? review;
+  @override
   final double? wallet;
 
   @override
   String toString() {
-    return 'SessionResponseModel(status: $status, code: $code, message: $message, user: $user, session_history: $session_history, wallet: $wallet)';
+    return 'SessionResponseModel(status: $status, code: $code, message: $message, user: $user, session_history: $session_history, review: $review, wallet: $wallet)';
   }
 
   @override
@@ -238,13 +269,14 @@ class _$_SessionResponseModel implements _SessionResponseModel {
             (identical(other.user, user) || other.user == user) &&
             (identical(other.session_history, session_history) ||
                 other.session_history == session_history) &&
+            (identical(other.review, review) || other.review == review) &&
             (identical(other.wallet, wallet) || other.wallet == wallet));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, code, message, user, session_history, wallet);
+  int get hashCode => Object.hash(runtimeType, status, code, message, user,
+      session_history, review, wallet);
 
   @JsonKey(ignore: true)
   @override
@@ -268,6 +300,7 @@ abstract class _SessionResponseModel implements SessionResponseModel {
       required final String message,
       final UserModel? user,
       final SessionHistoryModel? session_history,
+      final ReviewModel? review,
       final double? wallet}) = _$_SessionResponseModel;
 
   factory _SessionResponseModel.fromJson(Map<String, dynamic> json) =
@@ -283,6 +316,8 @@ abstract class _SessionResponseModel implements SessionResponseModel {
   UserModel? get user;
   @override
   SessionHistoryModel? get session_history;
+  @override
+  ReviewModel? get review;
   @override
   double? get wallet;
   @override

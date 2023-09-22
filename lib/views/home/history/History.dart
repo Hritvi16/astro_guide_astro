@@ -143,15 +143,15 @@ class History extends StatelessWidget  {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          getTabDesign(0, "Wallet"),
+          getTabDesign(0, "Wallet".tr),
           SizedBox(
             width: 8,
           ),
-          getTabDesign(1, "Call"),
+          getTabDesign(1, "Call".tr),
           SizedBox(
             width: 8,
           ),
-          getTabDesign(2, "Chat"),
+          getTabDesign(2, "Chat".tr),
         ],
       ),
     );
@@ -256,7 +256,7 @@ class History extends StatelessWidget  {
           return getWTDesign(index, context);
         }
     )
-        : getNoDataWidget("You’ve not done any money\ntransaction yet!");
+        : getNoDataWidget("You've not done any money transaction yet!".tr);
   }
 
   Widget getPaymentLogs(BuildContext context) {
@@ -275,7 +275,7 @@ class History extends StatelessWidget  {
           return getPLDesign(index, context);
         }
     )
-        : getNoDataWidget("You've not recharged yet!");
+        : getNoDataWidget("You've not recharged yet!".tr);
   }
 
   Widget getWTDesign(int index, BuildContext context) {
@@ -575,7 +575,7 @@ class History extends StatelessWidget  {
           return getCallDesign(index, context);
         }
     )
-        : Essential.getNoDataWidget("You’ve not taken any call\nconsultations yet!");
+        : Essential.getNoDataWidget("You've not taken any call consultations yet!".tr);
   }
 
   Widget getCallDesign(int index, BuildContext context) {
@@ -629,7 +629,7 @@ class History extends StatelessWidget  {
                       width: 16,
                     ),
                     Text(
-                      "+INR ${historyController.getEarningAmount(sessionHistory)}",
+                      "+INR ${Essential.getEarningAmount(sessionHistory)}",
                       style: GoogleFonts.manrope(
                         fontSize: 14.0,
                         color: MyColors.colorSuccess,
@@ -685,7 +685,7 @@ class History extends StatelessWidget  {
               getIconInfo("assets/sign_up/time.png", Essential.getTime(Essential.getDTByStatus(sessionHistory)), color: Essential.getStatusColor(sessionHistory.status)),
             ],
           ),
-          if(sessionHistory.status=='ACTIVE' || sessionHistory.status=='COMPLETED')
+          if(sessionHistory.status=='ACTIVE' || sessionHistory.status=='REQUESTED' || sessionHistory.status=='COMPLETED')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -716,8 +716,9 @@ class History extends StatelessWidget  {
                             "type": sessionHistory.status,
                             "action": sessionHistory.status == "ACTIVE"
                                 ? sessionHistory.status
-                                : "VIEW",
+                                : sessionHistory.status == "REQUESTED" ? "NOT DECIDED" : "VIEW",
                             "astro_id": sessionHistory.astro_id,
+                            "ch_id": sessionHistory.id,
                             "session_history": sessionHistory,
                             "user": UserModel(
                                 id: sessionHistory.user_id ?? -1,
@@ -739,7 +740,7 @@ class History extends StatelessWidget  {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          sessionHistory.status=='ACTIVE' ? 'RESUME CALL'.tr : 'SHOW DETAILS'.tr,
+                          sessionHistory.status=='ACTIVE' ? 'RESUME CALL'.tr : sessionHistory.status=='REQUESTED' ? "DECIDE" : 'SHOW DETAILS'.tr,
                           style: GoogleFonts.manrope(
                             fontSize: 16.0,
                             color: MyColors.white,
@@ -804,7 +805,7 @@ class History extends StatelessWidget  {
           return getChatDesign(index, context);
         }
     )
-        : Essential.getNoDataWidget("You’ve not taken any chat\nconsultations yet!");
+        : Essential.getNoDataWidget("You've not taken any chat consultations yet!".tr);
   }
 
   Widget getMyAmountDesign() {
@@ -966,7 +967,7 @@ class History extends StatelessWidget  {
                     width: 16,
                   ),
                   Text(
-                    "+INR ${historyController.getEarningAmount(sessionHistory)}",
+                    "+INR ${Essential.getEarningAmount(sessionHistory)}",
                     style: GoogleFonts.manrope(
                       fontSize: 14.0,
                       color: MyColors.colorSuccess,
@@ -1026,7 +1027,7 @@ class History extends StatelessWidget  {
               getIconInfo("assets/sign_up/time.png", Essential.getTime(Essential.getDTByStatus(sessionHistory)), color: Essential.getStatusColor(sessionHistory.status)),
             ],
           ),
-          if(sessionHistory.status=='COMPLETED' || sessionHistory.status=='ACTIVE')
+          if(sessionHistory.status=='COMPLETED' || sessionHistory.status=='ACTIVE' || sessionHistory.status=='REQUESTED')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1050,7 +1051,7 @@ class History extends StatelessWidget  {
                 ),
                 GestureDetector(
                 onTap: () {
-                  historyController.goto("/chat", arguments: {"type" : sessionHistory.status, "action" : sessionHistory.status=="ACTIVE" ? sessionHistory.status : "VIEW", "user_id" : sessionHistory.user_id, "ch_id" : sessionHistory.id, "session_history" : sessionHistory, "user" : UserModel(id: sessionHistory.user_id??-1, name: sessionHistory.user??"", profile: sessionHistory.user_profile??"")});
+                  historyController.goto("/chat", arguments: {"type" : sessionHistory.status, "action" : sessionHistory.status=="ACTIVE" ? sessionHistory.status : sessionHistory.status == "REQUESTED" ? "NOT DECIDED" : "VIEW", "user_id" : sessionHistory.user_id, "ch_id" : sessionHistory.id, "session_history" : sessionHistory, "user" : UserModel(id: sessionHistory.user_id??-1, name: sessionHistory.user??"", profile: sessionHistory.user_profile??"")});
                   // historyController.goto("/chat", arguments: {"type" : "COMPLETED", "action" : "VIEW", "user_id" : sessionHistory.user_id, "ch_id" : sessionHistory.id, "chat_history" : sessionHistory});
                 },
                 child: standardButton(
@@ -1062,7 +1063,7 @@ class History extends StatelessWidget  {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'SHOW CHAT',
+                        sessionHistory.status=="ACTIVE" ? 'RESUME CHAT' : sessionHistory.status=="REQUESTED" ? 'DECIDE' : 'SHOW CHAT',
                         style: GoogleFonts.manrope(
                           fontSize: 16.0,
                           color: MyColors.white,
@@ -1125,7 +1126,7 @@ class History extends StatelessWidget  {
             height: 24,
           ),
           Text(
-            "Uh-Oh!",
+            "Uh-Oh!".tr,
             style: GoogleFonts.manrope(
               fontSize: 22.0,
               color: MyColors.labelColor(),

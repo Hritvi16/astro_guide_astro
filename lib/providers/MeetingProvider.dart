@@ -17,6 +17,12 @@ class MeetingProvider {
     return SessionResponseModel.fromJson(sessionResponseModel);
   }
 
+  Future<ResponseModel> manage(String token, String endpoint, Map<String, dynamic> body) async {
+    var response = await meetingRepository.manage(token, endpoint, body);
+
+    return ResponseModel.fromJson(response);
+  }
+
   Future<CreateModel> validate(Map<String, dynamic> data, String token) async {
     var response = await meetingRepository.validate(data, token);
 
@@ -31,6 +37,12 @@ class MeetingProvider {
 
   Future<ResponseModel> waitlist(Map<String, dynamic> data, String token) async {
     var response = await meetingRepository.waitlist(data, token);
+
+    return ResponseModel.fromJson(response);
+  }
+
+  Future<ResponseModel> missed(Map<String, dynamic> data, String token) async {
+    var response = await meetingRepository.missed(data, token);
 
     return ResponseModel.fromJson(response);
   }

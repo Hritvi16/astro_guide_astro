@@ -24,6 +24,7 @@ mixin _$DashboardModel {
   int get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   ReportModel? get data => throw _privateConstructorUsedError;
+  SessionHistoryModel? get session => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +38,15 @@ abstract class $DashboardModelCopyWith<$Res> {
           DashboardModel value, $Res Function(DashboardModel) then) =
       _$DashboardModelCopyWithImpl<$Res, DashboardModel>;
   @useResult
-  $Res call({String status, int code, String message, ReportModel? data});
+  $Res call(
+      {String status,
+      int code,
+      String message,
+      ReportModel? data,
+      SessionHistoryModel? session});
 
   $ReportModelCopyWith<$Res>? get data;
+  $SessionHistoryModelCopyWith<$Res>? get session;
 }
 
 /// @nodoc
@@ -59,6 +66,7 @@ class _$DashboardModelCopyWithImpl<$Res, $Val extends DashboardModel>
     Object? code = null,
     Object? message = null,
     Object? data = freezed,
+    Object? session = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -77,6 +85,10 @@ class _$DashboardModelCopyWithImpl<$Res, $Val extends DashboardModel>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as ReportModel?,
+      session: freezed == session
+          ? _value.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as SessionHistoryModel?,
     ) as $Val);
   }
 
@@ -91,6 +103,18 @@ class _$DashboardModelCopyWithImpl<$Res, $Val extends DashboardModel>
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SessionHistoryModelCopyWith<$Res>? get session {
+    if (_value.session == null) {
+      return null;
+    }
+
+    return $SessionHistoryModelCopyWith<$Res>(_value.session!, (value) {
+      return _then(_value.copyWith(session: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -101,10 +125,17 @@ abstract class _$$_DashboardModelCopyWith<$Res>
       __$$_DashboardModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String status, int code, String message, ReportModel? data});
+  $Res call(
+      {String status,
+      int code,
+      String message,
+      ReportModel? data,
+      SessionHistoryModel? session});
 
   @override
   $ReportModelCopyWith<$Res>? get data;
+  @override
+  $SessionHistoryModelCopyWith<$Res>? get session;
 }
 
 /// @nodoc
@@ -122,6 +153,7 @@ class __$$_DashboardModelCopyWithImpl<$Res>
     Object? code = null,
     Object? message = null,
     Object? data = freezed,
+    Object? session = freezed,
   }) {
     return _then(_$_DashboardModel(
       status: null == status
@@ -140,6 +172,10 @@ class __$$_DashboardModelCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as ReportModel?,
+      session: freezed == session
+          ? _value.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as SessionHistoryModel?,
     ));
   }
 }
@@ -151,7 +187,8 @@ class _$_DashboardModel implements _DashboardModel {
       {required this.status,
       required this.code,
       required this.message,
-      this.data});
+      this.data,
+      this.session});
 
   factory _$_DashboardModel.fromJson(Map<String, dynamic> json) =>
       _$$_DashboardModelFromJson(json);
@@ -164,10 +201,12 @@ class _$_DashboardModel implements _DashboardModel {
   final String message;
   @override
   final ReportModel? data;
+  @override
+  final SessionHistoryModel? session;
 
   @override
   String toString() {
-    return 'DashboardModel(status: $status, code: $code, message: $message, data: $data)';
+    return 'DashboardModel(status: $status, code: $code, message: $message, data: $data, session: $session)';
   }
 
   @override
@@ -178,12 +217,14 @@ class _$_DashboardModel implements _DashboardModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.session, session) || other.session == session));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, code, message, data);
+  int get hashCode =>
+      Object.hash(runtimeType, status, code, message, data, session);
 
   @JsonKey(ignore: true)
   @override
@@ -204,7 +245,8 @@ abstract class _DashboardModel implements DashboardModel {
       {required final String status,
       required final int code,
       required final String message,
-      final ReportModel? data}) = _$_DashboardModel;
+      final ReportModel? data,
+      final SessionHistoryModel? session}) = _$_DashboardModel;
 
   factory _DashboardModel.fromJson(Map<String, dynamic> json) =
       _$_DashboardModel.fromJson;
@@ -217,6 +259,8 @@ abstract class _DashboardModel implements DashboardModel {
   String get message;
   @override
   ReportModel? get data;
+  @override
+  SessionHistoryModel? get session;
   @override
   @JsonKey(ignore: true)
   _$$_DashboardModelCopyWith<_$_DashboardModel> get copyWith =>

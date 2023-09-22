@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/constants/UserConstants.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/models/country/CountryModel.dart';
 import 'package:astro_guide_astro/models/login/LoginModel.dart';
 import 'package:astro_guide_astro/notification_helper/NotificationHelper.dart';
 import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
+import 'package:astro_guide_astro/providers/CountryProvider.dart';
 import 'package:astro_guide_astro/providers/UserProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:astro_guide_astro/views/country/Country.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,14 +26,22 @@ class LoginController extends GetxController {
 
   final storage = GetStorage();
 
-  final TextEditingController mobile = TextEditingController(text: "7228988032");
+  final TextEditingController mobile = TextEditingController();
   final FocusNode phoneNumberFocusNode = FocusNode();
 
   late AstrologerProvider astrologerProvider = Get.find();
+  late CountryProvider countryProvider = Get.find();
+  late List<CountryModel> countries;
+  late CountryModel country;
 
   @override
   void onInit() {
     // taketo();
+    countries = [
+      CountryModel(id: -1, name: "India", nationality: "Indian", icon: "assets/country/India.png", code: "+91", imageFullUrl: "assets/country/India.png")
+    ];
+    country = countries.first;
+    getCountries();
     super.onInit();
   }
 
@@ -39,9 +50,29 @@ class LoginController extends GetxController {
     super.dispose();
   }
 
+
+  void getCountries() {
+    countryProvider.fetchList(storage.read("access")).then((response) {
+      print(response.toJson());
+      if(response.code==1) {
+        countries = response.data??[];
+        for (var value in countries) {
+          if(value.name.toUpperCase()=="INDIA") {
+            country = value;
+            break;
+          }
+        }
+        update();
+      }
+    });
+  }
+
+
   goto(String path, dynamic data, {LoginModel? loginModel}) {
     print(path);
     Get.toNamed(path, arguments: data)?.then((value) {
+      astrologerProvider = Get.find();
+      update();
       if(value=="verified") {
         login();
         // goToHome(loginModel!);
@@ -70,7 +101,7 @@ class LoginController extends GetxController {
 
   Future<void> verify() async {
     final Map<String, String> data = {
-      UserConstants.mobile : mobile.text,
+      UserConstants.mobile : country.code+"-"+mobile.text,
     };
 
     print(data);
@@ -78,7 +109,7 @@ class LoginController extends GetxController {
     astrologerProvider.login(data, CommonConstants.essential, ApiConstants.verify).then((response) async {
       print(response.toJson());
       if(response.code==1) {
-        goto("/otp", {"mobile" : mobile.text, "code" : "+91"}, loginModel: response);
+        goto("/otp", {"mobile" : mobile.text, "code" : country.code}, loginModel: response);
         // goToHome(response);
       }
       else {
@@ -89,7 +120,7 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     final Map<String, String> data = {
-      UserConstants.mobile : mobile.text,
+      UserConstants.mobile : country.code+"-"+mobile.text,
       UserConstants.fcm : await NotificationHelper.generateFcmToken()
     };
 
@@ -112,6 +143,21 @@ class LoginController extends GetxController {
     storage.write("refresh", response.refresh_token);
     storage.write("status", "logged in");
     Get.offAllNamed("/home");
+  }
+
+  void changeCode() {
+    Get.bottomSheet(
+        isScrollControlled: true,
+        Country(countries, country)
+    ).then((value) {
+      print(value);
+
+      if(value!=null) {
+        countries = value['countries'];
+        country = value['country'];
+        update();
+      }
+    });
   }
 
 }

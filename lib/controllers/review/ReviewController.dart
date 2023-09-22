@@ -26,9 +26,12 @@ class ReviewController extends GetxController {
   late bool free;
   late double wallet;
 
+  late bool load;
+
   @override
   void onInit() {
     super.onInit();
+    load = false;
     start();
   }
 
@@ -42,6 +45,7 @@ class ReviewController extends GetxController {
         reviews = [];
         reviews.addAll(response.data??[]);
       }
+      load = true;
       update();
     });
   }
@@ -120,7 +124,7 @@ class ReviewController extends GetxController {
 
     print(data);
 
-    await chatProvider.manage(storage.read("access"), ApiConstants.rating, data).then((response) async {
+    await chatProvider.manage(storage.read("access"), ApiConstants.rating+ApiConstants.reply, data).then((response) async {
       if(response.code==1) {
         reviews[index] = reviews[index].copyWith(reply: null, replied_at: null);
         update();

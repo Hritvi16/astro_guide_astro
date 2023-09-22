@@ -1,10 +1,10 @@
 class ApiConstants {
-  static const url = "http://192.168.29.244:9000/";
-  static const urlS = "http://192.168.29.244:3000/";
-  // static const url = "http://15.206.164.99:9000/";x
+  // static const url = "http://192.168.29.244:9000/";
+  // static const urlS = "http://192.168.29.244:3000/";
+  // static const url = "http://15.206.164.99:9000/";
   // static const urlS = "http://15.206.164.99:3000/";
-  // static const url = "http://13.233.167.153:9001/";
-  // static const urlS = "http:/13.233.167.153:9002/";
+  static const url = "http://35.154.148.6:9000/";
+  static const urlS = "http://35.154.148.6:9001/";
   static const token = "x-access-token";
   static const api = "api/";
   static const baseUrl = url+api;
@@ -19,6 +19,7 @@ class ApiConstants {
   static const video = "video/";
   static const bank = "bank/";
   static const chats = "chats/";
+  static const countries = "country/";
   static const userUrl = url+asset+user;
   static const specificationUrl = url+asset+specification;
   static const astrologerUrl = url+asset+astrologer;
@@ -29,6 +30,7 @@ class ApiConstants {
   static const videoUrl = url+asset+video;
   static const bankUrl = url+asset+bank;
   static const chatUrl = url+asset+chats;
+  static const countryUrl = url+asset+countries;
 
   static const androidGoogleClientID = "170894307366-1121stmp5mna8q9illqf4r7p7e7okuea.apps.googleusercontent.com";
   static const iOSGoogleClientID = "170894307366-8viag128kkui1l8ngqea77i3he3e5tq2.apps.googleusercontent.com";
@@ -85,23 +87,29 @@ class ApiConstants {
   static const validate = "validate";
   static const end = "end";
   static const waitlist = "waitlist";
+  static const missed = "missed";
   static const cancel = "cancel";
   static const reject = "reject";
   static const myProfile = "myprofile/";
+  static const profile = "profile/";
   static const visibility = "visibility/";
   static const specs = "specs/";
   static const rating = "rating/";
   static const reply = "reply/";
   static const request = "request/";
   static const upload = "upload/";
+  static const quickReplies = "quickReplies/";
 
   static const country = "country";
   static const state = "state";
   static const socialLogin = "socialLogin";
   static const login = "login";
+  static const logout = "logout";
   static const verify = "verify";
-  static const update = "update";
-  static const statuss = "status";
+  static const update = "update/";
+  static const statuss = "status/";
+  static const fetch = "fetch";
+  static const active = "active";
   static const updateProfile = "UPDATEPROFILE";
   static const addFCM = "ADDFCM";
   static const id = "id";
@@ -111,6 +119,7 @@ class ApiConstants {
   static const path = "path";
   static const settings = "settings";
   static const languages = "languages/";
+  static const rate = "rate/";
 
   static const act = "act";
   static const mobile = "mobile";

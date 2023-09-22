@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/size/MySize.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen>
       Duration(seconds: 2),
           (Timer timer) => setState(
             () {
-              print(seconds);
+          print(seconds);
           seconds = seconds + 1;
         },
       ),
@@ -58,7 +59,7 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MySize.size100(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

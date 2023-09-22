@@ -49,8 +49,8 @@ class AstrologerProvider {
     return ResponseModel.fromJson(loginResponse);
   }
 
-  Future<ResponseModel> update(FormData formData, String token) async {
-    var loginResponse = await astrologerRepository.update(formData, token);
+  Future<ResponseModel> update(FormData formData, String endpoint, String token) async {
+    var loginResponse = await astrologerRepository.update(formData, endpoint, token);
 
     return ResponseModel.fromJson(loginResponse);
   }

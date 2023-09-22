@@ -42,6 +42,7 @@ class ManageBankDetails extends StatelessWidget {
       children: [
         SizedBox(
           width: MySize.size100(context),
+          height: standardUpperFixedDesignHeight,
           child: ClipPath(
             clipper: CustomClipPath(),
             child: Container(
@@ -185,7 +186,6 @@ class ManageBankDetails extends StatelessWidget {
               textInputAction: TextInputAction.next,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -218,7 +218,6 @@ class ManageBankDetails extends StatelessWidget {
               controller: manageBankDetailsController.branch,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -249,7 +248,6 @@ class ManageBankDetails extends StatelessWidget {
               textInputAction: TextInputAction.done,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -292,7 +290,6 @@ class ManageBankDetails extends StatelessWidget {
               textInputAction: TextInputAction.next,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -325,7 +322,6 @@ class ManageBankDetails extends StatelessWidget {
               maxLength: 11,
               style: GoogleFonts.manrope(
                 fontSize: 16.0,
-                color: MyColors.black,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
@@ -400,7 +396,6 @@ class ManageBankDetails extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.manrope(
                       fontSize: 16.0,
-                      color: MyColors.black,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w500,
                     ),
@@ -498,7 +493,7 @@ class ManageBankDetails extends StatelessWidget {
                 onTap: manageBankDetailsController.onStepCancel,
                 child: standardButton(
                   context: context,
-                  backgroundColor: MyColors.white,
+                  backgroundColor: MyColors.cardColor(),
                   borderColor: MyColors.borderColor(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -507,7 +502,7 @@ class ManageBankDetails extends StatelessWidget {
                         "assets/controls/arrow_previous.png",
                         height: standardArrowH,
                         width: standardArrowW,
-                        color: MyColors.black,
+                        // color: MyColors.black,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: standardHTIS),
@@ -515,7 +510,7 @@ class ManageBankDetails extends StatelessWidget {
                           'Previous',
                           style: GoogleFonts.manrope(
                             fontSize: 16.0,
-                            color: MyColors.black,
+                            // color: MyColors.black,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w600,
                           ),

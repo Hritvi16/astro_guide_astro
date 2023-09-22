@@ -118,11 +118,6 @@ class HistoryController extends GetxController with GetTickerProviderStateMixin 
   }
 
 
-  double getEarningAmount(SessionHistoryModel chatHistory) {
-    double commission = ((chatHistory.amount??0) * (chatHistory.commission/100));
-    return ((chatHistory.amount??0) - commission).toPrecision(2).abs();
-  }
-
 
   Future<void> reconnect(int index) async {
     Map <String, dynamic> data = {
@@ -134,7 +129,7 @@ class HistoryController extends GetxController with GetTickerProviderStateMixin 
     await chatProvider.reconnect(storage.read("access"), ApiConstants.reconnect, data).then((response) async {
       print(response.toJson());
       if(response.code==1) {
-        goto("/chat", arguments: {"user" : response.user, "ch_id" : response.ch_id, "type" : "RECONNECT", "action" : "RECONNECTING"});
+        goto("/chat", arguments: {"wallet" : response.wallet, "user" : response.user, "ch_id" : response.ch_id, "type" : "RECONNECT", "action" : "RECONNECTING"});
       }
       else if (response.code==0) {
         List<SessionHistoryModel> temp = List.from(chat);
@@ -158,7 +153,7 @@ class HistoryController extends GetxController with GetTickerProviderStateMixin 
     await meetingProvider.reconnect(storage.read("access"), ApiConstants.reconnect, data).then((response) async {
       print(response.toJson());
       if(response.code==1) {
-        goto("/call", arguments: {"user" : response.user, "ch_id" : response.ch_id, "type" : "RECONNECT", "action" : "RECONNECTING", "meetingID" : response.data?.meeting_id, "session_history" : response.data});
+        goto("/call", arguments: {"wallet" : response.wallet, "user" : response.user, "ch_id" : response.ch_id, "type" : "RECONNECT", "action" : "RECONNECTING", "meetingID" : response.data?.meeting_id, "session_history" : response.data});
       }
       else if (response.code==0) {
         List<SessionHistoryModel> temp = List.from(call);

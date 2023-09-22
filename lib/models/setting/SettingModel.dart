@@ -8,9 +8,10 @@ part 'SettingModel.g.dart';
 @freezed
 class SettingModel with _$SettingModel {
   factory SettingModel({
-    required String about,
-    required String tc,
-    required String privacy_policy,
+    required String about_64,
+    required String a_privacy64,
+    required String a_tc64,
+    required String privacy_64,
     required String mobile,
     required String email,
     required String address,

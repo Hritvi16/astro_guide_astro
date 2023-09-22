@@ -27,7 +27,6 @@ class Wishlist extends StatelessWidget {
     return GetBuilder<WishlistController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: MyColors.white,
           body: getBody(context),
         );
       },
@@ -108,7 +107,7 @@ class Wishlist extends StatelessWidget {
   Widget getUserDesign(int index, UserModel user) {
     return GestureDetector(
       onTap: () {
-        // wishlistController.goto("/userDetail", arguments: user.id.toString());
+        wishlistController.goto("/userDetail", arguments: user.id);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -153,11 +152,19 @@ class Wishlist extends StatelessWidget {
                 topRight: Radius.circular(standardImageRadius)
             ),
             child: Image.network(
-              ApiConstants.userUrl+user.profile,
+              ApiConstants.userUrl+(user.profile??""),
               height: 130,
               // height: standardAstroListImageH,
               width: 70,
               fit: BoxFit.fill,
+              errorBuilder: (buildContext, object, stackTrace) {
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Image.asset(
+                    "assets/sign_up/profile.png",
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -174,7 +181,6 @@ class Wishlist extends StatelessWidget {
             user.name,
             style: GoogleFonts.playfairDisplay(
               fontSize: 18.0,
-              color: MyColors.black,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -189,7 +195,6 @@ class Wishlist extends StatelessWidget {
             user.nationality_name??"-",
             style: GoogleFonts.manrope(
               fontSize: 12.0,
-              color: MyColors.black,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:astro_guide_astro/chat_ui/CustomShape.dart';
 import 'package:astro_guide_astro/colors/MyColors.dart';
+import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/chat/ChatModel.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -51,7 +52,7 @@ class ReceivedMessageScreen extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  DateFormat("dd MMM, yyyy  hh:mm a").format(DateTime.parse(chat.sent_at)),
+                  Essential.getDateTime(chat.sent_at),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: 10,

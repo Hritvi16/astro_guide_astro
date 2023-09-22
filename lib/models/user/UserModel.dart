@@ -10,15 +10,17 @@ class UserModel with _$UserModel {
   factory UserModel({
     required int id,
     required String name,
-    required String profile,
+    String? profile,
     String? mobile,
     String? gender,
     int? nationality,
+    String? nationality_name,
+    String? nationality_icon,
     int? ci_id,
     String? country,
+    String? country_icon,
     String? state,
     String? city,
-    String? nationality_name,
   }) = _UserModel;
 
   factory UserModel.fromJson(JSON json) => _$UserModelFromJson(json);

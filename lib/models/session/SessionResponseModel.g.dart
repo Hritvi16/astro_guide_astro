@@ -19,6 +19,9 @@ _$_SessionResponseModel _$$_SessionResponseModelFromJson(
           ? null
           : SessionHistoryModel.fromJson(
               json['session_history'] as Map<String, dynamic>),
+      review: json['review'] == null
+          ? null
+          : ReviewModel.fromJson(json['review'] as Map<String, dynamic>),
       wallet: (json['wallet'] as num?)?.toDouble(),
     );
 
@@ -30,5 +33,6 @@ Map<String, dynamic> _$$_SessionResponseModelToJson(
       'message': instance.message,
       'user': instance.user,
       'session_history': instance.session_history,
+      'review': instance.review,
       'wallet': instance.wallet,
     };

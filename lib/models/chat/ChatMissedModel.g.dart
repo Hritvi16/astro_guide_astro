@@ -15,6 +15,7 @@ _$_ChatMissedModel _$$_ChatMissedModelFromJson(Map<String, dynamic> json) =>
       data: json['data'] == null
           ? null
           : SessionHistoryModel.fromJson(json['data'] as Map<String, dynamic>),
+      wallet: (json['wallet'] as num?)?.toDouble(),
       user: json['user'] == null
           ? null
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
@@ -27,5 +28,6 @@ Map<String, dynamic> _$$_ChatMissedModelToJson(_$_ChatMissedModel instance) =>
       'message': instance.message,
       'ch_id': instance.ch_id,
       'data': instance.data,
+      'wallet': instance.wallet,
       'user': instance.user,
     };

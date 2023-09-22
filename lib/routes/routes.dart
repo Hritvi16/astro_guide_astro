@@ -1,3 +1,6 @@
+import 'package:astro_guide_astro/controllers/contactUs/ContactUsBinding.dart';
+import 'package:astro_guide_astro/controllers/customPDFViewer/CustomPDFViewerBinding.dart';
+import 'package:astro_guide_astro/controllers/information/InformationBinding.dart';
 import 'package:astro_guide_astro/controllers/myBank/ManageBankDetailsBinding.dart';
 import 'package:astro_guide_astro/controllers/myBank/MyBankDetailsBinding.dart';
 import 'package:astro_guide_astro/controllers/myBank/MyBankHistoryBinding.dart';
@@ -12,6 +15,7 @@ import 'package:astro_guide_astro/controllers/home/HomeBinding.dart';
 import 'package:astro_guide_astro/controllers/language/LanguageBinding.dart';
 import 'package:astro_guide_astro/controllers/login/LoginBinding.dart';
 import 'package:astro_guide_astro/controllers/myProfile/MyProfileBinding.dart';
+import 'package:astro_guide_astro/controllers/myQuickReplies/MyQuickRepliesBinding.dart';
 import 'package:astro_guide_astro/controllers/mySkill/MySkillBinding.dart';
 import 'package:astro_guide_astro/controllers/mySpec/MySpecBinding.dart';
 import 'package:astro_guide_astro/controllers/otp/OTPBinding.dart';
@@ -19,8 +23,10 @@ import 'package:astro_guide_astro/controllers/review/ReviewBinding.dart';
 import 'package:astro_guide_astro/controllers/signUp/SignUpBinding.dart';
 import 'package:astro_guide_astro/controllers/splash/SplashBinding.dart';
 import 'package:astro_guide_astro/controllers/support/SupportChatBinding.dart';
+import 'package:astro_guide_astro/controllers/userDetail/UserDetailBinding.dart';
 import 'package:astro_guide_astro/controllers/wallet/WalletBinding.dart';
 import 'package:astro_guide_astro/controllers/wishlist/WishlistBinding.dart';
+import 'package:astro_guide_astro/customPDFViewer/CustomPDFViewer.dart';
 import 'package:astro_guide_astro/photoView/PhotoView.dart';
 import 'package:astro_guide_astro/shared/middleware/InternetMiddleware.dart';
 import 'package:astro_guide_astro/shared/widgets/NoInternetPage.dart';
@@ -35,17 +41,22 @@ import 'package:astro_guide_astro/views/home/call/OneToOneMeet.dart';
 import 'package:astro_guide_astro/views/home/chat/Chat.dart';
 import 'package:astro_guide_astro/views/home/following/Following.dart';
 import 'package:astro_guide_astro/views/home/review/Review.dart';
+import 'package:astro_guide_astro/views/home/settings/ContactUs.dart';
+import 'package:astro_guide_astro/views/home/settings/Information.dart';
 import 'package:astro_guide_astro/views/home/settings/ManageBankDetails.dart';
 import 'package:astro_guide_astro/views/home/settings/MyBankDetails.dart';
 import 'package:astro_guide_astro/views/home/settings/MyBankHistory.dart';
 import 'package:astro_guide_astro/views/home/settings/MyGallery.dart';
 import 'package:astro_guide_astro/views/home/settings/MyLanguage.dart';
 import 'package:astro_guide_astro/views/home/settings/MyProfile.dart';
+import 'package:astro_guide_astro/views/home/settings/MyQuickReplies.dart';
 import 'package:astro_guide_astro/views/home/settings/MySkill.dart';
 import 'package:astro_guide_astro/views/home/settings/MySpec.dart';
 import 'package:astro_guide_astro/views/home/support/SupportChat.dart';
+import 'package:astro_guide_astro/views/home/wallet/Wallet.dart';
 import 'package:astro_guide_astro/views/home/wishlist/Wishlist.dart';
 import 'package:astro_guide_astro/views/language/Language.dart';
+import 'package:astro_guide_astro/views/userDetail/UserDetail.dart';
 import 'package:get/get.dart';
 
 class Routes {
@@ -171,6 +182,36 @@ class Routes {
     GetPage(
       name: '/photoView',
       page: () => PhotoView(),
+    ),
+    GetPage(
+      name: '/customPDFViewer',
+      page: () => CustomPDFViewer(),
+      binding: CustomPDFViewerBinding(),
+    ),
+    GetPage(
+      name: '/wallet',
+      page: () => Wallet(),
+      binding: WalletBinding(),
+    ),
+    GetPage(
+      name: '/quickReplies',
+      page: () => MyQuickReplies(),
+      binding: MyQuickRepliesBinding(),
+    ),
+    GetPage(
+      name: '/information',
+      page: () => Information(),
+      binding: InformationBinding(),
+    ),
+    GetPage(
+      name: '/userDetail',
+      page: () => UserDetail(),
+      binding: UserDetailBinding(),
+    ),
+    GetPage(
+      name: '/contactUs',
+      page: () => ContactUs(),
+      binding: ContactUsBinding(),
     ),
   ];
 }

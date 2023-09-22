@@ -22,15 +22,17 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get profile => throw _privateConstructorUsedError;
+  String? get profile => throw _privateConstructorUsedError;
   String? get mobile => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   int? get nationality => throw _privateConstructorUsedError;
+  String? get nationality_name => throw _privateConstructorUsedError;
+  String? get nationality_icon => throw _privateConstructorUsedError;
   int? get ci_id => throw _privateConstructorUsedError;
   String? get country => throw _privateConstructorUsedError;
+  String? get country_icon => throw _privateConstructorUsedError;
   String? get state => throw _privateConstructorUsedError;
   String? get city => throw _privateConstructorUsedError;
-  String? get nationality_name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,15 +48,17 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {int id,
       String name,
-      String profile,
+      String? profile,
       String? mobile,
       String? gender,
       int? nationality,
+      String? nationality_name,
+      String? nationality_icon,
       int? ci_id,
       String? country,
+      String? country_icon,
       String? state,
-      String? city,
-      String? nationality_name});
+      String? city});
 }
 
 /// @nodoc
@@ -72,15 +76,17 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? profile = null,
+    Object? profile = freezed,
     Object? mobile = freezed,
     Object? gender = freezed,
     Object? nationality = freezed,
+    Object? nationality_name = freezed,
+    Object? nationality_icon = freezed,
     Object? ci_id = freezed,
     Object? country = freezed,
+    Object? country_icon = freezed,
     Object? state = freezed,
     Object? city = freezed,
-    Object? nationality_name = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -91,10 +97,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      profile: null == profile
+      profile: freezed == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       mobile: freezed == mobile
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -107,6 +113,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.nationality
           : nationality // ignore: cast_nullable_to_non_nullable
               as int?,
+      nationality_name: freezed == nationality_name
+          ? _value.nationality_name
+          : nationality_name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nationality_icon: freezed == nationality_icon
+          ? _value.nationality_icon
+          : nationality_icon // ignore: cast_nullable_to_non_nullable
+              as String?,
       ci_id: freezed == ci_id
           ? _value.ci_id
           : ci_id // ignore: cast_nullable_to_non_nullable
@@ -115,6 +129,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
+      country_icon: freezed == country_icon
+          ? _value.country_icon
+          : country_icon // ignore: cast_nullable_to_non_nullable
+              as String?,
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -122,10 +140,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nationality_name: freezed == nationality_name
-          ? _value.nationality_name
-          : nationality_name // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -141,15 +155,17 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   $Res call(
       {int id,
       String name,
-      String profile,
+      String? profile,
       String? mobile,
       String? gender,
       int? nationality,
+      String? nationality_name,
+      String? nationality_icon,
       int? ci_id,
       String? country,
+      String? country_icon,
       String? state,
-      String? city,
-      String? nationality_name});
+      String? city});
 }
 
 /// @nodoc
@@ -165,15 +181,17 @@ class __$$_UserModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? profile = null,
+    Object? profile = freezed,
     Object? mobile = freezed,
     Object? gender = freezed,
     Object? nationality = freezed,
+    Object? nationality_name = freezed,
+    Object? nationality_icon = freezed,
     Object? ci_id = freezed,
     Object? country = freezed,
+    Object? country_icon = freezed,
     Object? state = freezed,
     Object? city = freezed,
-    Object? nationality_name = freezed,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -184,10 +202,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      profile: null == profile
+      profile: freezed == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       mobile: freezed == mobile
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -200,6 +218,14 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.nationality
           : nationality // ignore: cast_nullable_to_non_nullable
               as int?,
+      nationality_name: freezed == nationality_name
+          ? _value.nationality_name
+          : nationality_name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nationality_icon: freezed == nationality_icon
+          ? _value.nationality_icon
+          : nationality_icon // ignore: cast_nullable_to_non_nullable
+              as String?,
       ci_id: freezed == ci_id
           ? _value.ci_id
           : ci_id // ignore: cast_nullable_to_non_nullable
@@ -208,6 +234,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
               as String?,
+      country_icon: freezed == country_icon
+          ? _value.country_icon
+          : country_icon // ignore: cast_nullable_to_non_nullable
+              as String?,
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -215,10 +245,6 @@ class __$$_UserModelCopyWithImpl<$Res>
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nationality_name: freezed == nationality_name
-          ? _value.nationality_name
-          : nationality_name // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -230,15 +256,17 @@ class _$_UserModel implements _UserModel {
   _$_UserModel(
       {required this.id,
       required this.name,
-      required this.profile,
+      this.profile,
       this.mobile,
       this.gender,
       this.nationality,
+      this.nationality_name,
+      this.nationality_icon,
       this.ci_id,
       this.country,
+      this.country_icon,
       this.state,
-      this.city,
-      this.nationality_name});
+      this.city});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -248,7 +276,7 @@ class _$_UserModel implements _UserModel {
   @override
   final String name;
   @override
-  final String profile;
+  final String? profile;
   @override
   final String? mobile;
   @override
@@ -256,19 +284,23 @@ class _$_UserModel implements _UserModel {
   @override
   final int? nationality;
   @override
+  final String? nationality_name;
+  @override
+  final String? nationality_icon;
+  @override
   final int? ci_id;
   @override
   final String? country;
   @override
+  final String? country_icon;
+  @override
   final String? state;
   @override
   final String? city;
-  @override
-  final String? nationality_name;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, profile: $profile, mobile: $mobile, gender: $gender, nationality: $nationality, ci_id: $ci_id, country: $country, state: $state, city: $city, nationality_name: $nationality_name)';
+    return 'UserModel(id: $id, name: $name, profile: $profile, mobile: $mobile, gender: $gender, nationality: $nationality, nationality_name: $nationality_name, nationality_icon: $nationality_icon, ci_id: $ci_id, country: $country, country_icon: $country_icon, state: $state, city: $city)';
   }
 
   @override
@@ -283,18 +315,35 @@ class _$_UserModel implements _UserModel {
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.nationality, nationality) ||
                 other.nationality == nationality) &&
+            (identical(other.nationality_name, nationality_name) ||
+                other.nationality_name == nationality_name) &&
+            (identical(other.nationality_icon, nationality_icon) ||
+                other.nationality_icon == nationality_icon) &&
             (identical(other.ci_id, ci_id) || other.ci_id == ci_id) &&
             (identical(other.country, country) || other.country == country) &&
+            (identical(other.country_icon, country_icon) ||
+                other.country_icon == country_icon) &&
             (identical(other.state, state) || other.state == state) &&
-            (identical(other.city, city) || other.city == city) &&
-            (identical(other.nationality_name, nationality_name) ||
-                other.nationality_name == nationality_name));
+            (identical(other.city, city) || other.city == city));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, profile, mobile,
-      gender, nationality, ci_id, country, state, city, nationality_name);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      profile,
+      mobile,
+      gender,
+      nationality,
+      nationality_name,
+      nationality_icon,
+      ci_id,
+      country,
+      country_icon,
+      state,
+      city);
 
   @JsonKey(ignore: true)
   @override
@@ -314,15 +363,17 @@ abstract class _UserModel implements UserModel {
   factory _UserModel(
       {required final int id,
       required final String name,
-      required final String profile,
+      final String? profile,
       final String? mobile,
       final String? gender,
       final int? nationality,
+      final String? nationality_name,
+      final String? nationality_icon,
       final int? ci_id,
       final String? country,
+      final String? country_icon,
       final String? state,
-      final String? city,
-      final String? nationality_name}) = _$_UserModel;
+      final String? city}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -332,7 +383,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get name;
   @override
-  String get profile;
+  String? get profile;
   @override
   String? get mobile;
   @override
@@ -340,15 +391,19 @@ abstract class _UserModel implements UserModel {
   @override
   int? get nationality;
   @override
+  String? get nationality_name;
+  @override
+  String? get nationality_icon;
+  @override
   int? get ci_id;
   @override
   String? get country;
   @override
+  String? get country_icon;
+  @override
   String? get state;
   @override
   String? get city;
-  @override
-  String? get nationality_name;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

@@ -10,6 +10,7 @@ import 'package:astro_guide_astro/providers/TokenProvider.dart';
 import 'package:astro_guide_astro/repositories/TokenRepository.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/services/networking/ApiService.dart';
+import 'package:astro_guide_astro/views/loadingScreen/LoadingScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -168,8 +169,8 @@ class Essential {
         return true;
       }
       else {
-        print("logout");
-        // await logout();
+        // print("logout");
+        await logout();
       }
     });
   }
@@ -414,4 +415,26 @@ class Essential {
 
     return themeMode;
   }
+
+  static double getEarningAmount(SessionHistoryModel chatHistory) {
+    double commission = ((chatHistory.amount??0) * (chatHistory.commission/100));
+    return ((chatHistory.amount??0) - commission).toPrecision(2).abs();
+  }
+
+
+  static Future<dynamic> showLoadingDialog() async {
+    return await Get.dialog(
+      LoadingScreen(),
+      barrierDismissible: false,
+    );
+  }
+
+  static call(String number) {
+    link("tel:$number");
+  }
+
+  static email(String email) {
+    link("mailto:$email");
+  }
+
 }

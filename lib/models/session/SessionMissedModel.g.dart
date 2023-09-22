@@ -16,6 +16,7 @@ _$_SessionMissedModel _$$_SessionMissedModelFromJson(
       data: json['data'] == null
           ? null
           : SessionHistoryModel.fromJson(json['data'] as Map<String, dynamic>),
+      wallet: (json['wallet'] as num?)?.toDouble(),
       user: json['user'] == null
           ? null
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$_SessionMissedModelToJson(
       'message': instance.message,
       'ch_id': instance.ch_id,
       'data': instance.data,
+      'wallet': instance.wallet,
       'user': instance.user,
     };

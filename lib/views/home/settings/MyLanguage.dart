@@ -37,6 +37,7 @@ class MyLanguage extends StatelessWidget {
       children: [
         SizedBox(
           width: MySize.size100(context),
+          height: standardUpperFixedDesignHeight,
           child: ClipPath(
             clipper: CustomClipPath(),
             child: Container(

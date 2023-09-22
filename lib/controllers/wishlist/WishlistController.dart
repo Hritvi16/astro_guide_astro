@@ -38,7 +38,7 @@ class WishlistController extends GetxController {
   }
 
   Future<void> getUsers() async {
-    await userProvider.fetchByID(storage.read("access"), ApiConstants.favouriteAPI).then((response) async {
+    await userProvider.fetchByType(storage.read("access"), ApiConstants.favouriteAPI).then((response) async {
       if(response.code==1) {
         users = response.data??[];
       }

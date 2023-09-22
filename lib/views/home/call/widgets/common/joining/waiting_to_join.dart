@@ -50,7 +50,7 @@ class WaitingToJoin extends StatelessWidget {
               ],
             ),
             type=="REQUESTED" ?
-            action=="NOT DECIDED" ? getRequestIncoming() : getMessage(action=="ACCEPT" ? "Connecting" : action) : type=="MISSED" ? displayMessage("$name missed your call request.") : getMessage("Reconnecting")
+            action=="NOT DECIDED" ? getRequestIncoming() : getMessage(action=="ACCEPT" ? "Connecting" : action) : type=="MISSED"  || type=="REJECTED" ? displayMessage(type=="MISSED" ? "$name missed your call request." : "$name rejected your call request") : getMessage("Reconnecting")
 
             // screen ? Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceAround,

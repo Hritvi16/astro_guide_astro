@@ -8,9 +8,10 @@ part of 'SettingModel.dart';
 
 _$_SettingModel _$$_SettingModelFromJson(Map<String, dynamic> json) =>
     _$_SettingModel(
-      about: json['about'] as String,
-      tc: json['tc'] as String,
-      privacy_policy: json['privacy_policy'] as String,
+      about_64: json['about_64'] as String,
+      a_privacy64: json['a_privacy64'] as String,
+      a_tc64: json['a_tc64'] as String,
+      privacy_64: json['privacy_64'] as String,
       mobile: json['mobile'] as String,
       email: json['email'] as String,
       address: json['address'] as String,
@@ -19,9 +20,10 @@ _$_SettingModel _$$_SettingModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_SettingModelToJson(_$_SettingModel instance) =>
     <String, dynamic>{
-      'about': instance.about,
-      'tc': instance.tc,
-      'privacy_policy': instance.privacy_policy,
+      'about_64': instance.about_64,
+      'a_privacy64': instance.a_privacy64,
+      'a_tc64': instance.a_tc64,
+      'privacy_64': instance.privacy_64,
       'mobile': instance.mobile,
       'email': instance.email,
       'address': instance.address,

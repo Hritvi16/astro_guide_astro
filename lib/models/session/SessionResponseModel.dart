@@ -1,4 +1,5 @@
 import 'package:astro_guide_astro/models/astrologer/AstrologerModel.dart';
+import 'package:astro_guide_astro/models/review/ReviewModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/chat/ChatModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
@@ -17,6 +18,7 @@ class SessionResponseModel with _$SessionResponseModel {
     required String message,
     UserModel? user,
     SessionHistoryModel? session_history,
+    ReviewModel? review,
     double? wallet
   }) = _SessionResponseModel;
 

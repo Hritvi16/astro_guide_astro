@@ -4,7 +4,6 @@ import 'package:astro_guide_astro/controllers/theme/ThemesController.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/shared/CustomClipPath.dart';
 import 'package:astro_guide_astro/shared/helpers/extensions/StringExtension.dart';
-import 'package:astro_guide_astro/shared/widgets/customAppBar/CustomAppBar.dart';
 import 'package:astro_guide_astro/size/MySize.dart';
 import 'package:astro_guide_astro/size/WidgetSize.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -26,7 +25,6 @@ class Setting extends StatelessWidget {
     return GetBuilder<SettingController>(
       builder: (controller) {
         return Scaffold(
-          // backgroundColor: MyColors.colorBG,
           body: getBody(context, theme),
         );
       },
@@ -138,8 +136,9 @@ class Setting extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 25.0),
                                     child: Text(
                                       settingController.astrologer.name,
+                                      overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.playfairDisplay(
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                         color: MyColors.black,
                                         letterSpacing: 0,
                                         fontWeight: FontWeight.w700,
@@ -147,7 +146,7 @@ class Setting extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 15,
+                                    width: 10,
                                   ),
                                   CircleAvatar(
                                     radius: 40,
@@ -183,6 +182,10 @@ class Setting extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
+                  settingsTabWI('Update Rate'.tr, '', null, theme, onTab: () => settingController.updateRate()),
+                  SizedBox(
+                    height: 16,
+                  ),
                   settingsTabWI('Manage Gallery'.tr, '', null, theme, onTab: () => Get.toNamed("/myGallery", )),
                   SizedBox(
                     height: 16,
@@ -215,6 +218,10 @@ class Setting extends StatelessWidget {
                   SizedBox(
                     height: 16,
                   ),
+                  settingsTab('Quick Replies'.tr, "assets/dashboard/chat.png", '', MyColors.colorButton, theme, onTab: () => Get.toNamed("/quickReplies", )),
+                  SizedBox(
+                    height: 16,
+                  ),
                   settingsTab('Notification'.tr, "assets/common/notification.png", '', MyColors.colorButton, theme, onTab: () => Get.toNamed("/aboutUs", )),
                   SizedBox(
                     height: 16,
@@ -228,16 +235,16 @@ class Setting extends StatelessWidget {
                   settingsTab('Change App Language'.tr, "assets/common/lang.png", (settingController.storage.read("language")??"").toUpperCase(), null, theme, onTab: () => settingController.goto("/language")),
 
                   const SizedBox(height: 16),
-                  settingsTabWI('Terms and Condition'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.tc, "title" : "Terms and Condition"})),
+                  settingsTabWI('Terms and Condition'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.a_tc64, "title" : "Terms and Condition"})),
 
                   const SizedBox(height: 16),
-                  settingsTabWI('Privacy Policy'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.privacy_policy, "title" : "Privacy Policy"})),
+                  settingsTabWI('Privacy Policy'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.a_privacy64, "title" : "Privacy Policy"})),
 
                   const SizedBox(height: 16),
-                  settingsTabWI('About Us'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.about, "title" : "About Us"})),
+                  settingsTabWI('About Us'.tr, "", null, theme, onTab: () => settingController.goto("/information", arguments: {"data" : settingController.setting.about_64, "title" : "About Us"})),
 
                   const SizedBox(height: 16),
-                  settingsTabWI('Contact Us'.tr, "", null, theme, onTab: () => (){}),
+                  settingsTabWI('Contact Us'.tr, "", null, theme, onTab: () => settingController.goto("/contactUs", arguments: settingController.setting)),
 
                   const SizedBox(height: 16),
                   settingsTabI('Logout'.tr, Icons.logout, "", null, theme, onTab: () => settingController.logout()),

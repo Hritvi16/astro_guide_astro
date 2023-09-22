@@ -90,7 +90,7 @@ class _OneToOneMeetingContainerState extends State<OneToOneMeetingContainer> {
                   isScreenShare:
                   remoteShareStream != null || localShareStream != null,
                   avatarTextSize: 40,
-                  image: widget.callController.user.profile,
+                  image: widget.callController.user.profile??"",
                 )),
             AnimatedCrossFade(
               duration: const Duration(milliseconds: 300),

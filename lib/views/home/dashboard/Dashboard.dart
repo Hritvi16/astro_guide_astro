@@ -2,6 +2,8 @@ import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/controllers/dashboard/DashboardController.dart';
 import 'package:astro_guide_astro/models/chartData/ChartData.dart';
 import 'package:astro_guide_astro/models/report/BasicReportModel.dart';
+import 'package:astro_guide_astro/models/user/UserModel.dart';
+import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/shared/CustomClipPath.dart';
 import 'package:astro_guide_astro/shared/widgets/customAppBar/CustomAppBar.dart';
 import 'package:astro_guide_astro/size/MySize.dart';
@@ -186,6 +188,8 @@ class Dashboard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Column(
                   children: [
+                    if(dashboardController.session!=null)
+                      getActiveSession(context),
                     getStatus(context),
                     getTotalMinutes(),
                     SizedBox(
@@ -211,19 +215,19 @@ class Dashboard extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    getMonthlyMinuteSummary("Chat"),
+                    getMonthlyMinuteSummary("Chat".tr),
                     SizedBox(
                       height: 10,
                     ),
-                    getMonthlyMinuteSummary("Call"),
+                    getMonthlyMinuteSummary("Call".tr),
                     SizedBox(
                       height: 10,
                     ),
-                    getMonthlySummary("Chat"),
+                    getMonthlySummary("Chat".tr),
                     SizedBox(
                       height: 10,
                     ),
-                    getMonthlySummary("Call"),
+                    getMonthlySummary("Call".tr),
                   ],
                 ),
               ),
@@ -238,7 +242,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCartesianChart(
           title: ChartTitle(
-            text: "Total Minutes",
+            text: "Total Minutes".tr,
               textStyle: GoogleFonts.manrope(
               )
           ),
@@ -278,7 +282,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCartesianChart(
           title: ChartTitle(
-            text: "Avg. Daily Minutes",
+            text: "Avg. Daily Minutes".tr,
             textStyle: GoogleFonts.manrope(
             )
           ),
@@ -318,7 +322,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCartesianChart(
           title: ChartTitle(
-            text: "Avg. Monthly Minutes",
+            text: "Avg. Monthly Minutes".tr,
               textStyle: GoogleFonts.manrope(
               )
           ),
@@ -360,7 +364,7 @@ class Dashboard extends StatelessWidget {
         height: 200,
         child: SfCartesianChart(
             title: ChartTitle(
-              text: "Avg. Ratings",
+              text: "Avg. Ratings".tr,
                 textStyle: GoogleFonts.manrope(
                 )
             ),
@@ -401,7 +405,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCartesianChart(
           title: ChartTitle(
-            text: "Total Users Rated",
+            text: "Total Users Rated".tr,
               textStyle: GoogleFonts.manrope(
               )
           ),
@@ -441,7 +445,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCircularChart(
         title: ChartTitle(
-            text: "Last 12 Months Minutes Summary Report  (${title})",
+            text: "${'Last 12 Months Minutes Summary Report'.tr}  (${title})",
             textStyle: GoogleFonts.manrope(
             )
         ),
@@ -473,7 +477,7 @@ class Dashboard extends StatelessWidget {
     return IgnorePointer(
       child: SfCircularChart(
         title: ChartTitle(
-            text: "Last 12 Months Total ${title} Summary Report",
+            text: "${'Last 12 Months Total'.tr} ${title} ${'Summary Report'.tr}",
             textStyle: GoogleFonts.manrope(
             )
         ),
@@ -497,6 +501,109 @@ class Dashboard extends StatelessWidget {
           )
         ],
         palette: MyColors.months,
+      ),
+    );
+  }
+
+  Widget getActiveSession(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if(dashboardController.session?.category=="CHAT") {
+          dashboardController.goto(
+              "/chat",
+              arguments: {
+                "type" : dashboardController.session?.status,
+                "action" : dashboardController.session?.status=="ACTIVE" ? dashboardController.session?.status : "NOT DECIDED",
+                "user_id" : dashboardController.session?.user_id,
+                "ch_id" : dashboardController.session?.id,
+                "session_history" : dashboardController.session,
+                "user" : UserModel(
+                    id: dashboardController.session?.user_id??-1,
+                    name: dashboardController.session?.user??"",
+                    profile: dashboardController.session?.user_profile??""
+                )
+              }
+          );
+        }
+        else {
+          dashboardController.goto("/call",
+              arguments: {
+                "type": dashboardController.session?.status,
+                "action" : dashboardController.session?.status=="ACTIVE" ? dashboardController.session?.status : "NOT DECIDED",
+                "astro_id": dashboardController.session?.astro_id,
+                "session_history": dashboardController.session,
+                "user": UserModel(
+                    id: dashboardController.session?.user_id ?? -1,
+                    name: dashboardController.session?.user ?? "",
+                    profile: dashboardController.session?.user_profile ?? "",
+                    mobile: ''
+                ),
+                "meetingID": dashboardController.session?.meeting_id,
+                "ch_id": dashboardController.session?.id
+              }
+          );
+        }
+      },
+      child: Container(
+          width: MySize.size100(context),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: EdgeInsets.only(bottom: 20, top: 10, left: standardHorizontalPagePadding, right: standardHorizontalPagePadding),
+          decoration: BoxDecoration(
+            color: (dashboardController.session?.category=="CHAT" ? MyColors.colorChat : MyColors.colorSuccess).withOpacity(0.2),
+            border: Border.all(
+              color: dashboardController.session?.category=="CHAT" ? MyColors.colorChat : MyColors.colorSuccess,
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  (dashboardController.session?.astro_profile??"").isNotEmpty ?
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(
+                        ApiConstants.userUrl+(dashboardController.session?.astro_profile??"")
+                    ),
+                  )
+                  : CircleAvatar(
+                    radius: 25,
+                    child: Text(
+                      (dashboardController.session?.user??" ").substring(0, 1).toUpperCase(),
+                      style: GoogleFonts.manrope(
+                        color: MyColors.colorButton
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        dashboardController.session?.astrologer??"",
+                        style: GoogleFonts.manrope(
+                            color: MyColors.labelColor(),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16
+                        ),
+                      ),
+                      Text(
+                        (dashboardController.session?.status=="ACTIVE " ? dashboardController.session?.status??"" : "")+(dashboardController.session?.category??"")+
+                            (dashboardController.session?.status=="ACTIVE" ? "" : " REQUEST"),
+                        style: GoogleFonts.manrope(
+                            color: dashboardController.session?.category=="CHAT" ? MyColors.colorChat : MyColors.colorSuccess,
+                            fontWeight: FontWeight.w700
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          )
       ),
     );
   }

@@ -43,7 +43,6 @@ class MyGallery extends StatelessWidget {
           child: ClipPath(
             clipper: CustomClipPath(),
             child: Container(
-              height: standardUpperFixedDesignHeight,
               decoration: BoxDecoration(
                   color: MyColors.colorPrimary,
                   image: const DecorationImage(
@@ -70,22 +69,25 @@ class MyGallery extends StatelessWidget {
         Flexible(
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
-            child: myGalleryController.galleries.isNotEmpty ? GridView.builder(
-              itemCount: myGalleryController.galleries.length,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              shrinkWrap: true,
-              physics:
-              const NeverScrollableScrollPhysics(),
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 10,
-                  mainAxisExtent: 280
+            child: myGalleryController.galleries.isNotEmpty ? Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: GridView.builder(
+                itemCount: myGalleryController.galleries.length,
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                shrinkWrap: true,
+                physics:
+                const NeverScrollableScrollPhysics(),
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 10,
+                    mainAxisExtent: 280
+                ),
+                itemBuilder: (context, index) {
+                  return getGalleryDesign(index, myGalleryController.galleries[index]);
+                },
               ),
-              itemBuilder: (context, index) {
-                return getGalleryDesign(index, myGalleryController.galleries[index]);
-              },
             )
             : Container(
               height: MySize.sizeh100(context) - standardUpperFixedDesignHeight,

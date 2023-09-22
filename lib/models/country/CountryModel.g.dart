@@ -12,6 +12,8 @@ _$_CountryModel _$$_CountryModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       nationality: json['nationality'] as String,
       code: json['code'] as String,
+      icon: json['icon'] as String,
+      imageFullUrl: json['imageFullUrl'] as String,
     );
 
 Map<String, dynamic> _$$_CountryModelToJson(_$_CountryModel instance) =>
@@ -20,4 +22,6 @@ Map<String, dynamic> _$$_CountryModelToJson(_$_CountryModel instance) =>
       'name': instance.name,
       'nationality': instance.nationality,
       'code': instance.code,
+      'icon': instance.icon,
+      'imageFullUrl': instance.imageFullUrl,
     };

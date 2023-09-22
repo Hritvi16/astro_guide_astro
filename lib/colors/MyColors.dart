@@ -22,7 +22,6 @@ class MyColors
 
   static Color colorWalletBG = Color(0xffFEFDE8);
 
-
   static Color colorBlueBorder = Color(0xff93C5FD);
   static Color colorBlueBG = Color(0xffDBEAFE);
 
@@ -39,6 +38,7 @@ class MyColors
   static Color colorGrey = Color(0xffA1A1AA);
   static Color colorSuccess = Color(0xff22C55E);
   static Color colorError = Color(0xffEF4444);
+  static Color colorLocation = Color(0xffEF4444);
   static Color colorSuccessDark = Color(0xff16A34A);
   static Color colorChat = Color(0xff3B82F6);
   static Color colorInfoBlue = Color(0xff2563EB);
@@ -279,6 +279,10 @@ class MyColors
     return [colors.shade200, colors.shade400, colors.shade900];
   }
   
+  static Color backgroundColor() {
+    return Get.isDarkMode ? black : white;
+  }
+
   static Color cardColor() {
     return Get.isDarkMode ? blackM : white;
   }
@@ -302,4 +306,9 @@ class MyColors
   static Color selectedColor() {
     return Get.isDarkMode ? black : white;
   }
+
+  static Color dividerColor() {
+    return Get.isDarkMode ? blackM : colorBG;
+  }
+
 }

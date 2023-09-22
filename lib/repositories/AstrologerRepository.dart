@@ -39,8 +39,8 @@ class AstrologerRepository {
     return image;
   }
 
-  Future<JSON> update(FormData formData, String token) async {
-    var image = await apiService.file(endpoint: ApiConstants.astrologerAPI+ApiConstants.myProfile+ApiConstants.update, body: formData, token: token);
+  Future<JSON> update(FormData formData, String endpoint, String token) async {
+    var image = await apiService.file(endpoint: ApiConstants.astrologerAPI+endpoint, body: formData, token: token);
 
     return image;
   }

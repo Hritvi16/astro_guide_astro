@@ -16,6 +16,14 @@ Map<String, String> english = {
   'Online': 'Online',
   'Free Session': 'Free Session',
   'Offers': 'Offers',
+  "Total Minutes" : "Total Minutes",
+  "Avg. Daily Minutes" : "Avg. Daily Minutes",
+  "Avg. Monthly Minutes" : "Avg. Monthly Minutes",
+  "Avg. Ratings" : "Avg. Ratings",
+  "Total Users Rated" : "Total Users Rated",
+  'Last 12 Months Minutes Summary Report' : 'Last 12 Months Minutes Summary Report',
+  'Last 12 Months Total' : 'Last 12 Months Total',
+  'Summary Report' : 'Summary Report',
 
   'Free Kundali' : 'Free Kundli',
   'Match Kundali' : 'Match Kundli',
@@ -55,11 +63,24 @@ Map<String, String> english = {
   'Session Type' : 'Session Type',
   'Rate' : 'Rate',
   'SHOW CHAT' : 'SHOW CHAT',
+  'Uh-Oh' : 'Uh-Oh!',
+  "You've not done any money transaction yet!" : "You've not done any money transaction yet!",
+  "You've not recharged yet!"  : "You've not recharged yet!",
+  "You've not taken any call consultations yet!" : "You've not taken any call consultations yet!",
+  "You've not taken any chat consultations yet!" : "You've not taken any chat consultations yet!",
 
   //Settings
   'Settings' : 'Settings',
+  'Update Rate' : 'Update Rate',
+  'Manage Gallery' : 'Manage Gallery',
+  'Manage Language' : 'Manage Language',
+  'Manage Skills' : 'Manage Skills',
+  'Manage Specifications' : 'Manage Specifications',
+  'Manage Bank Details' : 'Manage Bank Details',
   'Wishlist' : 'Wishlist',
   'Following' : 'Following',
+  'Review' : 'Review',
+  'Quick Replies' : 'Quick Replies',
   'Notification' : 'Notification',
   'Appearance' : 'Appearance',
   'Change App Language' : 'Change App Language',
@@ -82,6 +103,16 @@ Map<String, String> english = {
   //Wallet
   'My Wallet' : 'My Wallet',
   'Available Balance' : 'Available Balance',
+  "Overall Summary" : "Overall Summary",
+  'Summary' : 'Summary',
+  "Today's" : "Today's",
+  "Monthly" : "Monthly",
+  "Yearly" : "Yearly",
+  "Total Sales" : "Total Sales",
+  "Commission" : "Commission",
+  "My Earnings" : "My Earnings",
+  "Paid" : "Paid",
+
   'Custom Amount' : 'Custom Amount',
   'Enter Amount' : 'Enter Amount',
   'Recharge Wallet' : 'Recharge Wallet',
@@ -94,4 +125,16 @@ Map<String, String> english = {
 
   //Horoscope
   "Today's Horoscope" : "Today's Horoscope",
+
+  //Support
+  "Support" : "Support",
+  "Request" : "Request",
+  "Request Support" : "Request Support",
+  "Reason" : "Reason",
+  "Select Reason" : "Select Reason",
+  "Message" : "Message",
+  "Write your query" : "Write your query",
+  "You have not asked for any support yet!" : "You have not asked for any support yet!",
+
+
 };
