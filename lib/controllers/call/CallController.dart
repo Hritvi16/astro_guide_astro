@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/constants/SessionConstants.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
 import 'package:astro_guide_astro/dialogs/RatingDialog.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/models/meeting/EndCallResponseModel.dart';
+import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/review/ReviewModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
@@ -18,6 +21,7 @@ import 'package:videosdk/videosdk.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:just_audio/just_audio.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class CallController extends GetxController {
   CallController();
@@ -66,6 +70,9 @@ class CallController extends GetxController {
   late String sessionID;
   int? meet_id;
   final player = AudioPlayer();
+
+
+  late IO.Socket socket;
   
   @override
   void onInit() {
@@ -134,6 +141,17 @@ class CallController extends GetxController {
     }
   }
   Future<void> initializeMeeting() async {
+    socket = IO.io(
+      ApiConstants.urlS,
+      IO.OptionBuilder().setTransports(['websocket']).setQuery(
+          {
+            SessionConstants.username : storage.read("access"),
+            "meet_id" : ch_id,
+            SessionConstants.sender : "A",
+          }).build(),
+    );
+    connectSocket();
+
     print("typeeeee");
     print(sessionHistory.rate);
     print(type);
@@ -176,6 +194,37 @@ class CallController extends GetxController {
         startRing(65);
       }
     }
+  }
+
+
+  connectSocket() {
+    socket.onConnect((data) => print('Connection established'));
+    socket.onConnectError((data) => print('Connect Error: $data'));
+    socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+
+    socket.on(
+      'endMeeting', (data) async {
+      EndCallResponseModel endCallResponse = EndCallResponseModel.fromJson(json.decode(data));
+
+
+      print("socketttt Meetingggg end responseeeeeeeee");
+
+      endMeeting(endCallResponse.category??"");
+    }
+    );
+
+    socket.on(
+        'backMeeting', (data) async {
+      ResponseModel response = ResponseModel.fromJson(json.decode(data));
+
+      print("socketttt Meetingggg back responseeeeeeeee");
+      print(response.toJson());
+      back();
+
+
+    }
+    );
+
   }
 
   void startRing(int time) {
@@ -370,12 +419,19 @@ class CallController extends GetxController {
 
   void updateCamera() {
     // camEnabled = !camEnabled;
-    if (videoStream != null) {
+    // camEnabled = !camEnabled;
+    print("videoStreammmmm");
+    print(videoStream);
+    print(meeting.camEnabled);
+    // if (videoStream != null) {
+      if (meeting.camEnabled==true) {
       meeting.disableCam();
       camEnabled = false;
     } else {
+        print("innnnn");
       meeting.enableCam();
       camEnabled = true;
+        print("out");
     }
     update();
   }
@@ -593,6 +649,8 @@ class CallController extends GetxController {
 
     // Called when stream is enabled
     meeting.localParticipant.on(Events.streamEnabled, (Stream _stream) {
+      print("Streammmmm");
+      print(_stream);
       if (_stream.kind == 'video') {
         videoStream = _stream;
       } else if (_stream.kind == 'audio') {
@@ -941,6 +999,8 @@ class CallController extends GetxController {
 
     }
     shareStream = videoStream = audioStream = remoteParticipantShareStream = null;
+    socket.close();
+    socket.dispose();
     update();
   }
 

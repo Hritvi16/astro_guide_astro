@@ -1,10 +1,10 @@
 class ApiConstants {
-  // static const url = "http://192.168.29.244:9000/";
-  // static const urlS = "http://192.168.29.244:3000/";
+  static const url = "http://192.168.29.244:9000/";
+  static const urlS = "http://192.168.29.244:3000/";
   // static const url = "http://15.206.164.99:9000/";
   // static const urlS = "http://15.206.164.99:3000/";
-  static const url = "http://35.154.148.6:9000/";
-  static const urlS = "http://35.154.148.6:9001/";
+  // static const url = "http://35.154.148.6:9000/";
+  // static const urlS = "http://35.154.148.6:9001/";
   static const token = "x-access-token";
   static const api = "api/";
   static const baseUrl = url+api;

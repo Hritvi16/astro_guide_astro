@@ -160,10 +160,14 @@ class NotificationHelper {
 
       print("storage.read(calling) cancelled");
       print(storage.read("calling"));
+      String status = message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : message.data['category']=="cancelled" ? "CANCELLED" : "COMPLETED";
       if(storage.read("calling")!=null) {
         CallController callController = storage.read("calling");
-        callController.endMeeting(message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : message.data['category']=="cancelled" ? "CANCELLED" : "COMPLETED");
+        callController.endMeeting(status);
         storage.remove("calling");
+      }
+      else {
+        socketMeeting(message.data['ch_id'], status);
       }
     }
   }
@@ -196,6 +200,12 @@ class NotificationHelper {
             callController.back();
             storage.remove("calling");
           }
+          else {
+            socketMeeting(message.data['ch_id'], "");
+          }
+        }
+        else {
+
         }
       }
 
@@ -230,16 +240,23 @@ class NotificationHelper {
           callController.back();
           storage.remove("calling");
         }
+        else {
+          socketMeeting(message.data['ch_id'], "");
+        }
       }
 
       else if(message.data['category']=="rejected" || message.data['category']=="ended" || message.data['category']=="missed") {
         final storage = GetStorage();
 
+        String status = message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : "COMPLETED";
         print(storage.read("calling"));
         if(storage.read("calling")!=null) {
           CallController callController = storage.read("calling");
-          callController.endMeeting(message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : "COMPLETED");
+          callController.endMeeting(status);
           storage.remove("calling");
+        }
+        else {
+          socketMeeting(message.data['ch_id'], status);
         }
       }
 
@@ -523,6 +540,43 @@ Future<void> rejectChat(String ch_id, String user_id) async {
 
 
   socket.emit('reject', data);
+}
+
+Future<void> socketMeeting(String ch_id, String status) async {
+  print("socketttt Meetingggg");
+  final storage = GetStorage();
+  print(storage.getKeys());
+  IO.Socket socket =  IO.io(
+    ApiConstants.urlS,
+    IO.OptionBuilder().setTransports(['websocket']).setQuery(
+        {
+          SessionConstants.username : storage.read("access"),
+          "meet_id" : ch_id,
+          SessionConstants.sender : "A",
+        }).build(),
+  );
+  socket.onConnect((data) => print('Connection established'));
+  socket.onConnectError((data) => print('Connect Error: $data'));
+  socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+  Map <String, dynamic> data = {
+    SessionConstants.username : storage.read("access"),
+    SessionConstants.sender : "A",
+    "meet_id" : ch_id,
+  };
+
+  print(data);
+  if(status.isNotEmpty) {
+    print("end status");
+    data.addAll({"status" : status});
+    socket.emit('endMeeting', data);
+  }
+  else {
+    print("back status");
+    socket.emit('backMeeting', data);
+  }
+  // socket.close();
+  // socket.dispose();
+  // Get.offAllNamed('/splash');
 }
 
 class NotificationController {

@@ -19,6 +19,8 @@ class HistoryController extends GetxController with GetTickerProviderStateMixin 
   HistoryController();
 
   final storage = GetStorage();
+  GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+
 
   List<WalletHistoryModel> wallet = [];
   List<WalletHistoryModel> payment = [];
@@ -63,6 +65,7 @@ class HistoryController extends GetxController with GetTickerProviderStateMixin 
   Future<void> getHistory() async {
     print("helloooo");
     await historyProvider.fetch(storage.read("access")??CommonConstants.essential, ApiConstants.astrologer).then((response) async {
+      print("response.toJson() historyyy");
       print(response.toJson());
       if(response.code==1) {
         amount = response.amount??0;

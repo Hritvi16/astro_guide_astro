@@ -49,7 +49,7 @@ class ChatController extends GetxController {
   StreamSubscription<r.Amplitude>? amplitudeSub;
   r.Amplitude? amplitude;
 
-  final audioPlayer = ap.AudioPlayer()..setReleaseMode(ReleaseMode.stop);
+  ap.AudioPlayer audioPlayer = ap.AudioPlayer()..setReleaseMode(ReleaseMode.stop);
   late StreamSubscription<void> playerStateChangedSubscription;
   late StreamSubscription<Duration?> durationChangedSubscription;
   late StreamSubscription<Duration> positionChangedSubscription;
@@ -104,6 +104,7 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print("hellooo init");
     initAudio();
     cancel = false;
     reject = false;
@@ -407,6 +408,7 @@ class ChatController extends GetxController {
         wallet = response.wallet??0;
         review = response.review;
         load = false;
+          print("sessionHistory.toJson()");
         print(sessionHistory.toJson());
 
 
@@ -669,14 +671,14 @@ class ChatController extends GetxController {
         'cancel', (data) async {
       EndChatResponseModel endChatResponse = EndChatResponseModel.fromJson(json.decode(data));
 
-      if(timer!=null) {
-        stopTimer(true);
-      }
 
       if(endChatResponse.code==1) {
         cnt = 0;
         type = "CANCELLED";
-        stopTimer(true);
+
+        if(timer!=null) {
+          stopTimer(true);
+        }
         if(cancel==false) {
           // stopTimer();
           back();
@@ -1235,8 +1237,19 @@ class ChatController extends GetxController {
     recordSub?.cancel();
     amplitudeSub?.cancel();
     audioRecorder.dispose();
-    message.dispose();
-    audioPlayer.dispose();
+    // message.dispose();
+    try {
+      if(audioPlayer!=null) {
+        print("disposeddd it");
+        audioPlayer.dispose();
+      }
+      else {
+        print("disposeddd");
+      }
+    }
+    catch(ex) {
+      print("disposeddd erroeee");
+    }
     playerStateChangedSubscription.cancel();
     durationChangedSubscription.cancel();
     positionChangedSubscription.cancel();

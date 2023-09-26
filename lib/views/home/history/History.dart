@@ -38,6 +38,7 @@ class History extends StatelessWidget  {
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
           themeMode: Essential.getThemeMode(themeController.theme),
+          scaffoldMessengerKey: historyController.scaffoldKey,
           home: DefaultTabController(
             length: 3,
             child: Scaffold(

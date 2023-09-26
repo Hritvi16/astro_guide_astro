@@ -22,11 +22,11 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 
 void main() async {
+  await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
     await NotificationHelper.initFcm();
 
   tz.initializeTimeZones();
-  await GetStorage.init();
 
   runApp(MyApp());
 }
