@@ -7,8 +7,6 @@ import 'package:astro_guide_astro/controllers/myBank/MyBankHistoryBinding.dart';
 import 'package:astro_guide_astro/controllers/myGallery/MyGalleryBinding.dart';
 import 'package:astro_guide_astro/controllers/myLanguage/MyLanguageBinding.dart';
 import 'package:astro_guide_astro/controllers/call/CallBinding.dart';
-import 'package:astro_guide_astro/controllers/call/JoinScreenBinding.dart';
-import 'package:astro_guide_astro/controllers/call/OneToOneMeetBinding.dart';
 import 'package:astro_guide_astro/controllers/chat/ChatBinding.dart';
 import 'package:astro_guide_astro/controllers/following/FollowingBinding.dart';
 import 'package:astro_guide_astro/controllers/home/HomeBinding.dart';
@@ -20,6 +18,7 @@ import 'package:astro_guide_astro/controllers/mySkill/MySkillBinding.dart';
 import 'package:astro_guide_astro/controllers/mySpec/MySpecBinding.dart';
 import 'package:astro_guide_astro/controllers/otp/OTPBinding.dart';
 import 'package:astro_guide_astro/controllers/review/ReviewBinding.dart';
+import 'package:astro_guide_astro/controllers/service/FreeKundliBinding.dart';
 import 'package:astro_guide_astro/controllers/signUp/SignUpBinding.dart';
 import 'package:astro_guide_astro/controllers/splash/SplashBinding.dart';
 import 'package:astro_guide_astro/controllers/support/SupportChatBinding.dart';
@@ -36,11 +35,10 @@ import 'package:astro_guide_astro/views/authentication/OTP.dart';
 import 'package:astro_guide_astro/views/authentication/SignUp.dart';
 import 'package:astro_guide_astro/views/home/Home.dart';
 import 'package:astro_guide_astro/views/home/call/Call.dart';
-import 'package:astro_guide_astro/views/home/call/JoinScreen.dart';
-import 'package:astro_guide_astro/views/home/call/OneToOneMeet.dart';
 import 'package:astro_guide_astro/views/home/chat/Chat.dart';
 import 'package:astro_guide_astro/views/home/following/Following.dart';
 import 'package:astro_guide_astro/views/home/review/Review.dart';
+import 'package:astro_guide_astro/views/home/services/FreeKundli.dart';
 import 'package:astro_guide_astro/views/home/settings/ContactUs.dart';
 import 'package:astro_guide_astro/views/home/settings/Information.dart';
 import 'package:astro_guide_astro/views/home/settings/ManageBankDetails.dart';
@@ -104,16 +102,16 @@ class Routes {
       page: () => Call(),
       binding: CallBinding(),
     ),
-    GetPage(
-      name: '/oneToOneMeet',
-      page: () => OneToOneMeet(),
-      binding: OneToOneMeetBinding(),
-    ),
-    GetPage(
-      name: '/joinScreen',
-      page: () => JoinScreen(),
-      binding: JoinScreenBinding(),
-    ),
+    // GetPage(
+    //   name: '/oneToOneMeet',
+    //   page: () => OneToOneMeet(),
+    //   binding: OneToOneMeetBinding(),
+    // ),
+    // GetPage(
+    //   name: '/joinScreen',
+    //   page: () => JoinScreen(),
+    //   binding: JoinScreenBinding(),
+    // ),
     GetPage(
       name: '/chat',
       page: () => Chat(),
@@ -212,6 +210,11 @@ class Routes {
       name: '/contactUs',
       page: () => ContactUs(),
       binding: ContactUsBinding(),
+    ),
+    GetPage(
+      name: '/freeKundli',
+      page: () => FreeKundli(),
+      binding: FreeKundliBinding(),
     ),
   ];
 }

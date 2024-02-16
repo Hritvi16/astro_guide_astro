@@ -84,7 +84,7 @@ class ManageQuickReplies extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TextFormField(
                   keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.newline,
                   controller: manageQuickRepliesController.reply,
                   maxLines: 6,
                   style: GoogleFonts.manrope(

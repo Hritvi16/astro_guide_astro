@@ -6,9 +6,9 @@ part of 'AstrologerLanguageModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AstrologerLanguageModel _$$_AstrologerLanguageModelFromJson(
+_$AstrologerLanguageModelImpl _$$AstrologerLanguageModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_AstrologerLanguageModel(
+    _$AstrologerLanguageModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -20,8 +20,8 @@ _$_AstrologerLanguageModel _$$_AstrologerLanguageModelFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$_AstrologerLanguageModelToJson(
-        _$_AstrologerLanguageModel instance) =>
+Map<String, dynamic> _$$AstrologerLanguageModelImplToJson(
+        _$AstrologerLanguageModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

@@ -17,6 +17,14 @@ class AstrologerRepository {
   }
 
 
+  Future<JSON> check(String token, String endpoint) async {
+    var login = await apiService.get(endpoint: ApiConstants.astrologerAPI+endpoint, token: token);
+
+    print(login);
+    return login;
+  }
+
+
   Future<JSON> settings(String token, String endpoint) async {
     var response = await apiService.get(endpoint: ApiConstants.astrologerAPI+endpoint, token: token);
 

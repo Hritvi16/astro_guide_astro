@@ -119,11 +119,11 @@ class _$GalleryModelCopyWithImpl<$Res, $Val extends GalleryModel>
 }
 
 /// @nodoc
-abstract class _$$_GalleryModelCopyWith<$Res>
+abstract class _$$GalleryModelImplCopyWith<$Res>
     implements $GalleryModelCopyWith<$Res> {
-  factory _$$_GalleryModelCopyWith(
-          _$_GalleryModel value, $Res Function(_$_GalleryModel) then) =
-      __$$_GalleryModelCopyWithImpl<$Res>;
+  factory _$$GalleryModelImplCopyWith(
+          _$GalleryModelImpl value, $Res Function(_$GalleryModelImpl) then) =
+      __$$GalleryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -139,11 +139,11 @@ abstract class _$$_GalleryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GalleryModelCopyWithImpl<$Res>
-    extends _$GalleryModelCopyWithImpl<$Res, _$_GalleryModel>
-    implements _$$_GalleryModelCopyWith<$Res> {
-  __$$_GalleryModelCopyWithImpl(
-      _$_GalleryModel _value, $Res Function(_$_GalleryModel) _then)
+class __$$GalleryModelImplCopyWithImpl<$Res>
+    extends _$GalleryModelCopyWithImpl<$Res, _$GalleryModelImpl>
+    implements _$$GalleryModelImplCopyWith<$Res> {
+  __$$GalleryModelImplCopyWithImpl(
+      _$GalleryModelImpl _value, $Res Function(_$GalleryModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +159,7 @@ class __$$_GalleryModelCopyWithImpl<$Res>
     Object? approved_at = freezed,
     Object? load = freezed,
   }) {
-    return _then(_$_GalleryModel(
+    return _then(_$GalleryModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -202,8 +202,8 @@ class __$$_GalleryModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GalleryModel implements _GalleryModel {
-  _$_GalleryModel(
+class _$GalleryModelImpl implements _GalleryModel {
+  _$GalleryModelImpl(
       {required this.id,
       required this.astro_id,
       required this.image,
@@ -214,8 +214,8 @@ class _$_GalleryModel implements _GalleryModel {
       this.approved_at,
       this.load});
 
-  factory _$_GalleryModel.fromJson(Map<String, dynamic> json) =>
-      _$$_GalleryModelFromJson(json);
+  factory _$GalleryModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GalleryModelImplFromJson(json);
 
   @override
   final int id;
@@ -245,7 +245,7 @@ class _$_GalleryModel implements _GalleryModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GalleryModel &&
+            other is _$GalleryModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.astro_id, astro_id) ||
                 other.astro_id == astro_id) &&
@@ -269,12 +269,12 @@ class _$_GalleryModel implements _GalleryModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GalleryModelCopyWith<_$_GalleryModel> get copyWith =>
-      __$$_GalleryModelCopyWithImpl<_$_GalleryModel>(this, _$identity);
+  _$$GalleryModelImplCopyWith<_$GalleryModelImpl> get copyWith =>
+      __$$GalleryModelImplCopyWithImpl<_$GalleryModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GalleryModelToJson(
+    return _$$GalleryModelImplToJson(
       this,
     );
   }
@@ -290,10 +290,10 @@ abstract class _GalleryModel implements GalleryModel {
       required final int approved,
       required final String created_at,
       final String? approved_at,
-      final bool? load}) = _$_GalleryModel;
+      final bool? load}) = _$GalleryModelImpl;
 
   factory _GalleryModel.fromJson(Map<String, dynamic> json) =
-      _$_GalleryModel.fromJson;
+      _$GalleryModelImpl.fromJson;
 
   @override
   int get id;
@@ -315,6 +315,6 @@ abstract class _GalleryModel implements GalleryModel {
   bool? get load;
   @override
   @JsonKey(ignore: true)
-  _$$_GalleryModelCopyWith<_$_GalleryModel> get copyWith =>
+  _$$GalleryModelImplCopyWith<_$GalleryModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

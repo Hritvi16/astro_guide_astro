@@ -36,7 +36,7 @@ class ReceivedDocScreen extends StatelessWidget {
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               // color: Colors.grey[300],
-              color: MyColors.receiverColor,
+              color: MyColors.receiverColor(),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(18),
                 bottomLeft: Radius.circular(18),
@@ -71,7 +71,7 @@ class ReceivedDocScreen extends StatelessWidget {
                           child: Text(
                             chat.message,
                             style: GoogleFonts.manrope(
-                                color: MyColors.white,
+                                color: MyColors.labelColor(),
                                 fontWeight: FontWeight.w600
                             ),
                           ),

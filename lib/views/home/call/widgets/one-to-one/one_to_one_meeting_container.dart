@@ -1,11 +1,8 @@
+import 'package:astro_guide_astro/callView/constants/colors.dart';
+import 'package:astro_guide_astro/callView/widgets/common/meeting_controls/meeting_action_bar.dart';
+import 'package:astro_guide_astro/callView/widgets/one-to-one/participant_view.dart';
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/controllers/call/CallController.dart';
-import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
-import 'package:astro_guide_astro/size/MySize.dart';
-import 'package:astro_guide_astro/views/home/call/constants/colors.dart';
-import 'package:astro_guide_astro/views/home/call/widgets/common/app_bar/meeting_appbar.dart';
-import 'package:astro_guide_astro/views/home/call/widgets/common/meeting_controls/meeting_action_bar.dart';
-import 'package:astro_guide_astro/views/home/call/widgets/one-to-one/participant_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:videosdk/videosdk.dart';
@@ -216,7 +213,7 @@ class _OneToOneMeetingContainerState extends State<OneToOneMeetingContainer> {
                         : CrossFadeState.showSecond,
                     secondChild: const SizedBox.shrink(),
                     firstChild: widget.callController.joined ? MeetingActionBar(
-                      meeting: widget.callController.meeting,
+                      meeting: widget.callController.meeting!,
                       isMicEnabled: widget.callController.audioStream != null,
                       isCamEnabled: widget.callController.videoStream != null,
                       isSpeakerEnabled: widget.callController.speakerEnabled,
@@ -228,12 +225,12 @@ class _OneToOneMeetingContainerState extends State<OneToOneMeetingContainer> {
                       },
 
                       onKundliButtonPressed: () {
-                        // widget.callController.goto();
+                        widget.callController.goto("/freeKundli", arguments: widget.callController.sessionHistory.k_id);
                         // Get.back();
                       },
 
                       onCallLeaveButtonPressed: () {
-                        widget.callController.meeting.leave();
+                        widget.callController.meeting?.leave();
                       },
                       // Called when mic button is pressed
                       onMicButtonPressed: () {

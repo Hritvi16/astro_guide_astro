@@ -21,6 +21,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../notification_helper/NotificationHelper.dart';
+
 class SignUpController extends GetxController {
   SignUpController();
 
@@ -51,6 +53,7 @@ class SignUpController extends GetxController {
   late TextEditingController min = TextEditingController();
   late TextEditingController max = TextEditingController();
   late DateTime date;
+  late DateTime edate;
   late String gender;
   bool? refer;
   String? source;
@@ -88,14 +91,14 @@ class SignUpController extends GetxController {
 
   late int current;
 
-  late bool verified;
+  // late bool verified;
 
   late String error_p, error_d, error_i, error_g, error_pri, error_spec, error_lang;
 
   @override
   void onInit() {
     current = 0;
-    verified = false;
+    // verified = false;
     step = GlobalKey<FormState>();
     step1 = GlobalKey<FormState>();
     step2 = GlobalKey<FormState>();
@@ -103,7 +106,7 @@ class SignUpController extends GetxController {
     step4 = GlobalKey<FormState>();
 
     name = TextEditingController();
-    mobile = TextEditingController();
+    mobile = TextEditingController(text: Get.arguments['mobile']);
     email = TextEditingController();
 
     dob = TextEditingController();
@@ -124,6 +127,9 @@ class SignUpController extends GetxController {
 
     error_p = error_d = error_i = error_g = error_pri = error_spec = error_lang = "";
 
+    date = DateTime.now();
+    edate = DateTime(date.year, date.month, 01);
+
     start();
     super.onInit();
   }
@@ -141,6 +147,13 @@ class SignUpController extends GetxController {
         types = response.types??[];
         langs = response.languages??[];
         specs = response.specifications??[];
+
+        for (var value in countries) {
+          if(value.code.toUpperCase()==Get.arguments['code']) {
+            country = value;
+            break;
+          }
+        }
       }
       else {
         Future.delayed(Duration(seconds: 5), () {
@@ -247,7 +260,8 @@ class SignUpController extends GetxController {
       }
     }
     else if(current==2) {
-      if(step3.currentState!.validate() && degree_image!=null && identity_image!=null) {
+      // if(step3.currentState!.validate() && degree_image!=null && identity_image!=null) {
+      if(step3.currentState!.validate() && identity_image!=null) {
         eval3 = 1;
         error_d = "";
         error_i = "";
@@ -259,7 +273,7 @@ class SignUpController extends GetxController {
         error_i = "";
 
         if(degree_image==null) {
-          error_d = "* Please upload your degree/diploma certificate";
+          // error_d = "* Please upload your degree/diploma certificate";
         }
         if(identity_image==null) {
           error_i = "* Please upload your identity proof";
@@ -351,6 +365,12 @@ class SignUpController extends GetxController {
     update();
   }
 
+  void setExperience(value) {
+    edate = DateTime(value.year, value.month, 1);
+    exp.text = DateFormat("MMM, yyyy").format(edate);
+    update();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -378,8 +398,10 @@ class SignUpController extends GetxController {
     });
   }
 
-  void register() {
+  Future<void> register() async {
     print(date.toString());
+
+    Essential.showLoadingDialog();
     Map<String, List<String>> astro_types = getAstroTypes();
     Map<String, List<String>> langs = getAstroLangs();
 
@@ -387,7 +409,7 @@ class SignUpController extends GetxController {
       UserConstants.name : name.text,
       UserConstants.mobile : country.code+"-"+mobile.text,
       UserConstants.email : email.text,
-      UserConstants.experience : exp.text,
+      UserConstants.experience : DateFormat("yyyy-MM-dd").format(edate),
       UserConstants.about : about.text,
       UserConstants.gender : gender,
       UserConstants.dob : DateFormat("yyyy-MM-dd").format(date),
@@ -406,7 +428,8 @@ class SignUpController extends GetxController {
       UserConstants.chat : chat.text,
 
       UserConstants.degree : degree.text,
-      UserConstants.degree_image : MultipartFile(File(degree_image!.path), filename: degree_image!.name),
+      if(degree_image!=null)
+        UserConstants.degree_image : MultipartFile(File(degree_image!.path), filename: degree_image!.name),
 
       UserConstants.specification : getAstroSpecs(),
 
@@ -416,6 +439,7 @@ class SignUpController extends GetxController {
       // UserConstants.language : langs['id'],
       "language" : langs['id'],
       UserConstants.type : langs['type'],
+      UserConstants.fcm : await NotificationHelper.generateFcmToken()
     });
 
     print(astro_types);
@@ -429,9 +453,14 @@ class SignUpController extends GetxController {
 
     astrologerProvider.add(CommonConstants.essential, ApiConstants.add, data).then((response) {
       print(response.toJson());
+      Get.back();
       if(response.code==1) {
         Essential.showSnackBar("You have successfully signed up");
-        Get.offAllNamed("/login");
+        storage.write("access", response.access_token);
+        storage.write("refresh", response.refresh_token);
+        storage.write("status", "logged in");
+        Get.offAllNamed("/home");
+        // Get.offAllNamed("/login");
       }
       else {
         Essential.showSnackBar(response.message);
@@ -507,13 +536,13 @@ class SignUpController extends GetxController {
   goto(String path, dynamic data) {
     print(path);
     Get.toNamed(path, arguments: data)?.then((value) {
-      if(value=="verified") {
-        verified = true;
-      }
-      else {
-        verified = false;
-      }
-      update();
+      // if(value=="verified") {
+      //   verified = true;
+      // }
+      // else {
+      //   verified = false;
+      // }
+      // update();
     });
   }
 
@@ -605,10 +634,10 @@ class SignUpController extends GetxController {
     return false;
   }
 
-  void resetVerify() {
-    verified = false;
-    update();
-  }
+  // void resetVerify() {
+  //   verified = false;
+  //   update();
+  // }
 
   List<String> getAstroSpecs() {
     List<String> specs = [];

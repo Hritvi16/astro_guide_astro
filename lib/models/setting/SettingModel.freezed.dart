@@ -112,11 +112,11 @@ class _$SettingModelCopyWithImpl<$Res, $Val extends SettingModel>
 }
 
 /// @nodoc
-abstract class _$$_SettingModelCopyWith<$Res>
+abstract class _$$SettingModelImplCopyWith<$Res>
     implements $SettingModelCopyWith<$Res> {
-  factory _$$_SettingModelCopyWith(
-          _$_SettingModel value, $Res Function(_$_SettingModel) then) =
-      __$$_SettingModelCopyWithImpl<$Res>;
+  factory _$$SettingModelImplCopyWith(
+          _$SettingModelImpl value, $Res Function(_$SettingModelImpl) then) =
+      __$$SettingModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_SettingModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SettingModelCopyWithImpl<$Res>
-    extends _$SettingModelCopyWithImpl<$Res, _$_SettingModel>
-    implements _$$_SettingModelCopyWith<$Res> {
-  __$$_SettingModelCopyWithImpl(
-      _$_SettingModel _value, $Res Function(_$_SettingModel) _then)
+class __$$SettingModelImplCopyWithImpl<$Res>
+    extends _$SettingModelCopyWithImpl<$Res, _$SettingModelImpl>
+    implements _$$SettingModelImplCopyWith<$Res> {
+  __$$SettingModelImplCopyWithImpl(
+      _$SettingModelImpl _value, $Res Function(_$SettingModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class __$$_SettingModelCopyWithImpl<$Res>
     Object? address = null,
     Object? link = null,
   }) {
-    return _then(_$_SettingModel(
+    return _then(_$SettingModelImpl(
       about_64: null == about_64
           ? _value.about_64
           : about_64 // ignore: cast_nullable_to_non_nullable
@@ -189,8 +189,8 @@ class __$$_SettingModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SettingModel implements _SettingModel {
-  _$_SettingModel(
+class _$SettingModelImpl implements _SettingModel {
+  _$SettingModelImpl(
       {required this.about_64,
       required this.a_privacy64,
       required this.a_tc64,
@@ -200,8 +200,8 @@ class _$_SettingModel implements _SettingModel {
       required this.address,
       required this.link});
 
-  factory _$_SettingModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SettingModelFromJson(json);
+  factory _$SettingModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SettingModelImplFromJson(json);
 
   @override
   final String about_64;
@@ -229,7 +229,7 @@ class _$_SettingModel implements _SettingModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SettingModel &&
+            other is _$SettingModelImpl &&
             (identical(other.about_64, about_64) ||
                 other.about_64 == about_64) &&
             (identical(other.a_privacy64, a_privacy64) ||
@@ -251,12 +251,12 @@ class _$_SettingModel implements _SettingModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SettingModelCopyWith<_$_SettingModel> get copyWith =>
-      __$$_SettingModelCopyWithImpl<_$_SettingModel>(this, _$identity);
+  _$$SettingModelImplCopyWith<_$SettingModelImpl> get copyWith =>
+      __$$SettingModelImplCopyWithImpl<_$SettingModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SettingModelToJson(
+    return _$$SettingModelImplToJson(
       this,
     );
   }
@@ -271,10 +271,10 @@ abstract class _SettingModel implements SettingModel {
       required final String mobile,
       required final String email,
       required final String address,
-      required final String link}) = _$_SettingModel;
+      required final String link}) = _$SettingModelImpl;
 
   factory _SettingModel.fromJson(Map<String, dynamic> json) =
-      _$_SettingModel.fromJson;
+      _$SettingModelImpl.fromJson;
 
   @override
   String get about_64;
@@ -294,6 +294,6 @@ abstract class _SettingModel implements SettingModel {
   String get link;
   @override
   @JsonKey(ignore: true)
-  _$$_SettingModelCopyWith<_$_SettingModel> get copyWith =>
+  _$$SettingModelImplCopyWith<_$SettingModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

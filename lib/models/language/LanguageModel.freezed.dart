@@ -80,22 +80,22 @@ class _$LanguageModelCopyWithImpl<$Res, $Val extends LanguageModel>
 }
 
 /// @nodoc
-abstract class _$$_LanguageModelCopyWith<$Res>
+abstract class _$$LanguageModelImplCopyWith<$Res>
     implements $LanguageModelCopyWith<$Res> {
-  factory _$$_LanguageModelCopyWith(
-          _$_LanguageModel value, $Res Function(_$_LanguageModel) then) =
-      __$$_LanguageModelCopyWithImpl<$Res>;
+  factory _$$LanguageModelImplCopyWith(
+          _$LanguageModelImpl value, $Res Function(_$LanguageModelImpl) then) =
+      __$$LanguageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String lang, String? type, bool? load});
 }
 
 /// @nodoc
-class __$$_LanguageModelCopyWithImpl<$Res>
-    extends _$LanguageModelCopyWithImpl<$Res, _$_LanguageModel>
-    implements _$$_LanguageModelCopyWith<$Res> {
-  __$$_LanguageModelCopyWithImpl(
-      _$_LanguageModel _value, $Res Function(_$_LanguageModel) _then)
+class __$$LanguageModelImplCopyWithImpl<$Res>
+    extends _$LanguageModelCopyWithImpl<$Res, _$LanguageModelImpl>
+    implements _$$LanguageModelImplCopyWith<$Res> {
+  __$$LanguageModelImplCopyWithImpl(
+      _$LanguageModelImpl _value, $Res Function(_$LanguageModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_LanguageModelCopyWithImpl<$Res>
     Object? type = freezed,
     Object? load = freezed,
   }) {
-    return _then(_$_LanguageModel(
+    return _then(_$LanguageModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -129,12 +129,12 @@ class __$$_LanguageModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LanguageModel implements _LanguageModel {
-  _$_LanguageModel(
+class _$LanguageModelImpl implements _LanguageModel {
+  _$LanguageModelImpl(
       {required this.id, required this.lang, this.type, this.load});
 
-  factory _$_LanguageModel.fromJson(Map<String, dynamic> json) =>
-      _$$_LanguageModelFromJson(json);
+  factory _$LanguageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LanguageModelImplFromJson(json);
 
   @override
   final int id;
@@ -154,7 +154,7 @@ class _$_LanguageModel implements _LanguageModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LanguageModel &&
+            other is _$LanguageModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.lang, lang) || other.lang == lang) &&
             (identical(other.type, type) || other.type == type) &&
@@ -168,12 +168,12 @@ class _$_LanguageModel implements _LanguageModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LanguageModelCopyWith<_$_LanguageModel> get copyWith =>
-      __$$_LanguageModelCopyWithImpl<_$_LanguageModel>(this, _$identity);
+  _$$LanguageModelImplCopyWith<_$LanguageModelImpl> get copyWith =>
+      __$$LanguageModelImplCopyWithImpl<_$LanguageModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LanguageModelToJson(
+    return _$$LanguageModelImplToJson(
       this,
     );
   }
@@ -184,10 +184,10 @@ abstract class _LanguageModel implements LanguageModel {
       {required final int id,
       required final String lang,
       final String? type,
-      final bool? load}) = _$_LanguageModel;
+      final bool? load}) = _$LanguageModelImpl;
 
   factory _LanguageModel.fromJson(Map<String, dynamic> json) =
-      _$_LanguageModel.fromJson;
+      _$LanguageModelImpl.fromJson;
 
   @override
   int get id;
@@ -199,6 +199,6 @@ abstract class _LanguageModel implements LanguageModel {
   bool? get load;
   @override
   @JsonKey(ignore: true)
-  _$$_LanguageModelCopyWith<_$_LanguageModel> get copyWith =>
+  _$$LanguageModelImplCopyWith<_$LanguageModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,10 +1,13 @@
 class ApiConstants {
-  static const url = "http://192.168.29.244:9000/";
-  static const urlS = "http://192.168.29.244:3000/";
+  // static const url = "http://192.168.29.244:9000/";
+  // static const urlS = "http://192.168.29.244:3000/";
+  // static const urlES = "http://192.168.29.244:8888/";
   // static const url = "http://15.206.164.99:9000/";
   // static const urlS = "http://15.206.164.99:3000/";
   // static const url = "http://35.154.148.6:9000/";
   // static const urlS = "http://35.154.148.6:9001/";
+  static const url = "https://astroguide4u.com:9000/";
+  static const urlS = "https://astroguide4u.com:9000/";
   static const token = "x-access-token";
   static const api = "api/";
   static const baseUrl = url+api;
@@ -71,6 +74,7 @@ class ApiConstants {
   static const transactionAPI = "transaction/";
   static const refreshAPI = "refresh/";
   static const meetingAPI = "meeting/";
+  static const horoscopeAPI = "horoscope/";
 
 
   static const all = "all/";
@@ -99,6 +103,13 @@ class ApiConstants {
   static const request = "request/";
   static const upload = "upload/";
   static const quickReplies = "quickReplies/";
+  static const kundli = "kundli/";
+  static const basic = "basic/";
+  static const kp = "kp/";
+  static const planet = "planet/";
+  static const vimdasha = "vimdasha/";
+  static const yogini = "yogini/";
+  static const charts = "charts/";
 
   static const country = "country";
   static const state = "state";

@@ -22,8 +22,7 @@ class Dashboard extends StatelessWidget {
   Dashboard({ Key? key }) : super(key: key);
 
   // final DashboardController dashboardController = Get.find();
-  final DashboardController dashboardController = Get.put<DashboardController>(
-      DashboardController());
+  final DashboardController dashboardController = Get.put<DashboardController>(DashboardController());
 
   @override
   Widget build(BuildContext context) {

@@ -99,11 +99,11 @@ class _$EndChatResponseModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_EndChatResponseModelCopyWith<$Res>
+abstract class _$$EndChatResponseModelImplCopyWith<$Res>
     implements $EndChatResponseModelCopyWith<$Res> {
-  factory _$$_EndChatResponseModelCopyWith(_$_EndChatResponseModel value,
-          $Res Function(_$_EndChatResponseModel) then) =
-      __$$_EndChatResponseModelCopyWithImpl<$Res>;
+  factory _$$EndChatResponseModelImplCopyWith(_$EndChatResponseModelImpl value,
+          $Res Function(_$EndChatResponseModelImpl) then) =
+      __$$EndChatResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +116,11 @@ abstract class _$$_EndChatResponseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EndChatResponseModelCopyWithImpl<$Res>
-    extends _$EndChatResponseModelCopyWithImpl<$Res, _$_EndChatResponseModel>
-    implements _$$_EndChatResponseModelCopyWith<$Res> {
-  __$$_EndChatResponseModelCopyWithImpl(_$_EndChatResponseModel _value,
-      $Res Function(_$_EndChatResponseModel) _then)
+class __$$EndChatResponseModelImplCopyWithImpl<$Res>
+    extends _$EndChatResponseModelCopyWithImpl<$Res, _$EndChatResponseModelImpl>
+    implements _$$EndChatResponseModelImplCopyWith<$Res> {
+  __$$EndChatResponseModelImplCopyWithImpl(_$EndChatResponseModelImpl _value,
+      $Res Function(_$EndChatResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -133,7 +133,7 @@ class __$$_EndChatResponseModelCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? chat_type = freezed,
   }) {
-    return _then(_$_EndChatResponseModel(
+    return _then(_$EndChatResponseModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -164,8 +164,8 @@ class __$$_EndChatResponseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EndChatResponseModel implements _EndChatResponseModel {
-  _$_EndChatResponseModel(
+class _$EndChatResponseModelImpl implements _EndChatResponseModel {
+  _$EndChatResponseModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -173,8 +173,8 @@ class _$_EndChatResponseModel implements _EndChatResponseModel {
       this.amount,
       this.chat_type});
 
-  factory _$_EndChatResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_EndChatResponseModelFromJson(json);
+  factory _$EndChatResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EndChatResponseModelImplFromJson(json);
 
   @override
   final String status;
@@ -198,7 +198,7 @@ class _$_EndChatResponseModel implements _EndChatResponseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EndChatResponseModel &&
+            other is _$EndChatResponseModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -216,13 +216,14 @@ class _$_EndChatResponseModel implements _EndChatResponseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EndChatResponseModelCopyWith<_$_EndChatResponseModel> get copyWith =>
-      __$$_EndChatResponseModelCopyWithImpl<_$_EndChatResponseModel>(
-          this, _$identity);
+  _$$EndChatResponseModelImplCopyWith<_$EndChatResponseModelImpl>
+      get copyWith =>
+          __$$EndChatResponseModelImplCopyWithImpl<_$EndChatResponseModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EndChatResponseModelToJson(
+    return _$$EndChatResponseModelImplToJson(
       this,
     );
   }
@@ -235,10 +236,10 @@ abstract class _EndChatResponseModel implements EndChatResponseModel {
       required final String message,
       final int? seconds,
       final double? amount,
-      final String? chat_type}) = _$_EndChatResponseModel;
+      final String? chat_type}) = _$EndChatResponseModelImpl;
 
   factory _EndChatResponseModel.fromJson(Map<String, dynamic> json) =
-      _$_EndChatResponseModel.fromJson;
+      _$EndChatResponseModelImpl.fromJson;
 
   @override
   String get status;
@@ -254,6 +255,6 @@ abstract class _EndChatResponseModel implements EndChatResponseModel {
   String? get chat_type;
   @override
   @JsonKey(ignore: true)
-  _$$_EndChatResponseModelCopyWith<_$_EndChatResponseModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EndChatResponseModelImplCopyWith<_$EndChatResponseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

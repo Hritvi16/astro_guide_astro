@@ -21,7 +21,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Call extends StatelessWidget {
   Call({ Key? key }) : super(key: key);
 
-  final CallController callController = Get.put<CallController>(CallController());
+  final CallController callController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +132,7 @@ class Call extends StatelessWidget {
                   callController.updateFullScreen();
                 },
                 // child: callController.joined ?
-                child: OneToOneMeetingContainer(callController: callController, meeting: callController.meeting, token: callController.token, timer: Duration(seconds: callController.seconds),)
+                child: OneToOneMeetingContainer(callController: callController, meeting: callController.meeting!, token: callController.token, timer: Duration(seconds: callController.seconds),)
               // : WaitingToJoin(callController.user.name, callController.user.profile, callController.endMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back)
             ),
           ),

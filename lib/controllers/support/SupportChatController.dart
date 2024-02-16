@@ -17,6 +17,7 @@ import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SupportChatController extends GetxController {
@@ -47,12 +48,14 @@ class SupportChatController extends GetxController {
 
   int cnt = 0;
   late bool load;
+  late int minLines;
 
   @override
   void onInit() {
     super.onInit();
     load = false;
     send = false;
+    minLines = 1;
     sup_id = Get.arguments['sup_id'];
     status = Get.arguments['status'];
     start();
@@ -340,6 +343,38 @@ class SupportChatController extends GetxController {
         Essential.showSnackBar(response.message);
       }
     });
+  }
+
+  void changeLines(BuildContext context) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: message.text, style: GoogleFonts.manrope(
+        fontSize: 16.0,
+        letterSpacing: 0,
+        fontWeight: FontWeight.w400,
+      )),
+      maxLines: null,
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: MediaQuery.of(context).size.width - 120);
+
+    print("textPainter");
+    print(textPainter.width);
+    print(MediaQuery.of(context).size.width - 120);
+    if(textPainter.width < (MediaQuery.of(context).size.width - 120)) {
+      minLines = 1;
+    }
+    else {
+      minLines = 2;
+    }
+    update();
+
+    // setState(() {
+    //   _textFieldHeight = textPainter.height + 20.0; // Add some padding
+    // });
+    // final lines = message.text.split('\n').length;
+    // if (lines > minLines) {
+    //   minLines = lines;
+    //   update();
+    // }
   }
 
 }

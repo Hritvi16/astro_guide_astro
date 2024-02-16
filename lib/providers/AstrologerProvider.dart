@@ -25,6 +25,12 @@ class AstrologerProvider {
     return LoginModel.fromJson(loginResponse);
   }
 
+  Future<LoginModel> check(String token, String endpoint) async {
+    var loginResponse = await astrologerRepository.check(token, endpoint);
+
+    return LoginModel.fromJson(loginResponse);
+  }
+
   Future<SettingResponseModel> settings(String token, String endpoint) async {
     var settingResponseModel = await astrologerRepository.settings(token, endpoint);
 
@@ -43,10 +49,10 @@ class AstrologerProvider {
     return AstrologerListModel.fromJson(astrologerListResponse);
   }
 
-  Future<ResponseModel> add(String token, String endpoint, FormData formData) async {
+  Future<LoginModel> add(String token, String endpoint, FormData formData) async {
     var loginResponse = await astrologerRepository.add(formData, endpoint, token);
 
-    return ResponseModel.fromJson(loginResponse);
+    return LoginModel.fromJson(loginResponse);
   }
 
   Future<ResponseModel> update(FormData formData, String endpoint, String token) async {

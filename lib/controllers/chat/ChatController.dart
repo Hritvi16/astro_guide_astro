@@ -17,6 +17,7 @@ import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
 import 'package:astro_guide_astro/providers/ChatProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:astro_guide_astro/views/quickReply/QuickReply.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,10 +50,6 @@ class ChatController extends GetxController {
   StreamSubscription<r.Amplitude>? amplitudeSub;
   r.Amplitude? amplitude;
 
-  ap.AudioPlayer audioPlayer = ap.AudioPlayer()..setReleaseMode(ReleaseMode.stop);
-  late StreamSubscription<void> playerStateChangedSubscription;
-  late StreamSubscription<Duration?> durationChangedSubscription;
-  late StreamSubscription<Duration> positionChangedSubscription;
   Duration? position;
   Duration? duration;
 
@@ -65,7 +62,6 @@ class ChatController extends GetxController {
   TextEditingController message = TextEditingController();
 
   late bool send;
-  late bool showQR;
   int id = -1;
 
   late IO.Socket socket;
@@ -78,7 +74,8 @@ class ChatController extends GetxController {
 
   int cnt = 0;
 
-  Timer? timer;
+  static Timer? timer;
+  static String? timer_type;
   late tz.TZDateTime started_at;
   late int seconds;
   late tz.Location location;
@@ -101,6 +98,10 @@ class ChatController extends GetxController {
 
   late List<QuickRepliesModel> replies;
 
+
+  late bool recording;
+  late String playerUrl;
+
   @override
   void onInit() {
     super.onInit();
@@ -108,8 +109,9 @@ class ChatController extends GetxController {
     initAudio();
     cancel = false;
     reject = false;
+    recording = false;
     load = true;
-    showQR = true;
+    playerUrl = "";
     seconds = 0;
     wallet = 0;
     replies = [];
@@ -166,25 +168,6 @@ class ChatController extends GetxController {
       amplitude = amp;
       update();
     });
-
-    playerStateChangedSubscription =
-        audioPlayer.onPlayerComplete.listen((state) async {
-          await stop();
-          update();
-        });
-    positionChangedSubscription = audioPlayer.onPositionChanged.listen(
-            (position) {
-
-          this.position = position;
-          update();
-        }
-    );
-    durationChangedSubscription = audioPlayer.onDurationChanged.listen(
-            (duration) {
-          this.duration = duration;
-          update();
-        }
-    );
   }
 
   Future<void> startRecording() async {
@@ -213,22 +196,8 @@ class ChatController extends GetxController {
         );
         await audioRecorder.start(path: path);
 
-        // Record to stream
-        // final file = File(path);
-        // final stream = await _audioRecorder.startStream(config);
-        // stream.listen(
-        //   (data) {
-        //     // ignore: avoid_print
-        //     print(
-        //       _audioRecorder.convertBytesToInt16(Uint8List.fromList(data)),
-        //     );
-        //     file.writeAsBytesSync(data, mode: FileMode.append);
-        //   },
-        //   // ignore: avoid_print
-        //   onDone: () => print('End of stream'),
-        // );
-
         recordDuration = 0;
+        recording = true;
         update();
 
         startRecordTimer();
@@ -302,7 +271,6 @@ class ChatController extends GetxController {
     });
   }
 
-  Future<void> stop() => audioPlayer.stop();
 
   start() {
     print(action);
@@ -550,6 +518,8 @@ class ChatController extends GetxController {
         'reject', (data) async {
       ResponseModel response = ResponseModel.fromJson(json.decode(data));
 
+      print(response.toJson());
+
       if(timer!=null) {
         stopTimer(true);
       }
@@ -670,6 +640,9 @@ class ChatController extends GetxController {
     socket.on(
         'cancel', (data) async {
       EndChatResponseModel endChatResponse = EndChatResponseModel.fromJson(json.decode(data));
+
+      print("ssweb cancellll");
+      print(endChatResponse.toJson());
 
 
       if(endChatResponse.code==1) {
@@ -923,8 +896,8 @@ class ChatController extends GetxController {
     super.dispose();
   }
 
-  void goto(String page) {
-    Get.toNamed(page);
+  void goto(String page, {dynamic? arguments}) {
+    Get.toNamed(page, arguments: arguments);
   }
 
   getSeenStatus(ChatModel chat) {
@@ -1041,9 +1014,12 @@ class ChatController extends GetxController {
     Duration duration = tz.TZDateTime.now(kolkata).difference(started_at);
     seconds = duration.inSeconds;
     update();
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
-      setCountDown();
-    });
+
+    if(timer==null || (timer!=null && timer_type=="ring")) {
+      timer_type = "chat";
+      timer = Timer.periodic(Duration(seconds: 1), (_) {setCountDown();});
+    }
+
     update();
   }
 
@@ -1064,6 +1040,7 @@ class ChatController extends GetxController {
       });
     }
     update();
+    timer_type = "ring";
     timer = Timer.periodic(Duration(seconds: 1), (_) {
       setRing();
     });
@@ -1227,21 +1204,38 @@ class ChatController extends GetxController {
   }
 
   void manageQR(bool value) {
-    showQR = value;
-    update();
+    Get.bottomSheet(
+        isScrollControlled: true,
+        QuickReply(replies)
+    ).then((value) {
+      print("valueeee");
+      print(value);
+
+      if(value!=null){
+        replies = value['replies']??replies;
+        update();
+        if(value['send']==true) {
+          sendQuickReply(value['reply']);
+        }
+      }
+    });
   }
 
   void disposeObjects() {
     print("disposeeee objectsss");
+    timer = null;
+    timer_type = null;
+    update();
+    print(timer);
     recordTimer?.cancel();
     recordSub?.cancel();
     amplitudeSub?.cancel();
     audioRecorder.dispose();
     // message.dispose();
     try {
-      if(audioPlayer!=null) {
+      if(player!=null) {
         print("disposeddd it");
-        audioPlayer.dispose();
+        player.dispose();
       }
       else {
         print("disposeddd");
@@ -1250,10 +1244,62 @@ class ChatController extends GetxController {
     catch(ex) {
       print("disposeddd erroeee");
     }
-    playerStateChangedSubscription.cancel();
-    durationChangedSubscription.cancel();
-    positionChangedSubscription.cancel();
-    socket.close();
-    socket.dispose();
+    Future.delayed(const Duration(seconds: 3), () {
+      socket.close();
+      socket.dispose();
+    });
+  }
+
+  void recordingAction() {
+    if(recording) {
+      stopRecording(true);
+      recording = false;
+      update();
+    }
+    else {
+      startRecording();
+    }
+  }
+
+  void playAudio(String url) {
+    print(url);
+    try {
+      if(url!=playerUrl) {
+        player.setUrl(url);
+        player.play();
+        player.processingStateStream.listen((processingState) {
+          print("processingState");
+          print(processingState);
+          if (processingState == ProcessingState.completed) {
+            // player.seek(Duration.zero);
+            player.stop();
+            update();
+            print("completed");
+          }
+        });
+        playerUrl = url;
+      }
+      else {
+        if(player.processingState==ProcessingState.ready) {
+          player.play();
+        }
+        else {
+          player.seek(Duration.zero);
+          player.play();
+        }
+      }
+      // audioPlayer.play(UrlSource(url));
+    }
+    catch(ex) {
+      print("errorrr");
+      print(ex);
+    }
+    update();
+  }
+
+  void pauseAudio() {
+    player.pause();
+    // playerUrl = "";
+    update();
   }
 }

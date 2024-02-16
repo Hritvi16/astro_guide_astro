@@ -6,8 +6,9 @@ part of 'TestimonialModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TestimonialModel _$$_TestimonialModelFromJson(Map<String, dynamic> json) =>
-    _$_TestimonialModel(
+_$TestimonialModelImpl _$$TestimonialModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TestimonialModelImpl(
       id: json['id'] as int,
       user_id: json['user_id'] as int,
       description: json['description'] as String,
@@ -18,7 +19,8 @@ _$_TestimonialModel _$$_TestimonialModelFromJson(Map<String, dynamic> json) =>
       country: json['country'] as String,
     );
 
-Map<String, dynamic> _$$_TestimonialModelToJson(_$_TestimonialModel instance) =>
+Map<String, dynamic> _$$TestimonialModelImplToJson(
+        _$TestimonialModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.user_id,

@@ -105,11 +105,11 @@ class _$AstrologerBankModelCopyWithImpl<$Res, $Val extends AstrologerBankModel>
 }
 
 /// @nodoc
-abstract class _$$_AstrologerBankModelCopyWith<$Res>
+abstract class _$$AstrologerBankModelImplCopyWith<$Res>
     implements $AstrologerBankModelCopyWith<$Res> {
-  factory _$$_AstrologerBankModelCopyWith(_$_AstrologerBankModel value,
-          $Res Function(_$_AstrologerBankModel) then) =
-      __$$_AstrologerBankModelCopyWithImpl<$Res>;
+  factory _$$AstrologerBankModelImplCopyWith(_$AstrologerBankModelImpl value,
+          $Res Function(_$AstrologerBankModelImpl) then) =
+      __$$AstrologerBankModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -124,11 +124,11 @@ abstract class _$$_AstrologerBankModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerBankModelCopyWithImpl<$Res>
-    extends _$AstrologerBankModelCopyWithImpl<$Res, _$_AstrologerBankModel>
-    implements _$$_AstrologerBankModelCopyWith<$Res> {
-  __$$_AstrologerBankModelCopyWithImpl(_$_AstrologerBankModel _value,
-      $Res Function(_$_AstrologerBankModel) _then)
+class __$$AstrologerBankModelImplCopyWithImpl<$Res>
+    extends _$AstrologerBankModelCopyWithImpl<$Res, _$AstrologerBankModelImpl>
+    implements _$$AstrologerBankModelImplCopyWith<$Res> {
+  __$$AstrologerBankModelImplCopyWithImpl(_$AstrologerBankModelImpl _value,
+      $Res Function(_$AstrologerBankModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -140,7 +140,7 @@ class __$$_AstrologerBankModelCopyWithImpl<$Res>
     Object? data = freezed,
     Object? history = freezed,
   }) {
-    return _then(_$_AstrologerBankModel(
+    return _then(_$AstrologerBankModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -167,8 +167,8 @@ class __$$_AstrologerBankModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerBankModel implements _AstrologerBankModel {
-  _$_AstrologerBankModel(
+class _$AstrologerBankModelImpl implements _AstrologerBankModel {
+  _$AstrologerBankModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -176,8 +176,8 @@ class _$_AstrologerBankModel implements _AstrologerBankModel {
       final List<BankModel>? history})
       : _history = history;
 
-  factory _$_AstrologerBankModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerBankModelFromJson(json);
+  factory _$AstrologerBankModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerBankModelImplFromJson(json);
 
   @override
   final String status;
@@ -206,7 +206,7 @@ class _$_AstrologerBankModel implements _AstrologerBankModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerBankModel &&
+            other is _$AstrologerBankModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -222,13 +222,13 @@ class _$_AstrologerBankModel implements _AstrologerBankModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerBankModelCopyWith<_$_AstrologerBankModel> get copyWith =>
-      __$$_AstrologerBankModelCopyWithImpl<_$_AstrologerBankModel>(
+  _$$AstrologerBankModelImplCopyWith<_$AstrologerBankModelImpl> get copyWith =>
+      __$$AstrologerBankModelImplCopyWithImpl<_$AstrologerBankModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerBankModelToJson(
+    return _$$AstrologerBankModelImplToJson(
       this,
     );
   }
@@ -240,10 +240,10 @@ abstract class _AstrologerBankModel implements AstrologerBankModel {
       required final int code,
       required final String message,
       final BankModel? data,
-      final List<BankModel>? history}) = _$_AstrologerBankModel;
+      final List<BankModel>? history}) = _$AstrologerBankModelImpl;
 
   factory _AstrologerBankModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerBankModel.fromJson;
+      _$AstrologerBankModelImpl.fromJson;
 
   @override
   String get status;
@@ -257,6 +257,6 @@ abstract class _AstrologerBankModel implements AstrologerBankModel {
   List<BankModel>? get history;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerBankModelCopyWith<_$_AstrologerBankModel> get copyWith =>
+  _$$AstrologerBankModelImplCopyWith<_$AstrologerBankModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

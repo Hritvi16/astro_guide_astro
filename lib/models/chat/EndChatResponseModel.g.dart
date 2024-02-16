@@ -6,9 +6,9 @@ part of 'EndChatResponseModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_EndChatResponseModel _$$_EndChatResponseModelFromJson(
+_$EndChatResponseModelImpl _$$EndChatResponseModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_EndChatResponseModel(
+    _$EndChatResponseModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -17,8 +17,8 @@ _$_EndChatResponseModel _$$_EndChatResponseModelFromJson(
       chat_type: json['chat_type'] as String?,
     );
 
-Map<String, dynamic> _$$_EndChatResponseModelToJson(
-        _$_EndChatResponseModel instance) =>
+Map<String, dynamic> _$$EndChatResponseModelImplToJson(
+        _$EndChatResponseModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

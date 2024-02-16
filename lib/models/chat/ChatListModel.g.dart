@@ -6,8 +6,8 @@ part of 'ChatListModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ChatListModel _$$_ChatListModelFromJson(Map<String, dynamic> json) =>
-    _$_ChatListModel(
+_$ChatListModelImpl _$$ChatListModelImplFromJson(Map<String, dynamic> json) =>
+    _$ChatListModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -16,7 +16,7 @@ _$_ChatListModel _$$_ChatListModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_ChatListModelToJson(_$_ChatListModel instance) =>
+Map<String, dynamic> _$$ChatListModelImplToJson(_$ChatListModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

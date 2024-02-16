@@ -83,11 +83,12 @@ class _$AstrologerGalleryModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AstrologerGalleryModelCopyWith<$Res>
+abstract class _$$AstrologerGalleryModelImplCopyWith<$Res>
     implements $AstrologerGalleryModelCopyWith<$Res> {
-  factory _$$_AstrologerGalleryModelCopyWith(_$_AstrologerGalleryModel value,
-          $Res Function(_$_AstrologerGalleryModel) then) =
-      __$$_AstrologerGalleryModelCopyWithImpl<$Res>;
+  factory _$$AstrologerGalleryModelImplCopyWith(
+          _$AstrologerGalleryModelImpl value,
+          $Res Function(_$AstrologerGalleryModelImpl) then) =
+      __$$AstrologerGalleryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -95,12 +96,13 @@ abstract class _$$_AstrologerGalleryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerGalleryModelCopyWithImpl<$Res>
+class __$$AstrologerGalleryModelImplCopyWithImpl<$Res>
     extends _$AstrologerGalleryModelCopyWithImpl<$Res,
-        _$_AstrologerGalleryModel>
-    implements _$$_AstrologerGalleryModelCopyWith<$Res> {
-  __$$_AstrologerGalleryModelCopyWithImpl(_$_AstrologerGalleryModel _value,
-      $Res Function(_$_AstrologerGalleryModel) _then)
+        _$AstrologerGalleryModelImpl>
+    implements _$$AstrologerGalleryModelImplCopyWith<$Res> {
+  __$$AstrologerGalleryModelImplCopyWithImpl(
+      _$AstrologerGalleryModelImpl _value,
+      $Res Function(_$AstrologerGalleryModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +113,7 @@ class __$$_AstrologerGalleryModelCopyWithImpl<$Res>
     Object? message = null,
     Object? data = freezed,
   }) {
-    return _then(_$_AstrologerGalleryModel(
+    return _then(_$AstrologerGalleryModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -134,16 +136,16 @@ class __$$_AstrologerGalleryModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerGalleryModel implements _AstrologerGalleryModel {
-  _$_AstrologerGalleryModel(
+class _$AstrologerGalleryModelImpl implements _AstrologerGalleryModel {
+  _$AstrologerGalleryModelImpl(
       {required this.status,
       required this.code,
       required this.message,
       final List<GalleryModel>? data})
       : _data = data;
 
-  factory _$_AstrologerGalleryModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerGalleryModelFromJson(json);
+  factory _$AstrologerGalleryModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerGalleryModelImplFromJson(json);
 
   @override
   final String status;
@@ -170,7 +172,7 @@ class _$_AstrologerGalleryModel implements _AstrologerGalleryModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerGalleryModel &&
+            other is _$AstrologerGalleryModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -185,13 +187,13 @@ class _$_AstrologerGalleryModel implements _AstrologerGalleryModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerGalleryModelCopyWith<_$_AstrologerGalleryModel> get copyWith =>
-      __$$_AstrologerGalleryModelCopyWithImpl<_$_AstrologerGalleryModel>(
-          this, _$identity);
+  _$$AstrologerGalleryModelImplCopyWith<_$AstrologerGalleryModelImpl>
+      get copyWith => __$$AstrologerGalleryModelImplCopyWithImpl<
+          _$AstrologerGalleryModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerGalleryModelToJson(
+    return _$$AstrologerGalleryModelImplToJson(
       this,
     );
   }
@@ -202,10 +204,10 @@ abstract class _AstrologerGalleryModel implements AstrologerGalleryModel {
       {required final String status,
       required final int code,
       required final String message,
-      final List<GalleryModel>? data}) = _$_AstrologerGalleryModel;
+      final List<GalleryModel>? data}) = _$AstrologerGalleryModelImpl;
 
   factory _AstrologerGalleryModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerGalleryModel.fromJson;
+      _$AstrologerGalleryModelImpl.fromJson;
 
   @override
   String get status;
@@ -217,6 +219,6 @@ abstract class _AstrologerGalleryModel implements AstrologerGalleryModel {
   List<GalleryModel>? get data;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerGalleryModelCopyWith<_$_AstrologerGalleryModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AstrologerGalleryModelImplCopyWith<_$AstrologerGalleryModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

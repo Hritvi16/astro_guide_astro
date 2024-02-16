@@ -26,6 +26,8 @@ class LoginController extends GetxController {
 
   final storage = GetStorage();
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final TextEditingController mobile = TextEditingController();
   final FocusNode phoneNumberFocusNode = FocusNode();
 
@@ -71,10 +73,18 @@ class LoginController extends GetxController {
   goto(String path, dynamic data, {LoginModel? loginModel}) {
     print(path);
     Get.toNamed(path, arguments: data)?.then((value) {
-      astrologerProvider = Get.find();
+      if(astrologerProvider==null) {
+        astrologerProvider = Get.find();
+        update();
+      }
       update();
       if(value=="verified") {
-        login();
+        if(loginModel?.code==1) {
+          login();
+        }
+        else {
+          goto("/signUp", data);
+        }
         // goToHome(loginModel!);
       }
     });
@@ -98,8 +108,14 @@ class LoginController extends GetxController {
     return imageFile;
   }
 
+  void validate() {
+    if(formKey.currentState!.validate()) {
+      verify();
+    }
+  }
 
   Future<void> verify() async {
+    Essential.showLoadingDialog();
     final Map<String, String> data = {
       UserConstants.mobile : country.code+"-"+mobile.text,
     };
@@ -108,17 +124,20 @@ class LoginController extends GetxController {
 
     astrologerProvider.login(data, CommonConstants.essential, ApiConstants.verify).then((response) async {
       print(response.toJson());
-      if(response.code==1) {
+      // if(response.code==1) {
+        Get.back();
         goto("/otp", {"mobile" : mobile.text, "code" : country.code}, loginModel: response);
         // goToHome(response);
-      }
-      else {
-        Essential.showSnackBar(response.message);
-      }
+      // }
+      // else {
+      //   Essential.showSnackBar(response.message);
+      // }
     });
   }
 
   Future<void> login() async {
+    Essential.showLoadingDialog();
+
     final Map<String, String> data = {
       UserConstants.mobile : country.code+"-"+mobile.text,
       UserConstants.fcm : await NotificationHelper.generateFcmToken()
@@ -128,6 +147,7 @@ class LoginController extends GetxController {
 
     astrologerProvider.login(data, CommonConstants.essential, ApiConstants.login).then((response) async {
       print(response.toJson());
+      Get.back();
       if(response.code==1) {
         // goto("/otp", {"mobile" : mobile.text, "code" : "+91"}, loginModel: response);
         goToHome(response);
@@ -142,6 +162,8 @@ class LoginController extends GetxController {
     storage.write("access", response.access_token);
     storage.write("refresh", response.refresh_token);
     storage.write("status", "logged in");
+    print('storage.read("access")');
+    print(storage.read("access"));
     Get.offAllNamed("/home");
   }
 

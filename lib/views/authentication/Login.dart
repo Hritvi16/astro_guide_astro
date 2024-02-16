@@ -75,178 +75,195 @@ class Login extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: MyColors.white,
-                    borderRadius: BorderRadius.circular(24)
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Mobile No.',
-                          style: GoogleFonts.manrope(
-                            fontSize: 16.0,
-                            color: MyColors.black,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w600,
+                Form(
+                  key: loginController.formKey,
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: MyColors.white,
+                      borderRadius: BorderRadius.circular(24)
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Mobile No.',
+                            style: GoogleFonts.manrope(
+                              fontSize: 16.0,
+                              color: MyColors.black,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      GetBuilder<LoginController>(
-                        builder: (controller)  {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: TextFormField(
-                              controller: loginController.mobile,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              style: GoogleFonts.manrope(
-                                fontSize: 16.0,
-                                color: MyColors.black,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.colorButton,
+                        GetBuilder<LoginController>(
+                          builder: (controller)  {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: TextFormField(
+                                controller: loginController.mobile,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                style: GoogleFonts.manrope(
+                                  fontSize: 16.0,
+                                  color: MyColors.black,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: MyColors.colorButton,
+                                      ),
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  hintText: "Enter Mobile No.",
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                                  prefixIcon: GestureDetector(
-                                    onTap: () {
-                                      loginController.changeCode();
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 14),
-                                          child: loginController.country.imageFullUrl.startsWith("http") ?
-                                          Image.network(
-                                            loginController.country.imageFullUrl,
-                                            height: 24,
-                                            width: 33,
-                                          )
-                                              : Image.asset(
-                                            "assets/country/India.png",
-                                            height: 24,
-                                            width: 33,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                                          child: Text(
-                                            loginController.country.code,
-                                            style: GoogleFonts.manrope(
-                                              fontSize: 16.0,
-                                              color: MyColors.black,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.w400,
+                                    hintText: "Enter Mobile No.",
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                    prefixIcon: GestureDetector(
+                                      onTap: () {
+                                        loginController.changeCode();
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 14),
+                                            child: loginController.country.imageFullUrl.startsWith("http") ?
+                                            Image.network(
+                                              loginController.country.imageFullUrl,
+                                              height: 24,
+                                              width: 33,
+                                            )
+                                                : Image.asset(
+                                              "assets/country/India.png",
+                                              height: 24,
+                                              width: 33,
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(right: 5),
-                                          color: MyColors.colorDivider,
-                                          width: 2,
-                                          height: 20,
-                                        )
-                                      ],
-                                    ),
-                                  )
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                                            child: Text(
+                                              loginController.country.code,
+                                              style: GoogleFonts.manrope(
+                                                fontSize: 16.0,
+                                                color: MyColors.black,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.only(right: 5),
+                                            color: MyColors.colorDivider,
+                                            width: 2,
+                                            height: 20,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                ),
+
+                                validator: (value) {
+                                  if(value!.isEmpty) {
+                                    return "* Required";
+                                  }
+                                  else {
+                                    if(loginController.country.code=="+91") {
+                                      if(value!.length!=10) {
+                                        return "* Invalid Mobile No.";
+                                      }
+                                    }
+                                    return null;
+                                  }
+                                },
                               ),
+                            );
+                          }
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            'By Login, you agree to our Terms & Conditions and Privacy Policy.',
+                            style: GoogleFonts.manrope(
+                              fontSize: 12.0,
+                              color: MyColors.black,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w500,
                             ),
-                          );
-                        }
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          'By Login, you agree to our Terms & Conditions and Privacy Policy.',
-                          style: GoogleFonts.manrope(
-                            fontSize: 12.0,
-                            color: MyColors.black,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          loginController.verify();
-                        },
-                        child: standardButton(
-                          context: context,
-                          backgroundColor: MyColors.colorButton,
-                          margin: const EdgeInsets.only(top: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: standardHTIS),
-                                child: Text(
-                                  'GET OTP',
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 16.0,
-                                    color: MyColors.white,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
+                        GestureDetector(
+                          onTap: () {
+                            loginController.validate();
+                          },
+                          child: standardButton(
+                            context: context,
+                            backgroundColor: MyColors.colorButton,
+                            margin: const EdgeInsets.only(top: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: standardHTIS),
+                                  child: Text(
+                                    'GET OTP',
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 16.0,
+                                      color: MyColors.white,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Image.asset(
-                                "assets/controls/arrow_next.png",
-                                height: standardArrowH,
-                                width: standardArrowW,
-                              )
-                            ],
+                                Image.asset(
+                                  "assets/controls/arrow_next.png",
+                                  height: standardArrowH,
+                                  width: standardArrowW,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Image.asset(
-                    "assets/login/or.png"
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: standardVTBS, bottom: 10),
-                  alignment: Alignment.center,
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Don’t have an account? ",
-                      style: GoogleFonts.manrope(
-                        fontSize: 16.0,
-                        color: MyColors.black,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: "Sign Up",
-                          style: GoogleFonts.manrope(
-                            fontWeight: FontWeight.w600,
-                          ),
-                          recognizer: TapGestureRecognizer()..onTap = () {
-                            loginController.goto("/signUp", "");
-                          }
-                        )
-                      ]
+                      ],
                     ),
                   ),
-                )
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+                //   child: Image.asset(
+                //     "assets/login/or.png"
+                //   ),
+                // ),
+                // Container(
+                //   padding: EdgeInsets.only(top: standardVTBS, bottom: 10),
+                //   alignment: Alignment.center,
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: "Don’t have an account? ",
+                //       style: GoogleFonts.manrope(
+                //         fontSize: 16.0,
+                //         color: MyColors.black,
+                //         letterSpacing: 0,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: "Sign Up",
+                //           style: GoogleFonts.manrope(
+                //             fontWeight: FontWeight.w600,
+                //           ),
+                //           recognizer: TapGestureRecognizer()..onTap = () {
+                //             loginController.goto("/signUp", "");
+                //           }
+                //         )
+                //       ]
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

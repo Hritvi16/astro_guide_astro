@@ -91,11 +91,11 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
 }
 
 /// @nodoc
-abstract class _$$_LoginModelCopyWith<$Res>
+abstract class _$$LoginModelImplCopyWith<$Res>
     implements $LoginModelCopyWith<$Res> {
-  factory _$$_LoginModelCopyWith(
-          _$_LoginModel value, $Res Function(_$_LoginModel) then) =
-      __$$_LoginModelCopyWithImpl<$Res>;
+  factory _$$LoginModelImplCopyWith(
+          _$LoginModelImpl value, $Res Function(_$LoginModelImpl) then) =
+      __$$LoginModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_LoginModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LoginModelCopyWithImpl<$Res>
-    extends _$LoginModelCopyWithImpl<$Res, _$_LoginModel>
-    implements _$$_LoginModelCopyWith<$Res> {
-  __$$_LoginModelCopyWithImpl(
-      _$_LoginModel _value, $Res Function(_$_LoginModel) _then)
+class __$$LoginModelImplCopyWithImpl<$Res>
+    extends _$LoginModelCopyWithImpl<$Res, _$LoginModelImpl>
+    implements _$$LoginModelImplCopyWith<$Res> {
+  __$$LoginModelImplCopyWithImpl(
+      _$LoginModelImpl _value, $Res Function(_$LoginModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_LoginModelCopyWithImpl<$Res>
     Object? access_token = freezed,
     Object? refresh_token = freezed,
   }) {
-    return _then(_$_LoginModel(
+    return _then(_$LoginModelImpl(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -150,16 +150,16 @@ class __$$_LoginModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LoginModel implements _LoginModel {
-  _$_LoginModel(
+class _$LoginModelImpl implements _LoginModel {
+  _$LoginModelImpl(
       {required this.code,
       required this.status,
       required this.message,
       this.access_token,
       this.refresh_token});
 
-  factory _$_LoginModel.fromJson(Map<String, dynamic> json) =>
-      _$$_LoginModelFromJson(json);
+  factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoginModelImplFromJson(json);
 
   @override
   final int code;
@@ -181,7 +181,7 @@ class _$_LoginModel implements _LoginModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LoginModel &&
+            other is _$LoginModelImpl &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
@@ -199,12 +199,12 @@ class _$_LoginModel implements _LoginModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
-      __$$_LoginModelCopyWithImpl<_$_LoginModel>(this, _$identity);
+  _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>
+      __$$LoginModelImplCopyWithImpl<_$LoginModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LoginModelToJson(
+    return _$$LoginModelImplToJson(
       this,
     );
   }
@@ -216,10 +216,10 @@ abstract class _LoginModel implements LoginModel {
       required final String status,
       required final String message,
       final String? access_token,
-      final String? refresh_token}) = _$_LoginModel;
+      final String? refresh_token}) = _$LoginModelImpl;
 
   factory _LoginModel.fromJson(Map<String, dynamic> json) =
-      _$_LoginModel.fromJson;
+      _$LoginModelImpl.fromJson;
 
   @override
   int get code;
@@ -233,6 +233,6 @@ abstract class _LoginModel implements LoginModel {
   String? get refresh_token;
   @override
   @JsonKey(ignore: true)
-  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
+  _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

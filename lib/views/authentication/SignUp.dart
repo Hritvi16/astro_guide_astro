@@ -11,6 +11,7 @@ import 'package:astro_guide_astro/size/WidgetSize.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,19 +35,20 @@ class SignUp extends StatelessWidget {
     this.context = context;
     return WillPopScope(
       onWillPop: () async {
-        if(signUpController.verified==true) {
+        // if(signUpController.verified==true) {
           if(signUpController.current==0) {
-            signUpController.resetVerify();
-            return false;
+            // signUpController.resetVerify();
+            // return false;
+            return true;
           }
           else {
             signUpController.onStepCancel();
             return false;
           }
-        }
-        else {
-          return true;
-        }
+        // }
+        // else {
+        //   return true;
+        // }
       },
       child: Scaffold(
         backgroundColor: MyColors.colorPrimary,
@@ -118,7 +120,8 @@ class SignUp extends StatelessWidget {
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
-                                  child: signUpController.verified==false ? getInitialStep() : getCustomStepper(),
+                                  // child: signUpController.verified==false ? getInitialStep() : getCustomStepper(),
+                                  child: getCustomStepper(),
                                 ),
                               )
                           );
@@ -565,6 +568,7 @@ class SignUp extends StatelessWidget {
               onTap: () {
                 BottomPicker.date(
                   title:  "Set your Date of Birth",
+                  initialDateTime: signUpController.date,
                   titleStyle: GoogleFonts.manrope(
                     fontSize: 16.0,
                     color: MyColors.colorButton,
@@ -575,15 +579,17 @@ class SignUp extends StatelessWidget {
                     signUpController.setDOB(value);
                   },
                   bottomPickerTheme:  BottomPickerTheme.plumPlate,
-                  buttonText: "Done",
-                  buttonTextStyle: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.black,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
+                  buttonContent: Text(
+                    "Done",
+                    style: GoogleFonts.manrope(
+                      fontSize: 16.0,
+                      color: MyColors.black,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   buttonSingleColor: Colors.transparent,
-                  displayButtonIcon: false,
+                  displaySubmitButton: true,
                 ).show(context);
               },
               controller: signUpController.dob,
@@ -992,13 +998,38 @@ class SignUp extends StatelessWidget {
                 ),
               ),
             ),
-          standardTFLabel(text: 'Experience in years', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
+          standardTFLabel(text: 'Experience', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
-              onChanged: (value) {
-                signUpController.step2.currentState?.validate();
+              onTap: () {
+                BottomPicker.date(
+                  title:  "Enter your experience",
+                  initialDateTime: signUpController.edate,
+                  titleStyle: GoogleFonts.manrope(
+                    fontSize: 16.0,
+                    color: MyColors.colorButton,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onSubmit: (value) {
+                    signUpController.setExperience(value);
+                  },
+                  bottomPickerTheme:  BottomPickerTheme.plumPlate,
+                  buttonContent: Text(
+                    "Done",
+                    style: GoogleFonts.manrope(
+                      fontSize: 16.0,
+                      color: MyColors.black,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  buttonSingleColor: Colors.transparent,
+                  displaySubmitButton: true,
+                ).show(context);
               },
+              readOnly: true,
               keyboardType: TextInputType.number,
 
               inputFormatters: [FilteringTextInputFormatter.deny(new RegExp('[\\-|\\ ]'))],
@@ -1273,7 +1304,8 @@ class SignUp extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          standardTFLabel(text: 'Mention you degree/diploma', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16, left: 0),
+          standardTFLabel(text: 'Mention you degree/diploma', optional: '\t(Optional)', optionalFontSize: 11, left: 0),
+          // standardTFLabel(text: 'Mention you degree/diploma', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16, left: 0),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -1303,13 +1335,13 @@ class SignUp extends StatelessWidget {
                     ),
                   )
               ),
-              validator: (value) {
-                if ((value??"").isEmpty) {
-                  return "* Required";
-                }  else {
-                  return null;
-                }
-              },
+              // validator: (value) {
+              //   if ((value??"").isEmpty) {
+              //     return "* Required";
+              //   }  else {
+              //     return null;
+              //   }
+              // },
             ),
           ),
           SizedBox(
@@ -1488,7 +1520,7 @@ class SignUp extends StatelessWidget {
                 ),
               ),
             ),
-          standardTFLabel(text: 'Describe about yourself?', optional: '*', optionalExtra: '\t(Minimum of 150 characters)', optionalColor: MyColors.red, optionalFontSize: 16, ),
+          standardTFLabel(text: 'Describe about yourself?', optional: '*', optionalColor: MyColors.red, optionalFontSize: 16, ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -1517,27 +1549,27 @@ class SignUp extends StatelessWidget {
                 if ((value??"").isEmpty) {
                   return "* Required";
                 }
-                else if (value!.length<150) {
-                  return 'Please write atleast 150 characters of description';
-                }
+                // else if (value!.length<150) {
+                //   return 'Please write atleast 150 characters of description';
+                // }
                 else {
                   return null;
                 }
               },
             ),
           ),
-          if(signUpController.about.length<150)
-            Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 10),
-            child: Text(
-              "Minimum characters remaining ${signUpController.about.length}/150",
-              style: GoogleFonts.manrope(
-                color: MyColors.colorError,
-                fontSize: 11
-              ),
-            ),
-          ),
+          // if(signUpController.about.length<150)
+          //   Container(
+          //   alignment: Alignment.centerRight,
+          //   padding: const EdgeInsets.only(right: 10),
+          //   child: Text(
+          //     "Minimum characters remaining ${signUpController.about.length}/150",
+          //     style: GoogleFonts.manrope(
+          //       color: MyColors.colorError,
+          //       fontSize: 11
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

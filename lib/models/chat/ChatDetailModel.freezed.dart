@@ -153,11 +153,11 @@ class _$ChatDetailModelCopyWithImpl<$Res, $Val extends ChatDetailModel>
 }
 
 /// @nodoc
-abstract class _$$_ChatDetailModelCopyWith<$Res>
+abstract class _$$ChatDetailModelImplCopyWith<$Res>
     implements $ChatDetailModelCopyWith<$Res> {
-  factory _$$_ChatDetailModelCopyWith(
-          _$_ChatDetailModel value, $Res Function(_$_ChatDetailModel) then) =
-      __$$_ChatDetailModelCopyWithImpl<$Res>;
+  factory _$$ChatDetailModelImplCopyWith(_$ChatDetailModelImpl value,
+          $Res Function(_$ChatDetailModelImpl) then) =
+      __$$ChatDetailModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -179,11 +179,11 @@ abstract class _$$_ChatDetailModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChatDetailModelCopyWithImpl<$Res>
-    extends _$ChatDetailModelCopyWithImpl<$Res, _$_ChatDetailModel>
-    implements _$$_ChatDetailModelCopyWith<$Res> {
-  __$$_ChatDetailModelCopyWithImpl(
-      _$_ChatDetailModel _value, $Res Function(_$_ChatDetailModel) _then)
+class __$$ChatDetailModelImplCopyWithImpl<$Res>
+    extends _$ChatDetailModelCopyWithImpl<$Res, _$ChatDetailModelImpl>
+    implements _$$ChatDetailModelImplCopyWith<$Res> {
+  __$$ChatDetailModelImplCopyWithImpl(
+      _$ChatDetailModelImpl _value, $Res Function(_$ChatDetailModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -198,7 +198,7 @@ class __$$_ChatDetailModelCopyWithImpl<$Res>
     Object? review = freezed,
     Object? wallet = freezed,
   }) {
-    return _then(_$_ChatDetailModel(
+    return _then(_$ChatDetailModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -237,8 +237,8 @@ class __$$_ChatDetailModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ChatDetailModel implements _ChatDetailModel {
-  _$_ChatDetailModel(
+class _$ChatDetailModelImpl implements _ChatDetailModel {
+  _$ChatDetailModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -249,8 +249,8 @@ class _$_ChatDetailModel implements _ChatDetailModel {
       this.wallet})
       : _data = data;
 
-  factory _$_ChatDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ChatDetailModelFromJson(json);
+  factory _$ChatDetailModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatDetailModelImplFromJson(json);
 
   @override
   final String status;
@@ -286,7 +286,7 @@ class _$_ChatDetailModel implements _ChatDetailModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChatDetailModel &&
+            other is _$ChatDetailModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -314,12 +314,13 @@ class _$_ChatDetailModel implements _ChatDetailModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatDetailModelCopyWith<_$_ChatDetailModel> get copyWith =>
-      __$$_ChatDetailModelCopyWithImpl<_$_ChatDetailModel>(this, _$identity);
+  _$$ChatDetailModelImplCopyWith<_$ChatDetailModelImpl> get copyWith =>
+      __$$ChatDetailModelImplCopyWithImpl<_$ChatDetailModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ChatDetailModelToJson(
+    return _$$ChatDetailModelImplToJson(
       this,
     );
   }
@@ -334,10 +335,10 @@ abstract class _ChatDetailModel implements ChatDetailModel {
       final UserModel? user,
       final SessionHistoryModel? session_history,
       final ReviewModel? review,
-      final double? wallet}) = _$_ChatDetailModel;
+      final double? wallet}) = _$ChatDetailModelImpl;
 
   factory _ChatDetailModel.fromJson(Map<String, dynamic> json) =
-      _$_ChatDetailModel.fromJson;
+      _$ChatDetailModelImpl.fromJson;
 
   @override
   String get status;
@@ -357,6 +358,6 @@ abstract class _ChatDetailModel implements ChatDetailModel {
   double? get wallet;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatDetailModelCopyWith<_$_ChatDetailModel> get copyWith =>
+  _$$ChatDetailModelImplCopyWith<_$ChatDetailModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

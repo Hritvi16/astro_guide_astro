@@ -25,6 +25,7 @@ mixin _$CreateModel {
   String get message => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
   String? get meetingID => throw _privateConstructorUsedError;
+  SessionHistoryModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,10 @@ abstract class $CreateModelCopyWith<$Res> {
       String status,
       String message,
       String? token,
-      String? meetingID});
+      String? meetingID,
+      SessionHistoryModel? data});
+
+  $SessionHistoryModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -64,6 +68,7 @@ class _$CreateModelCopyWithImpl<$Res, $Val extends CreateModel>
     Object? message = null,
     Object? token = freezed,
     Object? meetingID = freezed,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -86,16 +91,32 @@ class _$CreateModelCopyWithImpl<$Res, $Val extends CreateModel>
           ? _value.meetingID
           : meetingID // ignore: cast_nullable_to_non_nullable
               as String?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SessionHistoryModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SessionHistoryModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $SessionHistoryModelCopyWith<$Res>(_value.data!, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$_CreateModelCopyWith<$Res>
+abstract class _$$CreateModelImplCopyWith<$Res>
     implements $CreateModelCopyWith<$Res> {
-  factory _$$_CreateModelCopyWith(
-          _$_CreateModel value, $Res Function(_$_CreateModel) then) =
-      __$$_CreateModelCopyWithImpl<$Res>;
+  factory _$$CreateModelImplCopyWith(
+          _$CreateModelImpl value, $Res Function(_$CreateModelImpl) then) =
+      __$$CreateModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,15 +124,19 @@ abstract class _$$_CreateModelCopyWith<$Res>
       String status,
       String message,
       String? token,
-      String? meetingID});
+      String? meetingID,
+      SessionHistoryModel? data});
+
+  @override
+  $SessionHistoryModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
-class __$$_CreateModelCopyWithImpl<$Res>
-    extends _$CreateModelCopyWithImpl<$Res, _$_CreateModel>
-    implements _$$_CreateModelCopyWith<$Res> {
-  __$$_CreateModelCopyWithImpl(
-      _$_CreateModel _value, $Res Function(_$_CreateModel) _then)
+class __$$CreateModelImplCopyWithImpl<$Res>
+    extends _$CreateModelCopyWithImpl<$Res, _$CreateModelImpl>
+    implements _$$CreateModelImplCopyWith<$Res> {
+  __$$CreateModelImplCopyWithImpl(
+      _$CreateModelImpl _value, $Res Function(_$CreateModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -122,8 +147,9 @@ class __$$_CreateModelCopyWithImpl<$Res>
     Object? message = null,
     Object? token = freezed,
     Object? meetingID = freezed,
+    Object? data = freezed,
   }) {
-    return _then(_$_CreateModel(
+    return _then(_$CreateModelImpl(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -144,22 +170,27 @@ class __$$_CreateModelCopyWithImpl<$Res>
           ? _value.meetingID
           : meetingID // ignore: cast_nullable_to_non_nullable
               as String?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SessionHistoryModel?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_CreateModel implements _CreateModel {
-  _$_CreateModel(
+class _$CreateModelImpl implements _CreateModel {
+  _$CreateModelImpl(
       {required this.code,
       required this.status,
       required this.message,
       this.token,
-      this.meetingID});
+      this.meetingID,
+      this.data});
 
-  factory _$_CreateModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CreateModelFromJson(json);
+  factory _$CreateModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateModelImplFromJson(json);
 
   @override
   final int code;
@@ -171,39 +202,42 @@ class _$_CreateModel implements _CreateModel {
   final String? token;
   @override
   final String? meetingID;
+  @override
+  final SessionHistoryModel? data;
 
   @override
   String toString() {
-    return 'CreateModel(code: $code, status: $status, message: $message, token: $token, meetingID: $meetingID)';
+    return 'CreateModel(code: $code, status: $status, message: $message, token: $token, meetingID: $meetingID, data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreateModel &&
+            other is _$CreateModelImpl &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.meetingID, meetingID) ||
-                other.meetingID == meetingID));
+                other.meetingID == meetingID) &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, code, status, message, token, meetingID);
+      Object.hash(runtimeType, code, status, message, token, meetingID, data);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreateModelCopyWith<_$_CreateModel> get copyWith =>
-      __$$_CreateModelCopyWithImpl<_$_CreateModel>(this, _$identity);
+  _$$CreateModelImplCopyWith<_$CreateModelImpl> get copyWith =>
+      __$$CreateModelImplCopyWithImpl<_$CreateModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CreateModelToJson(
+    return _$$CreateModelImplToJson(
       this,
     );
   }
@@ -215,10 +249,11 @@ abstract class _CreateModel implements CreateModel {
       required final String status,
       required final String message,
       final String? token,
-      final String? meetingID}) = _$_CreateModel;
+      final String? meetingID,
+      final SessionHistoryModel? data}) = _$CreateModelImpl;
 
   factory _CreateModel.fromJson(Map<String, dynamic> json) =
-      _$_CreateModel.fromJson;
+      _$CreateModelImpl.fromJson;
 
   @override
   int get code;
@@ -231,7 +266,9 @@ abstract class _CreateModel implements CreateModel {
   @override
   String? get meetingID;
   @override
+  SessionHistoryModel? get data;
+  @override
   @JsonKey(ignore: true)
-  _$$_CreateModelCopyWith<_$_CreateModel> get copyWith =>
+  _$$CreateModelImplCopyWith<_$CreateModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -84,23 +84,39 @@ class Chat extends StatelessWidget {
                   ],
                 ),
                 if(chatController.type=="ACTIVE")
-                  GestureDetector(
-                    onTap: () {
-                      chatController.endChat(false);
-                    },
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: MyColors.colorError,
-                      child: CircleAvatar(
-                        radius: 10,
-                        backgroundColor: MyColors.colorError,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          chatController.goto("/freeKundli", arguments: chatController.sessionHistory.k_id);
+                        },
                         child: Image.asset(
-                            "assets/call/end.png"
+                          "assets/astrology/kundali.png",
+                          height: 50,
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          chatController.endChat(false);
+                        },
+                        child: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: MyColors.colorError,
+                          child: CircleAvatar(
+                            radius: 10,
+                            backgroundColor: MyColors.colorError,
+                            child: Image.asset(
+                                "assets/call/end.png"
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                if(chatController.type=="ENDED")
+                if(chatController.type=="COMPLETED")
                   Icon(
                       Icons.share
                   )
@@ -160,8 +176,8 @@ class Chat extends StatelessWidget {
         if(chat.type=="A")
           SentMessageScreen(chat: chat.copyWith(message: SessionConstants.autoMessage), color: MyColors.red),
       ],
-    ) : SentVoiceScreen(chat: chat, color: MyColors.black,)
-        : chat.m_type=="T" ? ReceivedMessageScreen(chat: chat) : chat.m_type=="V" ? ReceivedVoiceScreen(chat: chat) : chat.m_type=="D" ? ReceivedDocScreen(chat: chat) : ReceivedImageScreen(chat: chat);
+    ) : SentVoiceScreen(chat: chat, color: MyColors.black, play: chatController.playAudio, pause: chatController.pauseAudio, player: chatController.player, playerUrl: chatController.playerUrl)
+        : chat.m_type=="T" ? ReceivedMessageScreen(chat: chat) : chat.m_type=="V" ? ReceivedVoiceScreen(chat: chat, play: chatController.playAudio, pause: chatController.pauseAudio, player: chatController.player, playerUrl: chatController.playerUrl) : chat.m_type=="D" ? ReceivedDocScreen(chat: chat) : ReceivedImageScreen(chat: chat);
   }
 
 
@@ -202,20 +218,6 @@ class Chat extends StatelessWidget {
                   ),
                 ),
               ),
-              // if(chatController.sessionHistory.rating!=null)
-              //   InkWell(
-              //     onTapDown: (TapDownDetails details) {
-              //       showPopupMenu(context, details);
-              //     },
-              //     child: Container(
-              //       padding: EdgeInsets.symmetric(horizontal: 5),
-              //       child: Image.asset(
-              //         "assets/common/more.png",
-              //         height: 18,
-              //         color: MyColors.colorInfoGrey,
-              //       ),
-              //     ),
-              //   )
             ],
           ),
           SizedBox(
@@ -283,7 +285,6 @@ class Chat extends StatelessWidget {
           children: [
             Row(
               children: [
-                chatController.showQR ?
                 GestureDetector(
                   onTap: () {
                     chatController.manageQR(false);
@@ -292,19 +293,6 @@ class Chat extends StatelessWidget {
                     backgroundColor: MyColors.colorButton,
                     child: Icon(
                       Icons.quickreply_outlined,
-                      color: MyColors.black,
-                      size: 20,
-                    ),
-                  ),
-                ) :
-                GestureDetector(
-                  onTap: () {
-                    chatController.manageQR(true);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: MyColors.colorButton,
-                    child: Icon(
-                      Icons.quickreply,
                       color: MyColors.black,
                       size: 20,
                     ),
@@ -336,15 +324,23 @@ class Chat extends StatelessWidget {
                   ),
                 ) :
                 GestureDetector(
-                  onLongPressStart: (details) {
-                    chatController.startRecording();
-                  },
-                  onLongPressEnd: (details) {
-                    chatController.stopRecording(true);
+                  // onLongPressStart: (details) {
+                  //   chatController.startRecording();
+                  // },
+                  // onLongPressEnd: (details) {
+                  //   chatController.stopRecording(true);
+                  // },
+                  onTap: () {
+                    chatController.recordingAction();
                   },
                   child: CircleAvatar(
                     backgroundColor: MyColors.colorButton,
-                    child: Icon(
+                    child: chatController.recording ?
+                    Icon(
+                      Icons.stop,
+                      color: MyColors.black,
+                    )
+                        : Icon(
                       Icons.mic,
                       color: MyColors.black,
                     ),
@@ -352,32 +348,6 @@ class Chat extends StatelessWidget {
                 ),
               ],
             ),
-            if(chatController.showQR)
-              chatController.chats.isNotEmpty ?
-              Container(
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 5),
-                child: ListView.separated(
-                  controller: chatController.controller,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: chatController.replies.length,
-                  separatorBuilder: (buildContext, index) {
-                    return SizedBox(
-                      height: 0,
-                    );
-                  },
-                  itemBuilder: (buildContext, index) {
-                    return getQRDesign(chatController.replies[index]);
-                  },
-                ),
-              )
-                  : Text(
-                "No Quick Replies Found!",
-                style: GoogleFonts.manrope(
-                  fontSize: 14,
-                  color: MyColors.labelColor()
-                ),
-              ),
           ],
         ),
       ),
@@ -562,6 +532,7 @@ class Chat extends StatelessWidget {
         chatController.changeSend();
       },
       keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.newline,
       style: GoogleFonts.manrope(
         fontSize: 16.0,
         color: MyColors.labelColor(),
@@ -569,6 +540,8 @@ class Chat extends StatelessWidget {
         fontWeight: FontWeight.w400,
       ),
       controller: chatController.message,
+      maxLines: 4,
+      minLines: 1,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(

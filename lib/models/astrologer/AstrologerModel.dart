@@ -14,7 +14,7 @@ class AstrologerModel with _$AstrologerModel {
     required String email,
     required String gender,
     required String dob,
-    required double experience,
+    required String experience,
     required String profile,
     required String about,
     int? fav,

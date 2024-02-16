@@ -135,11 +135,12 @@ class _$AstrologerResponseModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AstrologerResponseModelCopyWith<$Res>
+abstract class _$$AstrologerResponseModelImplCopyWith<$Res>
     implements $AstrologerResponseModelCopyWith<$Res> {
-  factory _$$_AstrologerResponseModelCopyWith(_$_AstrologerResponseModel value,
-          $Res Function(_$_AstrologerResponseModel) then) =
-      __$$_AstrologerResponseModelCopyWithImpl<$Res>;
+  factory _$$AstrologerResponseModelImplCopyWith(
+          _$AstrologerResponseModelImpl value,
+          $Res Function(_$AstrologerResponseModelImpl) then) =
+      __$$AstrologerResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -158,12 +159,13 @@ abstract class _$$_AstrologerResponseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerResponseModelCopyWithImpl<$Res>
+class __$$AstrologerResponseModelImplCopyWithImpl<$Res>
     extends _$AstrologerResponseModelCopyWithImpl<$Res,
-        _$_AstrologerResponseModel>
-    implements _$$_AstrologerResponseModelCopyWith<$Res> {
-  __$$_AstrologerResponseModelCopyWithImpl(_$_AstrologerResponseModel _value,
-      $Res Function(_$_AstrologerResponseModel) _then)
+        _$AstrologerResponseModelImpl>
+    implements _$$AstrologerResponseModelImplCopyWith<$Res> {
+  __$$AstrologerResponseModelImplCopyWithImpl(
+      _$AstrologerResponseModelImpl _value,
+      $Res Function(_$AstrologerResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -179,7 +181,7 @@ class __$$_AstrologerResponseModelCopyWithImpl<$Res>
     Object? specifications = freezed,
     Object? types = freezed,
   }) {
-    return _then(_$_AstrologerResponseModel(
+    return _then(_$AstrologerResponseModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -222,8 +224,8 @@ class __$$_AstrologerResponseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerResponseModel implements _AstrologerResponseModel {
-  _$_AstrologerResponseModel(
+class _$AstrologerResponseModelImpl implements _AstrologerResponseModel {
+  _$AstrologerResponseModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -239,8 +241,8 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
         _specifications = specifications,
         _types = types;
 
-  factory _$_AstrologerResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerResponseModelFromJson(json);
+  factory _$AstrologerResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerResponseModelImplFromJson(json);
 
   @override
   final String status;
@@ -309,7 +311,7 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerResponseModel &&
+            other is _$AstrologerResponseModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -341,14 +343,13 @@ class _$_AstrologerResponseModel implements _AstrologerResponseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerResponseModelCopyWith<_$_AstrologerResponseModel>
-      get copyWith =>
-          __$$_AstrologerResponseModelCopyWithImpl<_$_AstrologerResponseModel>(
-              this, _$identity);
+  _$$AstrologerResponseModelImplCopyWith<_$AstrologerResponseModelImpl>
+      get copyWith => __$$AstrologerResponseModelImplCopyWithImpl<
+          _$AstrologerResponseModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerResponseModelToJson(
+    return _$$AstrologerResponseModelImplToJson(
       this,
     );
   }
@@ -364,10 +365,10 @@ abstract class _AstrologerResponseModel implements AstrologerResponseModel {
       final List<CityModel>? cities,
       final List<LanguageModel>? languages,
       final List<SpecModel>? specifications,
-      final List<TypeModel>? types}) = _$_AstrologerResponseModel;
+      final List<TypeModel>? types}) = _$AstrologerResponseModelImpl;
 
   factory _AstrologerResponseModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerResponseModel.fromJson;
+      _$AstrologerResponseModelImpl.fromJson;
 
   @override
   String get status;
@@ -389,6 +390,6 @@ abstract class _AstrologerResponseModel implements AstrologerResponseModel {
   List<TypeModel>? get types;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerResponseModelCopyWith<_$_AstrologerResponseModel>
+  _$$AstrologerResponseModelImplCopyWith<_$AstrologerResponseModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -6,8 +6,8 @@ part of 'GalleryModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GalleryModel _$$_GalleryModelFromJson(Map<String, dynamic> json) =>
-    _$_GalleryModel(
+_$GalleryModelImpl _$$GalleryModelImplFromJson(Map<String, dynamic> json) =>
+    _$GalleryModelImpl(
       id: json['id'] as int,
       astro_id: json['astro_id'] as int,
       image: json['image'] as String,
@@ -19,7 +19,7 @@ _$_GalleryModel _$$_GalleryModelFromJson(Map<String, dynamic> json) =>
       load: json['load'] as bool?,
     );
 
-Map<String, dynamic> _$$_GalleryModelToJson(_$_GalleryModel instance) =>
+Map<String, dynamic> _$$GalleryModelImplToJson(_$GalleryModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'astro_id': instance.astro_id,

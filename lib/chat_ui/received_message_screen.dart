@@ -32,7 +32,7 @@ class ReceivedMessageScreen extends StatelessWidget {
             padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               // color: Colors.grey[300],
-              color: MyColors.receiverColor,
+              color: MyColors.receiverColor(),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(18),
                 bottomLeft: Radius.circular(18),
@@ -45,7 +45,7 @@ class ReceivedMessageScreen extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     text: chat.message,
-                    style: TextStyle(color: MyColors.white, fontSize: 14),
+                    style: TextStyle(color: MyColors.labelColor(), fontSize: 14),
                   ),
                 ),
                 SizedBox(

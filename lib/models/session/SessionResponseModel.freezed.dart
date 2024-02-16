@@ -147,11 +147,11 @@ class _$SessionResponseModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SessionResponseModelCopyWith<$Res>
+abstract class _$$SessionResponseModelImplCopyWith<$Res>
     implements $SessionResponseModelCopyWith<$Res> {
-  factory _$$_SessionResponseModelCopyWith(_$_SessionResponseModel value,
-          $Res Function(_$_SessionResponseModel) then) =
-      __$$_SessionResponseModelCopyWithImpl<$Res>;
+  factory _$$SessionResponseModelImplCopyWith(_$SessionResponseModelImpl value,
+          $Res Function(_$SessionResponseModelImpl) then) =
+      __$$SessionResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -172,11 +172,11 @@ abstract class _$$_SessionResponseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SessionResponseModelCopyWithImpl<$Res>
-    extends _$SessionResponseModelCopyWithImpl<$Res, _$_SessionResponseModel>
-    implements _$$_SessionResponseModelCopyWith<$Res> {
-  __$$_SessionResponseModelCopyWithImpl(_$_SessionResponseModel _value,
-      $Res Function(_$_SessionResponseModel) _then)
+class __$$SessionResponseModelImplCopyWithImpl<$Res>
+    extends _$SessionResponseModelCopyWithImpl<$Res, _$SessionResponseModelImpl>
+    implements _$$SessionResponseModelImplCopyWith<$Res> {
+  __$$SessionResponseModelImplCopyWithImpl(_$SessionResponseModelImpl _value,
+      $Res Function(_$SessionResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -190,7 +190,7 @@ class __$$_SessionResponseModelCopyWithImpl<$Res>
     Object? review = freezed,
     Object? wallet = freezed,
   }) {
-    return _then(_$_SessionResponseModel(
+    return _then(_$SessionResponseModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -225,8 +225,8 @@ class __$$_SessionResponseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SessionResponseModel implements _SessionResponseModel {
-  _$_SessionResponseModel(
+class _$SessionResponseModelImpl implements _SessionResponseModel {
+  _$SessionResponseModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -235,8 +235,8 @@ class _$_SessionResponseModel implements _SessionResponseModel {
       this.review,
       this.wallet});
 
-  factory _$_SessionResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SessionResponseModelFromJson(json);
+  factory _$SessionResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionResponseModelImplFromJson(json);
 
   @override
   final String status;
@@ -262,7 +262,7 @@ class _$_SessionResponseModel implements _SessionResponseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SessionResponseModel &&
+            other is _$SessionResponseModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -281,13 +281,14 @@ class _$_SessionResponseModel implements _SessionResponseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionResponseModelCopyWith<_$_SessionResponseModel> get copyWith =>
-      __$$_SessionResponseModelCopyWithImpl<_$_SessionResponseModel>(
-          this, _$identity);
+  _$$SessionResponseModelImplCopyWith<_$SessionResponseModelImpl>
+      get copyWith =>
+          __$$SessionResponseModelImplCopyWithImpl<_$SessionResponseModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SessionResponseModelToJson(
+    return _$$SessionResponseModelImplToJson(
       this,
     );
   }
@@ -301,10 +302,10 @@ abstract class _SessionResponseModel implements SessionResponseModel {
       final UserModel? user,
       final SessionHistoryModel? session_history,
       final ReviewModel? review,
-      final double? wallet}) = _$_SessionResponseModel;
+      final double? wallet}) = _$SessionResponseModelImpl;
 
   factory _SessionResponseModel.fromJson(Map<String, dynamic> json) =
-      _$_SessionResponseModel.fromJson;
+      _$SessionResponseModelImpl.fromJson;
 
   @override
   String get status;
@@ -322,6 +323,6 @@ abstract class _SessionResponseModel implements SessionResponseModel {
   double? get wallet;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionResponseModelCopyWith<_$_SessionResponseModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SessionResponseModelImplCopyWith<_$SessionResponseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

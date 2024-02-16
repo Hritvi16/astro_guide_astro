@@ -35,7 +35,7 @@ class ReceivedImageScreen extends StatelessWidget {
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               // color: Colors.grey[300],
-              color: MyColors.receiverColor,
+              color: MyColors.receiverColor(),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(18),
                 bottomLeft: Radius.circular(18),

@@ -6,8 +6,9 @@ part of 'ChatHistoryModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ChatHistoryModel _$$_ChatHistoryModelFromJson(Map<String, dynamic> json) =>
-    _$_ChatHistoryModel(
+_$ChatHistoryModelImpl _$$ChatHistoryModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatHistoryModelImpl(
       id: json['id'] as int,
       sess_id: json['sess_id'] as int,
       k_id: json['k_id'] as int?,
@@ -31,7 +32,8 @@ _$_ChatHistoryModel _$$_ChatHistoryModelFromJson(Map<String, dynamic> json) =>
       anonymous: json['anonymous'] as int?,
     );
 
-Map<String, dynamic> _$$_ChatHistoryModelToJson(_$_ChatHistoryModel instance) =>
+Map<String, dynamic> _$$ChatHistoryModelImplToJson(
+        _$ChatHistoryModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'sess_id': instance.sess_id,

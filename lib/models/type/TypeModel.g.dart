@@ -6,14 +6,15 @@ part of 'TypeModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TypeModel _$$_TypeModelFromJson(Map<String, dynamic> json) => _$_TypeModel(
+_$TypeModelImpl _$$TypeModelImplFromJson(Map<String, dynamic> json) =>
+    _$TypeModelImpl(
       id: json['id'] as int,
       type: json['type'] as String,
       t_type: json['t_type'] as String?,
       load: json['load'] as bool?,
     );
 
-Map<String, dynamic> _$$_TypeModelToJson(_$_TypeModel instance) =>
+Map<String, dynamic> _$$TypeModelImplToJson(_$TypeModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

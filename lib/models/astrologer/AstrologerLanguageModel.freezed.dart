@@ -93,11 +93,12 @@ class _$AstrologerLanguageModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AstrologerLanguageModelCopyWith<$Res>
+abstract class _$$AstrologerLanguageModelImplCopyWith<$Res>
     implements $AstrologerLanguageModelCopyWith<$Res> {
-  factory _$$_AstrologerLanguageModelCopyWith(_$_AstrologerLanguageModel value,
-          $Res Function(_$_AstrologerLanguageModel) then) =
-      __$$_AstrologerLanguageModelCopyWithImpl<$Res>;
+  factory _$$AstrologerLanguageModelImplCopyWith(
+          _$AstrologerLanguageModelImpl value,
+          $Res Function(_$AstrologerLanguageModelImpl) then) =
+      __$$AstrologerLanguageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -109,12 +110,13 @@ abstract class _$$_AstrologerLanguageModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerLanguageModelCopyWithImpl<$Res>
+class __$$AstrologerLanguageModelImplCopyWithImpl<$Res>
     extends _$AstrologerLanguageModelCopyWithImpl<$Res,
-        _$_AstrologerLanguageModel>
-    implements _$$_AstrologerLanguageModelCopyWith<$Res> {
-  __$$_AstrologerLanguageModelCopyWithImpl(_$_AstrologerLanguageModel _value,
-      $Res Function(_$_AstrologerLanguageModel) _then)
+        _$AstrologerLanguageModelImpl>
+    implements _$$AstrologerLanguageModelImplCopyWith<$Res> {
+  __$$AstrologerLanguageModelImplCopyWithImpl(
+      _$AstrologerLanguageModelImpl _value,
+      $Res Function(_$AstrologerLanguageModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -126,7 +128,7 @@ class __$$_AstrologerLanguageModelCopyWithImpl<$Res>
     Object? data = freezed,
     Object? languages = freezed,
   }) {
-    return _then(_$_AstrologerLanguageModel(
+    return _then(_$AstrologerLanguageModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -153,8 +155,8 @@ class __$$_AstrologerLanguageModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerLanguageModel implements _AstrologerLanguageModel {
-  _$_AstrologerLanguageModel(
+class _$AstrologerLanguageModelImpl implements _AstrologerLanguageModel {
+  _$AstrologerLanguageModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -163,8 +165,8 @@ class _$_AstrologerLanguageModel implements _AstrologerLanguageModel {
       : _data = data,
         _languages = languages;
 
-  factory _$_AstrologerLanguageModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerLanguageModelFromJson(json);
+  factory _$AstrologerLanguageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerLanguageModelImplFromJson(json);
 
   @override
   final String status;
@@ -201,7 +203,7 @@ class _$_AstrologerLanguageModel implements _AstrologerLanguageModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerLanguageModel &&
+            other is _$AstrologerLanguageModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -223,14 +225,13 @@ class _$_AstrologerLanguageModel implements _AstrologerLanguageModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerLanguageModelCopyWith<_$_AstrologerLanguageModel>
-      get copyWith =>
-          __$$_AstrologerLanguageModelCopyWithImpl<_$_AstrologerLanguageModel>(
-              this, _$identity);
+  _$$AstrologerLanguageModelImplCopyWith<_$AstrologerLanguageModelImpl>
+      get copyWith => __$$AstrologerLanguageModelImplCopyWithImpl<
+          _$AstrologerLanguageModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerLanguageModelToJson(
+    return _$$AstrologerLanguageModelImplToJson(
       this,
     );
   }
@@ -242,10 +243,10 @@ abstract class _AstrologerLanguageModel implements AstrologerLanguageModel {
       required final int code,
       required final String message,
       final List<LanguageModel>? data,
-      final List<LanguageModel>? languages}) = _$_AstrologerLanguageModel;
+      final List<LanguageModel>? languages}) = _$AstrologerLanguageModelImpl;
 
   factory _AstrologerLanguageModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerLanguageModel.fromJson;
+      _$AstrologerLanguageModelImpl.fromJson;
 
   @override
   String get status;
@@ -259,6 +260,6 @@ abstract class _AstrologerLanguageModel implements AstrologerLanguageModel {
   List<LanguageModel>? get languages;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerLanguageModelCopyWith<_$_AstrologerLanguageModel>
+  _$$AstrologerLanguageModelImplCopyWith<_$AstrologerLanguageModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

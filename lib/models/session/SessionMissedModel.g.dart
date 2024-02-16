@@ -6,9 +6,9 @@ part of 'SessionMissedModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SessionMissedModel _$$_SessionMissedModelFromJson(
+_$SessionMissedModelImpl _$$SessionMissedModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_SessionMissedModel(
+    _$SessionMissedModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -22,8 +22,8 @@ _$_SessionMissedModel _$$_SessionMissedModelFromJson(
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_SessionMissedModelToJson(
-        _$_SessionMissedModel instance) =>
+Map<String, dynamic> _$$SessionMissedModelImplToJson(
+        _$SessionMissedModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

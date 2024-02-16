@@ -203,11 +203,11 @@ class _$ChatHistoryModelCopyWithImpl<$Res, $Val extends ChatHistoryModel>
 }
 
 /// @nodoc
-abstract class _$$_ChatHistoryModelCopyWith<$Res>
+abstract class _$$ChatHistoryModelImplCopyWith<$Res>
     implements $ChatHistoryModelCopyWith<$Res> {
-  factory _$$_ChatHistoryModelCopyWith(
-          _$_ChatHistoryModel value, $Res Function(_$_ChatHistoryModel) then) =
-      __$$_ChatHistoryModelCopyWithImpl<$Res>;
+  factory _$$ChatHistoryModelImplCopyWith(_$ChatHistoryModelImpl value,
+          $Res Function(_$ChatHistoryModelImpl) then) =
+      __$$ChatHistoryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -235,11 +235,11 @@ abstract class _$$_ChatHistoryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChatHistoryModelCopyWithImpl<$Res>
-    extends _$ChatHistoryModelCopyWithImpl<$Res, _$_ChatHistoryModel>
-    implements _$$_ChatHistoryModelCopyWith<$Res> {
-  __$$_ChatHistoryModelCopyWithImpl(
-      _$_ChatHistoryModel _value, $Res Function(_$_ChatHistoryModel) _then)
+class __$$ChatHistoryModelImplCopyWithImpl<$Res>
+    extends _$ChatHistoryModelCopyWithImpl<$Res, _$ChatHistoryModelImpl>
+    implements _$$ChatHistoryModelImplCopyWith<$Res> {
+  __$$ChatHistoryModelImplCopyWithImpl(_$ChatHistoryModelImpl _value,
+      $Res Function(_$ChatHistoryModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -267,7 +267,7 @@ class __$$_ChatHistoryModelCopyWithImpl<$Res>
     Object? reviewed_at = freezed,
     Object? anonymous = freezed,
   }) {
-    return _then(_$_ChatHistoryModel(
+    return _then(_$ChatHistoryModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -358,8 +358,8 @@ class __$$_ChatHistoryModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ChatHistoryModel implements _ChatHistoryModel {
-  _$_ChatHistoryModel(
+class _$ChatHistoryModelImpl implements _ChatHistoryModel {
+  _$ChatHistoryModelImpl(
       {required this.id,
       required this.sess_id,
       this.k_id,
@@ -382,8 +382,8 @@ class _$_ChatHistoryModel implements _ChatHistoryModel {
       this.reviewed_at,
       this.anonymous});
 
-  factory _$_ChatHistoryModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ChatHistoryModelFromJson(json);
+  factory _$ChatHistoryModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatHistoryModelImplFromJson(json);
 
   @override
   final int id;
@@ -437,7 +437,7 @@ class _$_ChatHistoryModel implements _ChatHistoryModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChatHistoryModel &&
+            other is _$ChatHistoryModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.sess_id, sess_id) || other.sess_id == sess_id) &&
             (identical(other.k_id, k_id) || other.k_id == k_id) &&
@@ -500,12 +500,13 @@ class _$_ChatHistoryModel implements _ChatHistoryModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatHistoryModelCopyWith<_$_ChatHistoryModel> get copyWith =>
-      __$$_ChatHistoryModelCopyWithImpl<_$_ChatHistoryModel>(this, _$identity);
+  _$$ChatHistoryModelImplCopyWith<_$ChatHistoryModelImpl> get copyWith =>
+      __$$ChatHistoryModelImplCopyWithImpl<_$ChatHistoryModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ChatHistoryModelToJson(
+    return _$$ChatHistoryModelImplToJson(
       this,
     );
   }
@@ -533,10 +534,10 @@ abstract class _ChatHistoryModel implements ChatHistoryModel {
       final double? rating,
       final String? review,
       final String? reviewed_at,
-      final int? anonymous}) = _$_ChatHistoryModel;
+      final int? anonymous}) = _$ChatHistoryModelImpl;
 
   factory _ChatHistoryModel.fromJson(Map<String, dynamic> json) =
-      _$_ChatHistoryModel.fromJson;
+      _$ChatHistoryModelImpl.fromJson;
 
   @override
   int get id;
@@ -582,6 +583,6 @@ abstract class _ChatHistoryModel implements ChatHistoryModel {
   int? get anonymous;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatHistoryModelCopyWith<_$_ChatHistoryModel> get copyWith =>
+  _$$ChatHistoryModelImplCopyWith<_$ChatHistoryModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

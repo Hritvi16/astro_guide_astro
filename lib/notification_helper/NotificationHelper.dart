@@ -1,5 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:astro_guide_astro/controllers/GlobalVariables.dart';
+import 'package:astro_guide_astro/models/meeting/EndCallResponseModel.dart';
+import 'package:astro_guide_astro/models/response/ResponseModel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/constants/MeetingConstants.dart';
@@ -146,6 +152,7 @@ class NotificationHelper {
     print("categoryyyyy backk");
     print(message.data);
     print(message.data['category']);
+    Directory directory = await getApplicationDocumentsDirectory();
     _showNotification(
         id: 1,
         title: message.notification?.title ?? 'Title',
@@ -160,14 +167,27 @@ class NotificationHelper {
 
       print("storage.read(calling) cancelled");
       print(storage.read("calling"));
+
       String status = message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : message.data['category']=="cancelled" ? "CANCELLED" : "COMPLETED";
+
       if(storage.read("calling")!=null) {
+        print("sswebnoti: calling callllllll");
         CallController callController = storage.read("calling");
-        callController.endMeeting(status);
+        callController.endMeeting(status, back: true, path: directory.path);
         storage.remove("calling");
       }
       else {
-        socketMeeting(message.data['ch_id'], status);
+        print("sswebnoti filee: path ${directory.path}/calling.txt");
+        File file = File("${directory.path}/calling.txt");
+        await file.writeAsString(status);
+        print("sswebnoti filee: calling_status ${await file.readAsString()}");
+
+        
+
+
+        CallController callController = Get.put<CallController>(CallController());
+        callController.endMeeting(status, back: true, path: directory.path);
+        // socketMeeting(message.data['ch_id'], status);
       }
     }
   }
@@ -180,6 +200,8 @@ class NotificationHelper {
     print(message.data);
     print(message.data['category']=="call");
     bool go = true;
+    Directory directory = await getApplicationDocumentsDirectory();
+
     if(message.data['category']=="chat" || message.data['category']=="call") {
       go = false;
       session(message.data);
@@ -192,7 +214,7 @@ class NotificationHelper {
       if(message.data['category']=="waitlist" || message.data['category']=="cancelled") {
         final storage = GetStorage();
 
-        print("storage.read(calling) cancelled");
+        print("sswebnoti: storage.read calling cancelled");
         print(storage.read("calling"));
         if(storage.read("calling")!=null) {
           CallController callController = storage.read("calling");
@@ -201,11 +223,14 @@ class NotificationHelper {
             storage.remove("calling");
           }
           else {
-            socketMeeting(message.data['ch_id'], "");
+            File file = File("${directory.path}/calling.txt");
+            await file.writeAsString("back");
+            // socketMeeting(message.data['ch_id'], "");
           }
         }
         else {
-
+          CallController callController = Get.put<CallController>(CallController());
+          callController.endMeeting("CANCELLED", path: directory.path);
         }
       }
 
@@ -233,7 +258,7 @@ class NotificationHelper {
       else if(message.data['category']=="cancelled") {
         final storage = GetStorage();
 
-        print("storage.read(calling) cancelled");
+        print("storage.read calling cancelled");
         print(storage.read("calling"));
         if(storage.read("calling")!=null) {
           CallController callController = storage.read("calling");
@@ -241,7 +266,11 @@ class NotificationHelper {
           storage.remove("calling");
         }
         else {
-          socketMeeting(message.data['ch_id'], "");
+          final storage = GetStorage();
+
+          File file = File("${directory.path}/calling.txt");
+          await file.writeAsString("back");
+          // socketMeeting(message.data['ch_id'], "");
         }
       }
 
@@ -252,11 +281,16 @@ class NotificationHelper {
         print(storage.read("calling"));
         if(storage.read("calling")!=null) {
           CallController callController = storage.read("calling");
-          callController.endMeeting(status);
+          callController.endMeeting(status, path: directory.path);
           storage.remove("calling");
         }
         else {
-          socketMeeting(message.data['ch_id'], status);
+          final storage = GetStorage();
+          File file = File("${directory.path}/calling.txt");
+          await file.writeAsString(status);
+          CallController callController = Get.put<CallController>(CallController());
+          callController.endMeeting(status, path: directory.path);
+          // socketMeeting(message.data['ch_id'], status);
         }
       }
 
@@ -409,7 +443,7 @@ class NotificationHelper {
   }
 
   static Future<void> rejectChat(String ch_id) async {
-    print("CHAT REJECTED ${ch_id}");
+    print("CHAT REJECTED $ch_id");
     // final MeetingRepository meetingRepository = Get.put(MeetingRepository(Get.put(ApiService(Get.find()), permanent: true)));
     // final MeetingProvider meetingProvider = Get.put(MeetingProvider(meetingRepository));;
     //
@@ -542,42 +576,65 @@ Future<void> rejectChat(String ch_id, String user_id) async {
   socket.emit('reject', data);
 }
 
-Future<void> socketMeeting(String ch_id, String status) async {
-  print("socketttt Meetingggg");
-  final storage = GetStorage();
-  print(storage.getKeys());
-  IO.Socket socket =  IO.io(
-    ApiConstants.urlS,
-    IO.OptionBuilder().setTransports(['websocket']).setQuery(
-        {
-          SessionConstants.username : storage.read("access"),
-          "meet_id" : ch_id,
-          SessionConstants.sender : "A",
-        }).build(),
-  );
-  socket.onConnect((data) => print('Connection established'));
-  socket.onConnectError((data) => print('Connect Error: $data'));
-  socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-  Map <String, dynamic> data = {
-    SessionConstants.username : storage.read("access"),
-    SessionConstants.sender : "A",
-    "meet_id" : ch_id,
-  };
-
-  print(data);
-  if(status.isNotEmpty) {
-    print("end status");
-    data.addAll({"status" : status});
-    socket.emit('endMeeting', data);
-  }
-  else {
-    print("back status");
-    socket.emit('backMeeting', data);
-  }
-  // socket.close();
-  // socket.dispose();
-  // Get.offAllNamed('/splash');
-}
+// Future<void> socketMeeting(String ch_id, String status) async {
+//   print("socketttt Meetingggg");
+//   final storage = GetStorage();
+//   print(storage.getKeys());
+//   IO.Socket socket =  IO.io(
+//     ApiConstants.urlES,
+//     IO.OptionBuilder().setTransports(['websocket']).setQuery(
+//         {
+//           // SessionConstants.username : storage.read("access"),
+//           "meet_id" : ch_id,
+//           SessionConstants.sender : "A",
+//         }).build(),
+//   );
+//   socket.onConnect((data) => print('Connection established'));
+//   socket.onConnectError((data) => print('Connect Error: $data'));
+//   socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+//
+//   socket.on(
+//       'endMeeting', (data) async {
+//     EndCallResponseModel endCallResponse = EndCallResponseModel.fromJson(json.decode(data));
+//
+//
+//     print("socketttt Meetingggg end responseeeeeeeee notiii");
+//
+//     // endMeeting(endCallResponse.category??"");
+//   }
+//   );
+//
+//   socket.on(
+//       'backMeeting', (data) async {
+//     ResponseModel response = ResponseModel.fromJson(json.decode(data));
+//
+//     print("socketttt Meetingggg back responseeeeeeeee notiii");
+//     print(response.toJson());
+//     // back();
+//
+//
+//   }
+//   );
+//   Map <String, dynamic> data = {
+//     // SessionConstants.username : storage.read("access"),
+//     SessionConstants.sender : "A",
+//     "meet_id" : ch_id,
+//   };
+//
+//   print(data);
+//   if(status.isNotEmpty) {
+//     print("end status");
+//     data.addAll({"status" : status});
+//     socket.emit('endMeeting', data);
+//   }
+//   else {
+//     print("back status");
+//     socket.emit('backMeeting', data);
+//   }
+//   // socket.close();
+//   // socket.dispose();
+//   // Get.offAllNamed('/splash');
+// }
 
 class NotificationController {
 

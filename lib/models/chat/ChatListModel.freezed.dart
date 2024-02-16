@@ -81,11 +81,11 @@ class _$ChatListModelCopyWithImpl<$Res, $Val extends ChatListModel>
 }
 
 /// @nodoc
-abstract class _$$_ChatListModelCopyWith<$Res>
+abstract class _$$ChatListModelImplCopyWith<$Res>
     implements $ChatListModelCopyWith<$Res> {
-  factory _$$_ChatListModelCopyWith(
-          _$_ChatListModel value, $Res Function(_$_ChatListModel) then) =
-      __$$_ChatListModelCopyWithImpl<$Res>;
+  factory _$$ChatListModelImplCopyWith(
+          _$ChatListModelImpl value, $Res Function(_$ChatListModelImpl) then) =
+      __$$ChatListModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -93,11 +93,11 @@ abstract class _$$_ChatListModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChatListModelCopyWithImpl<$Res>
-    extends _$ChatListModelCopyWithImpl<$Res, _$_ChatListModel>
-    implements _$$_ChatListModelCopyWith<$Res> {
-  __$$_ChatListModelCopyWithImpl(
-      _$_ChatListModel _value, $Res Function(_$_ChatListModel) _then)
+class __$$ChatListModelImplCopyWithImpl<$Res>
+    extends _$ChatListModelCopyWithImpl<$Res, _$ChatListModelImpl>
+    implements _$$ChatListModelImplCopyWith<$Res> {
+  __$$ChatListModelImplCopyWithImpl(
+      _$ChatListModelImpl _value, $Res Function(_$ChatListModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_ChatListModelCopyWithImpl<$Res>
     Object? message = null,
     Object? data = freezed,
   }) {
-    return _then(_$_ChatListModel(
+    return _then(_$ChatListModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -131,16 +131,16 @@ class __$$_ChatListModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ChatListModel implements _ChatListModel {
-  _$_ChatListModel(
+class _$ChatListModelImpl implements _ChatListModel {
+  _$ChatListModelImpl(
       {required this.status,
       required this.code,
       required this.message,
       final List<ChatHistoryModel>? data})
       : _data = data;
 
-  factory _$_ChatListModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ChatListModelFromJson(json);
+  factory _$ChatListModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatListModelImplFromJson(json);
 
   @override
   final String status;
@@ -167,7 +167,7 @@ class _$_ChatListModel implements _ChatListModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChatListModel &&
+            other is _$ChatListModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -182,12 +182,12 @@ class _$_ChatListModel implements _ChatListModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatListModelCopyWith<_$_ChatListModel> get copyWith =>
-      __$$_ChatListModelCopyWithImpl<_$_ChatListModel>(this, _$identity);
+  _$$ChatListModelImplCopyWith<_$ChatListModelImpl> get copyWith =>
+      __$$ChatListModelImplCopyWithImpl<_$ChatListModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ChatListModelToJson(
+    return _$$ChatListModelImplToJson(
       this,
     );
   }
@@ -198,10 +198,10 @@ abstract class _ChatListModel implements ChatListModel {
       {required final String status,
       required final int code,
       required final String message,
-      final List<ChatHistoryModel>? data}) = _$_ChatListModel;
+      final List<ChatHistoryModel>? data}) = _$ChatListModelImpl;
 
   factory _ChatListModel.fromJson(Map<String, dynamic> json) =
-      _$_ChatListModel.fromJson;
+      _$ChatListModelImpl.fromJson;
 
   @override
   String get status;
@@ -213,6 +213,6 @@ abstract class _ChatListModel implements ChatListModel {
   List<ChatHistoryModel>? get data;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatListModelCopyWith<_$_ChatListModel> get copyWith =>
+  _$$ChatListModelImplCopyWith<_$ChatListModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

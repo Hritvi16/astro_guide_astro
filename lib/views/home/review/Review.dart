@@ -305,7 +305,7 @@ class Review extends StatelessWidget {
                 review.reply??"",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.notoColorEmoji(
+                style: GoogleFonts.manrope(
                   fontSize: 12.0,
                   letterSpacing: 0
                 ),

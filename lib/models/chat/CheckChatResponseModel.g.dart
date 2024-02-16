@@ -6,9 +6,9 @@ part of 'CheckChatResponseModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CheckChatResponseModel _$$_CheckChatResponseModelFromJson(
+_$CheckChatResponseModelImpl _$$CheckChatResponseModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CheckChatResponseModel(
+    _$CheckChatResponseModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -24,8 +24,8 @@ _$_CheckChatResponseModel _$$_CheckChatResponseModelFromJson(
       wallet: (json['wallet'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$_CheckChatResponseModelToJson(
-        _$_CheckChatResponseModel instance) =>
+Map<String, dynamic> _$$CheckChatResponseModelImplToJson(
+        _$CheckChatResponseModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

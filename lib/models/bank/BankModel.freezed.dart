@@ -153,10 +153,11 @@ class _$BankModelCopyWithImpl<$Res, $Val extends BankModel>
 }
 
 /// @nodoc
-abstract class _$$_BankModelCopyWith<$Res> implements $BankModelCopyWith<$Res> {
-  factory _$$_BankModelCopyWith(
-          _$_BankModel value, $Res Function(_$_BankModel) then) =
-      __$$_BankModelCopyWithImpl<$Res>;
+abstract class _$$BankModelImplCopyWith<$Res>
+    implements $BankModelCopyWith<$Res> {
+  factory _$$BankModelImplCopyWith(
+          _$BankModelImpl value, $Res Function(_$BankModelImpl) then) =
+      __$$BankModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -177,11 +178,11 @@ abstract class _$$_BankModelCopyWith<$Res> implements $BankModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BankModelCopyWithImpl<$Res>
-    extends _$BankModelCopyWithImpl<$Res, _$_BankModel>
-    implements _$$_BankModelCopyWith<$Res> {
-  __$$_BankModelCopyWithImpl(
-      _$_BankModel _value, $Res Function(_$_BankModel) _then)
+class __$$BankModelImplCopyWithImpl<$Res>
+    extends _$BankModelCopyWithImpl<$Res, _$BankModelImpl>
+    implements _$$BankModelImplCopyWith<$Res> {
+  __$$BankModelImplCopyWithImpl(
+      _$BankModelImpl _value, $Res Function(_$BankModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -202,7 +203,7 @@ class __$$_BankModelCopyWithImpl<$Res>
     Object? verified = null,
     Object? status = null,
   }) {
-    return _then(_$_BankModel(
+    return _then(_$BankModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -265,8 +266,8 @@ class __$$_BankModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BankModel implements _BankModel {
-  _$_BankModel(
+class _$BankModelImpl implements _BankModel {
+  _$BankModelImpl(
       {required this.id,
       required this.astro_id,
       required this.bank_name,
@@ -282,8 +283,8 @@ class _$_BankModel implements _BankModel {
       required this.verified,
       required this.status});
 
-  factory _$_BankModel.fromJson(Map<String, dynamic> json) =>
-      _$$_BankModelFromJson(json);
+  factory _$BankModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BankModelImplFromJson(json);
 
   @override
   final int id;
@@ -323,7 +324,7 @@ class _$_BankModel implements _BankModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BankModel &&
+            other is _$BankModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.astro_id, astro_id) ||
                 other.astro_id == astro_id) &&
@@ -371,12 +372,12 @@ class _$_BankModel implements _BankModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BankModelCopyWith<_$_BankModel> get copyWith =>
-      __$$_BankModelCopyWithImpl<_$_BankModel>(this, _$identity);
+  _$$BankModelImplCopyWith<_$BankModelImpl> get copyWith =>
+      __$$BankModelImplCopyWithImpl<_$BankModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BankModelToJson(
+    return _$$BankModelImplToJson(
       this,
     );
   }
@@ -397,10 +398,10 @@ abstract class _BankModel implements BankModel {
       final String? verified_at,
       final int? verified_by,
       required final int verified,
-      required final int status}) = _$_BankModel;
+      required final int status}) = _$BankModelImpl;
 
   factory _BankModel.fromJson(Map<String, dynamic> json) =
-      _$_BankModel.fromJson;
+      _$BankModelImpl.fromJson;
 
   @override
   int get id;
@@ -432,6 +433,6 @@ abstract class _BankModel implements BankModel {
   int get status;
   @override
   @JsonKey(ignore: true)
-  _$$_BankModelCopyWith<_$_BankModel> get copyWith =>
+  _$$BankModelImplCopyWith<_$BankModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

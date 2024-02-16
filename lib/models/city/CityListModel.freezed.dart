@@ -80,22 +80,22 @@ class _$CityListModelCopyWithImpl<$Res, $Val extends CityListModel>
 }
 
 /// @nodoc
-abstract class _$$_CityListModelCopyWith<$Res>
+abstract class _$$CityListModelImplCopyWith<$Res>
     implements $CityListModelCopyWith<$Res> {
-  factory _$$_CityListModelCopyWith(
-          _$_CityListModel value, $Res Function(_$_CityListModel) then) =
-      __$$_CityListModelCopyWithImpl<$Res>;
+  factory _$$CityListModelImplCopyWith(
+          _$CityListModelImpl value, $Res Function(_$CityListModelImpl) then) =
+      __$$CityListModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String status, int code, String message, List<CityModel> data});
 }
 
 /// @nodoc
-class __$$_CityListModelCopyWithImpl<$Res>
-    extends _$CityListModelCopyWithImpl<$Res, _$_CityListModel>
-    implements _$$_CityListModelCopyWith<$Res> {
-  __$$_CityListModelCopyWithImpl(
-      _$_CityListModel _value, $Res Function(_$_CityListModel) _then)
+class __$$CityListModelImplCopyWithImpl<$Res>
+    extends _$CityListModelCopyWithImpl<$Res, _$CityListModelImpl>
+    implements _$$CityListModelImplCopyWith<$Res> {
+  __$$CityListModelImplCopyWithImpl(
+      _$CityListModelImpl _value, $Res Function(_$CityListModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_CityListModelCopyWithImpl<$Res>
     Object? message = null,
     Object? data = null,
   }) {
-    return _then(_$_CityListModel(
+    return _then(_$CityListModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -129,16 +129,16 @@ class __$$_CityListModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CityListModel implements _CityListModel {
-  _$_CityListModel(
+class _$CityListModelImpl implements _CityListModel {
+  _$CityListModelImpl(
       {required this.status,
       required this.code,
       required this.message,
       required final List<CityModel> data})
       : _data = data;
 
-  factory _$_CityListModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CityListModelFromJson(json);
+  factory _$CityListModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CityListModelImplFromJson(json);
 
   @override
   final String status;
@@ -163,7 +163,7 @@ class _$_CityListModel implements _CityListModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CityListModel &&
+            other is _$CityListModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -178,12 +178,12 @@ class _$_CityListModel implements _CityListModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CityListModelCopyWith<_$_CityListModel> get copyWith =>
-      __$$_CityListModelCopyWithImpl<_$_CityListModel>(this, _$identity);
+  _$$CityListModelImplCopyWith<_$CityListModelImpl> get copyWith =>
+      __$$CityListModelImplCopyWithImpl<_$CityListModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CityListModelToJson(
+    return _$$CityListModelImplToJson(
       this,
     );
   }
@@ -194,10 +194,10 @@ abstract class _CityListModel implements CityListModel {
       {required final String status,
       required final int code,
       required final String message,
-      required final List<CityModel> data}) = _$_CityListModel;
+      required final List<CityModel> data}) = _$CityListModelImpl;
 
   factory _CityListModel.fromJson(Map<String, dynamic> json) =
-      _$_CityListModel.fromJson;
+      _$CityListModelImpl.fromJson;
 
   @override
   String get status;
@@ -209,6 +209,6 @@ abstract class _CityListModel implements CityListModel {
   List<CityModel> get data;
   @override
   @JsonKey(ignore: true)
-  _$$_CityListModelCopyWith<_$_CityListModel> get copyWith =>
+  _$$CityListModelImplCopyWith<_$CityListModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

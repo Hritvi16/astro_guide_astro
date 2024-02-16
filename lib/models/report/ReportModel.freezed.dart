@@ -155,11 +155,11 @@ class _$ReportModelCopyWithImpl<$Res, $Val extends ReportModel>
 }
 
 /// @nodoc
-abstract class _$$_ReportModelCopyWith<$Res>
+abstract class _$$ReportModelImplCopyWith<$Res>
     implements $ReportModelCopyWith<$Res> {
-  factory _$$_ReportModelCopyWith(
-          _$_ReportModel value, $Res Function(_$_ReportModel) then) =
-      __$$_ReportModelCopyWithImpl<$Res>;
+  factory _$$ReportModelImplCopyWith(
+          _$ReportModelImpl value, $Res Function(_$ReportModelImpl) then) =
+      __$$ReportModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -180,11 +180,11 @@ abstract class _$$_ReportModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ReportModelCopyWithImpl<$Res>
-    extends _$ReportModelCopyWithImpl<$Res, _$_ReportModel>
-    implements _$$_ReportModelCopyWith<$Res> {
-  __$$_ReportModelCopyWithImpl(
-      _$_ReportModel _value, $Res Function(_$_ReportModel) _then)
+class __$$ReportModelImplCopyWithImpl<$Res>
+    extends _$ReportModelCopyWithImpl<$Res, _$ReportModelImpl>
+    implements _$$ReportModelImplCopyWith<$Res> {
+  __$$ReportModelImplCopyWithImpl(
+      _$ReportModelImpl _value, $Res Function(_$ReportModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -205,7 +205,7 @@ class __$$_ReportModelCopyWithImpl<$Res>
     Object? current_date = null,
     Object? month_summary = null,
   }) {
-    return _then(_$_ReportModel(
+    return _then(_$ReportModelImpl(
       total_chat_sec: null == total_chat_sec
           ? _value.total_chat_sec
           : total_chat_sec // ignore: cast_nullable_to_non_nullable
@@ -268,8 +268,8 @@ class __$$_ReportModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ReportModel implements _ReportModel {
-  _$_ReportModel(
+class _$ReportModelImpl implements _ReportModel {
+  _$ReportModelImpl(
       {required this.total_chat_sec,
       required this.total_call_sec,
       required this.total_chat,
@@ -286,8 +286,8 @@ class _$_ReportModel implements _ReportModel {
       required final List<BasicReportModel> month_summary})
       : _month_summary = month_summary;
 
-  factory _$_ReportModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ReportModelFromJson(json);
+  factory _$ReportModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReportModelImplFromJson(json);
 
   @override
   final int total_chat_sec;
@@ -332,7 +332,7 @@ class _$_ReportModel implements _ReportModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ReportModel &&
+            other is _$ReportModelImpl &&
             (identical(other.total_chat_sec, total_chat_sec) ||
                 other.total_chat_sec == total_chat_sec) &&
             (identical(other.total_call_sec, total_call_sec) ||
@@ -382,12 +382,12 @@ class _$_ReportModel implements _ReportModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ReportModelCopyWith<_$_ReportModel> get copyWith =>
-      __$$_ReportModelCopyWithImpl<_$_ReportModel>(this, _$identity);
+  _$$ReportModelImplCopyWith<_$ReportModelImpl> get copyWith =>
+      __$$ReportModelImplCopyWithImpl<_$ReportModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ReportModelToJson(
+    return _$$ReportModelImplToJson(
       this,
     );
   }
@@ -408,10 +408,10 @@ abstract class _ReportModel implements ReportModel {
       required final int offer,
       required final String created_at,
       required final String current_date,
-      required final List<BasicReportModel> month_summary}) = _$_ReportModel;
+      required final List<BasicReportModel> month_summary}) = _$ReportModelImpl;
 
   factory _ReportModel.fromJson(Map<String, dynamic> json) =
-      _$_ReportModel.fromJson;
+      _$ReportModelImpl.fromJson;
 
   @override
   int get total_chat_sec;
@@ -443,6 +443,6 @@ abstract class _ReportModel implements ReportModel {
   List<BasicReportModel> get month_summary;
   @override
   @JsonKey(ignore: true)
-  _$$_ReportModelCopyWith<_$_ReportModel> get copyWith =>
+  _$$ReportModelImplCopyWith<_$ReportModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

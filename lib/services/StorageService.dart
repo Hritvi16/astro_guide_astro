@@ -7,8 +7,12 @@ class StorageService extends GetxService{
 
   static void storeCalling(CallController callController) {
     final storage = GetStorage();
-
-    storage.write("calling", callController);
+    try {
+      storage.write("calling", callController);
+    }
+    catch(ex) {
+      print(ex.toString());
+    }
   }
 
 }

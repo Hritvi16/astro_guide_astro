@@ -26,7 +26,7 @@ mixin _$AstrologerModel {
   String get email => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   String get dob => throw _privateConstructorUsedError;
-  double get experience => throw _privateConstructorUsedError;
+  String get experience => throw _privateConstructorUsedError;
   String get profile => throw _privateConstructorUsedError;
   String get about => throw _privateConstructorUsedError;
   int? get fav => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $AstrologerModelCopyWith<$Res> {
       String email,
       String gender,
       String dob,
-      double experience,
+      String experience,
       String profile,
       String about,
       int? fav,
@@ -114,7 +114,7 @@ class _$AstrologerModelCopyWithImpl<$Res, $Val extends AstrologerModel>
       experience: null == experience
           ? _value.experience
           : experience // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
@@ -140,11 +140,11 @@ class _$AstrologerModelCopyWithImpl<$Res, $Val extends AstrologerModel>
 }
 
 /// @nodoc
-abstract class _$$_AstrologerModelCopyWith<$Res>
+abstract class _$$AstrologerModelImplCopyWith<$Res>
     implements $AstrologerModelCopyWith<$Res> {
-  factory _$$_AstrologerModelCopyWith(
-          _$_AstrologerModel value, $Res Function(_$_AstrologerModel) then) =
-      __$$_AstrologerModelCopyWithImpl<$Res>;
+  factory _$$AstrologerModelImplCopyWith(_$AstrologerModelImpl value,
+          $Res Function(_$AstrologerModelImpl) then) =
+      __$$AstrologerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -154,7 +154,7 @@ abstract class _$$_AstrologerModelCopyWith<$Res>
       String email,
       String gender,
       String dob,
-      double experience,
+      String experience,
       String profile,
       String about,
       int? fav,
@@ -163,11 +163,11 @@ abstract class _$$_AstrologerModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerModelCopyWithImpl<$Res>
-    extends _$AstrologerModelCopyWithImpl<$Res, _$_AstrologerModel>
-    implements _$$_AstrologerModelCopyWith<$Res> {
-  __$$_AstrologerModelCopyWithImpl(
-      _$_AstrologerModel _value, $Res Function(_$_AstrologerModel) _then)
+class __$$AstrologerModelImplCopyWithImpl<$Res>
+    extends _$AstrologerModelCopyWithImpl<$Res, _$AstrologerModelImpl>
+    implements _$$AstrologerModelImplCopyWith<$Res> {
+  __$$AstrologerModelImplCopyWithImpl(
+      _$AstrologerModelImpl _value, $Res Function(_$AstrologerModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -186,7 +186,7 @@ class __$$_AstrologerModelCopyWithImpl<$Res>
     Object? follow = freezed,
     Object? ci_id = freezed,
   }) {
-    return _then(_$_AstrologerModel(
+    return _then(_$AstrologerModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -214,7 +214,7 @@ class __$$_AstrologerModelCopyWithImpl<$Res>
       experience: null == experience
           ? _value.experience
           : experience // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
@@ -241,8 +241,8 @@ class __$$_AstrologerModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerModel implements _AstrologerModel {
-  _$_AstrologerModel(
+class _$AstrologerModelImpl implements _AstrologerModel {
+  _$AstrologerModelImpl(
       {required this.id,
       required this.name,
       required this.mobile,
@@ -256,8 +256,8 @@ class _$_AstrologerModel implements _AstrologerModel {
       this.follow,
       this.ci_id});
 
-  factory _$_AstrologerModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerModelFromJson(json);
+  factory _$AstrologerModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerModelImplFromJson(json);
 
   @override
   final int id;
@@ -272,7 +272,7 @@ class _$_AstrologerModel implements _AstrologerModel {
   @override
   final String dob;
   @override
-  final double experience;
+  final String experience;
   @override
   final String profile;
   @override
@@ -293,7 +293,7 @@ class _$_AstrologerModel implements _AstrologerModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerModel &&
+            other is _$AstrologerModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
@@ -317,12 +317,13 @@ class _$_AstrologerModel implements _AstrologerModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerModelCopyWith<_$_AstrologerModel> get copyWith =>
-      __$$_AstrologerModelCopyWithImpl<_$_AstrologerModel>(this, _$identity);
+  _$$AstrologerModelImplCopyWith<_$AstrologerModelImpl> get copyWith =>
+      __$$AstrologerModelImplCopyWithImpl<_$AstrologerModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerModelToJson(
+    return _$$AstrologerModelImplToJson(
       this,
     );
   }
@@ -336,15 +337,15 @@ abstract class _AstrologerModel implements AstrologerModel {
       required final String email,
       required final String gender,
       required final String dob,
-      required final double experience,
+      required final String experience,
       required final String profile,
       required final String about,
       final int? fav,
       final int? follow,
-      final int? ci_id}) = _$_AstrologerModel;
+      final int? ci_id}) = _$AstrologerModelImpl;
 
   factory _AstrologerModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerModel.fromJson;
+      _$AstrologerModelImpl.fromJson;
 
   @override
   int get id;
@@ -359,7 +360,7 @@ abstract class _AstrologerModel implements AstrologerModel {
   @override
   String get dob;
   @override
-  double get experience;
+  String get experience;
   @override
   String get profile;
   @override
@@ -372,6 +373,6 @@ abstract class _AstrologerModel implements AstrologerModel {
   int? get ci_id;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerModelCopyWith<_$_AstrologerModel> get copyWith =>
+  _$$AstrologerModelImplCopyWith<_$AstrologerModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

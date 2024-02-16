@@ -6,8 +6,9 @@ part of 'ChatMissedModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ChatMissedModel _$$_ChatMissedModelFromJson(Map<String, dynamic> json) =>
-    _$_ChatMissedModel(
+_$ChatMissedModelImpl _$$ChatMissedModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChatMissedModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -21,7 +22,8 @@ _$_ChatMissedModel _$$_ChatMissedModelFromJson(Map<String, dynamic> json) =>
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_ChatMissedModelToJson(_$_ChatMissedModel instance) =>
+Map<String, dynamic> _$$ChatMissedModelImplToJson(
+        _$ChatMissedModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

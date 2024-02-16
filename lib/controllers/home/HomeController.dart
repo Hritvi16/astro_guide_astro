@@ -1,3 +1,6 @@
+import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
+import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/shared/widgets/bottomNavigation/BottomNavigation.dart';
 import 'package:astro_guide_astro/views/home/dashboard/Dashboard.dart';
 import 'package:astro_guide_astro/views/home/history/History.dart';
@@ -10,9 +13,15 @@ import 'package:get_storage/get_storage.dart';
 class HomeController extends GetxController {
   HomeController();
 
+  late AstrologerProvider astrologerProvider = Get.find();
+
   final storage = GetStorage();
   int current = 0;
   int size = 4;
+
+  late bool load;
+  late bool verify;
+
   List<BottomNavItem> items = [
     BottomNavItem(
       icon: "assets/dashboard/home"
@@ -29,20 +38,46 @@ class HomeController extends GetxController {
   ];
 
   List<Widget> screens = [
-    Dashboard(),
-    Support(),
-    History(),
-    Setting(),
+    Container(),
+    Container(),
+    Container(),
+    Container(),
   ];
+
+
 
   @override
   void onInit() {
+    load = false;
+    verify = false;
+    check();
     super.onInit();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+
+  Future<void> check() async {
+    astrologerProvider.check(storage.read("access"), ApiConstants.check).then((response) async {
+      print(response.toJson());
+      load = true;
+      if(response.code==1) {
+        screens = [
+          Dashboard(),
+          Support(),
+          History(),
+          Setting(),
+        ];
+        verify = true;
+      }
+      update();
+      // else {
+      //   Essential.showSnackBar(response.message);
+      // }
+    });
   }
 
 
@@ -61,6 +96,26 @@ class HomeController extends GetxController {
     else if(current==3) {
       Setting().settingController.onInit();
     }
+  }
+
+
+  Future<void> logout() async {
+    Essential.showLoadingDialog();
+    await Future.delayed(Duration(seconds: 2));
+
+    await astrologerProvider.settings(storage.read("access"), ApiConstants.logout).then((response) async {
+      print(response.toJson());
+      Get.back();
+      if(response.code==1) {
+        storage.write("access", "essential");
+        storage.write("refresh", "");
+        storage.write("status", "logged out");
+        Get.offAllNamed("/login");
+      }
+      else if(response.code!=-1){
+        Essential.showSnackBar(response.message);
+      }
+    });
   }
 
 }

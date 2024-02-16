@@ -126,7 +126,7 @@ class RatingDialog extends StatelessWidget {
                         print(value);
                         ratingController.update();
                       },
-                      style: GoogleFonts.notoColorEmoji(
+                      style: GoogleFonts.manrope(
                         fontSize: 16.0,
                         letterSpacing: 0,
                         fontWeight: FontWeight.w400,

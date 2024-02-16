@@ -6,8 +6,8 @@ part of 'ReportModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ReportModel _$$_ReportModelFromJson(Map<String, dynamic> json) =>
-    _$_ReportModel(
+_$ReportModelImpl _$$ReportModelImplFromJson(Map<String, dynamic> json) =>
+    _$ReportModelImpl(
       total_chat_sec: json['total_chat_sec'] as int,
       total_call_sec: json['total_call_sec'] as int,
       total_chat: json['total_chat'] as int,
@@ -26,7 +26,7 @@ _$_ReportModel _$$_ReportModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_ReportModelToJson(_$_ReportModel instance) =>
+Map<String, dynamic> _$$ReportModelImplToJson(_$ReportModelImpl instance) =>
     <String, dynamic>{
       'total_chat_sec': instance.total_chat_sec,
       'total_call_sec': instance.total_call_sec,

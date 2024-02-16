@@ -112,11 +112,11 @@ class _$CheckChatModelCopyWithImpl<$Res, $Val extends CheckChatModel>
 }
 
 /// @nodoc
-abstract class _$$_CheckChatModelCopyWith<$Res>
+abstract class _$$CheckChatModelImplCopyWith<$Res>
     implements $CheckChatModelCopyWith<$Res> {
-  factory _$$_CheckChatModelCopyWith(
-          _$_CheckChatModel value, $Res Function(_$_CheckChatModel) then) =
-      __$$_CheckChatModelCopyWithImpl<$Res>;
+  factory _$$CheckChatModelImplCopyWith(_$CheckChatModelImpl value,
+          $Res Function(_$CheckChatModelImpl) then) =
+      __$$CheckChatModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_CheckChatModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CheckChatModelCopyWithImpl<$Res>
-    extends _$CheckChatModelCopyWithImpl<$Res, _$_CheckChatModel>
-    implements _$$_CheckChatModelCopyWith<$Res> {
-  __$$_CheckChatModelCopyWithImpl(
-      _$_CheckChatModel _value, $Res Function(_$_CheckChatModel) _then)
+class __$$CheckChatModelImplCopyWithImpl<$Res>
+    extends _$CheckChatModelCopyWithImpl<$Res, _$CheckChatModelImpl>
+    implements _$$CheckChatModelImplCopyWith<$Res> {
+  __$$CheckChatModelImplCopyWithImpl(
+      _$CheckChatModelImpl _value, $Res Function(_$CheckChatModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class __$$_CheckChatModelCopyWithImpl<$Res>
     Object? type = freezed,
     Object? info = null,
   }) {
-    return _then(_$_CheckChatModel(
+    return _then(_$CheckChatModelImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -189,8 +189,8 @@ class __$$_CheckChatModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CheckChatModel implements _CheckChatModel {
-  _$_CheckChatModel(
+class _$CheckChatModelImpl implements _CheckChatModel {
+  _$CheckChatModelImpl(
       {required this.name,
       required this.mobile,
       required this.gender,
@@ -200,8 +200,8 @@ class _$_CheckChatModel implements _CheckChatModel {
       this.type,
       required this.info});
 
-  factory _$_CheckChatModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CheckChatModelFromJson(json);
+  factory _$CheckChatModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CheckChatModelImplFromJson(json);
 
   @override
   final String name;
@@ -229,7 +229,7 @@ class _$_CheckChatModel implements _CheckChatModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CheckChatModel &&
+            other is _$CheckChatModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
             (identical(other.gender, gender) || other.gender == gender) &&
@@ -249,12 +249,13 @@ class _$_CheckChatModel implements _CheckChatModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CheckChatModelCopyWith<_$_CheckChatModel> get copyWith =>
-      __$$_CheckChatModelCopyWithImpl<_$_CheckChatModel>(this, _$identity);
+  _$$CheckChatModelImplCopyWith<_$CheckChatModelImpl> get copyWith =>
+      __$$CheckChatModelImplCopyWithImpl<_$CheckChatModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CheckChatModelToJson(
+    return _$$CheckChatModelImplToJson(
       this,
     );
   }
@@ -269,10 +270,10 @@ abstract class _CheckChatModel implements CheckChatModel {
       final int? ci_id,
       final String? marital_status,
       final String? type,
-      required final String info}) = _$_CheckChatModel;
+      required final String info}) = _$CheckChatModelImpl;
 
   factory _CheckChatModel.fromJson(Map<String, dynamic> json) =
-      _$_CheckChatModel.fromJson;
+      _$CheckChatModelImpl.fromJson;
 
   @override
   String get name;
@@ -292,6 +293,6 @@ abstract class _CheckChatModel implements CheckChatModel {
   String get info;
   @override
   @JsonKey(ignore: true)
-  _$$_CheckChatModelCopyWith<_$_CheckChatModel> get copyWith =>
+  _$$CheckChatModelImplCopyWith<_$CheckChatModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

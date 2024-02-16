@@ -167,11 +167,11 @@ class DashboardController extends GetxController {
   
   double getTotalMinutes(int seconds) {
     print(seconds);
-    return (seconds/60).toPrecision(2);
+    return getPrecision(seconds/60, 2);
   }
 
   double getAvgDailyMinutes(int seconds) {
-    return (getTotalMinutes(seconds)/getDays()).toPrecision(2);
+    return getPrecision(getTotalMinutes(seconds)/getDays(), 2);
   }
 
   int getDays() {
@@ -179,7 +179,14 @@ class DashboardController extends GetxController {
   }
 
   double getAvgMonthMinutes(int seconds) {
-    return (getTotalMinutes(seconds)/getMonths()).toPrecision(2);
+    return getPrecision(getTotalMinutes(seconds)/getMonths(), 2);
+  }
+
+  double getPrecision(double value, int precision) {
+    if(value.isNaN) {
+      value = 0;
+    }
+    return value.toPrecision(precision);
   }
 
   int getMonths() {

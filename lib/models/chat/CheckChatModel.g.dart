@@ -6,8 +6,8 @@ part of 'CheckChatModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CheckChatModel _$$_CheckChatModelFromJson(Map<String, dynamic> json) =>
-    _$_CheckChatModel(
+_$CheckChatModelImpl _$$CheckChatModelImplFromJson(Map<String, dynamic> json) =>
+    _$CheckChatModelImpl(
       name: json['name'] as String,
       mobile: json['mobile'] as String,
       gender: json['gender'] as String,
@@ -18,7 +18,8 @@ _$_CheckChatModel _$$_CheckChatModelFromJson(Map<String, dynamic> json) =>
       info: json['info'] as String,
     );
 
-Map<String, dynamic> _$$_CheckChatModelToJson(_$_CheckChatModel instance) =>
+Map<String, dynamic> _$$CheckChatModelImplToJson(
+        _$CheckChatModelImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'mobile': instance.mobile,

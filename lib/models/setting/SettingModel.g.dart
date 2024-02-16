@@ -6,8 +6,8 @@ part of 'SettingModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SettingModel _$$_SettingModelFromJson(Map<String, dynamic> json) =>
-    _$_SettingModel(
+_$SettingModelImpl _$$SettingModelImplFromJson(Map<String, dynamic> json) =>
+    _$SettingModelImpl(
       about_64: json['about_64'] as String,
       a_privacy64: json['a_privacy64'] as String,
       a_tc64: json['a_tc64'] as String,
@@ -18,7 +18,7 @@ _$_SettingModel _$$_SettingModelFromJson(Map<String, dynamic> json) =>
       link: json['link'] as String,
     );
 
-Map<String, dynamic> _$$_SettingModelToJson(_$_SettingModel instance) =>
+Map<String, dynamic> _$$SettingModelImplToJson(_$SettingModelImpl instance) =>
     <String, dynamic>{
       'about_64': instance.about_64,
       'a_privacy64': instance.a_privacy64,

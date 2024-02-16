@@ -31,7 +31,7 @@ class SettingController extends GetxController {
     languages = Languages().languages;
     astrologerProvider = Get.put(AstrologerProvider(astrologerRepository));
     // astrologer = storage.read("astrologer");
-    astrologer = AstrologerModel(id: -1, name: "", profile: "", mobile: '', email: '', experience: 0, about: '', gender: '', dob: '');
+    astrologer = AstrologerModel(id: -1, name: "", profile: "", mobile: '', email: '', experience: '', about: '', gender: '', dob: '');
     start();
   }
 

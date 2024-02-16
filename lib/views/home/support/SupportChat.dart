@@ -100,7 +100,7 @@ class SupportChat extends StatelessWidget {
               height: 100,
             ),
           ),
-          supportChatController.status=="REQUESTED" || supportChatController.status=="ACTIVE" ? getBottomPage()
+          supportChatController.status=="REQUESTED" || supportChatController.status=="ACTIVE" ? getBottomPage(context)
               : getBottom(context)
         ],
       ),
@@ -208,7 +208,7 @@ class SupportChat extends StatelessWidget {
   }
 
 
-  getBottomPage() {
+  getBottomPage(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -217,6 +217,7 @@ class SupportChat extends StatelessWidget {
             Flexible(
               child: TextFormField(
                 onChanged: (value) {
+                  supportChatController.changeLines(context);
                   supportChatController.changeSend();
                 },
                 keyboardType: TextInputType.name,
@@ -226,6 +227,8 @@ class SupportChat extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
                 controller: supportChatController.message,
+                maxLines: 4,
+                minLines: 1,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

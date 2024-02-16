@@ -132,11 +132,11 @@ class _$SessionMissedModelCopyWithImpl<$Res, $Val extends SessionMissedModel>
 }
 
 /// @nodoc
-abstract class _$$_SessionMissedModelCopyWith<$Res>
+abstract class _$$SessionMissedModelImplCopyWith<$Res>
     implements $SessionMissedModelCopyWith<$Res> {
-  factory _$$_SessionMissedModelCopyWith(_$_SessionMissedModel value,
-          $Res Function(_$_SessionMissedModel) then) =
-      __$$_SessionMissedModelCopyWithImpl<$Res>;
+  factory _$$SessionMissedModelImplCopyWith(_$SessionMissedModelImpl value,
+          $Res Function(_$SessionMissedModelImpl) then) =
+      __$$SessionMissedModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -155,11 +155,11 @@ abstract class _$$_SessionMissedModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SessionMissedModelCopyWithImpl<$Res>
-    extends _$SessionMissedModelCopyWithImpl<$Res, _$_SessionMissedModel>
-    implements _$$_SessionMissedModelCopyWith<$Res> {
-  __$$_SessionMissedModelCopyWithImpl(
-      _$_SessionMissedModel _value, $Res Function(_$_SessionMissedModel) _then)
+class __$$SessionMissedModelImplCopyWithImpl<$Res>
+    extends _$SessionMissedModelCopyWithImpl<$Res, _$SessionMissedModelImpl>
+    implements _$$SessionMissedModelImplCopyWith<$Res> {
+  __$$SessionMissedModelImplCopyWithImpl(_$SessionMissedModelImpl _value,
+      $Res Function(_$SessionMissedModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -173,7 +173,7 @@ class __$$_SessionMissedModelCopyWithImpl<$Res>
     Object? wallet = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$_SessionMissedModel(
+    return _then(_$SessionMissedModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -208,8 +208,8 @@ class __$$_SessionMissedModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SessionMissedModel implements _SessionMissedModel {
-  _$_SessionMissedModel(
+class _$SessionMissedModelImpl implements _SessionMissedModel {
+  _$SessionMissedModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -218,8 +218,8 @@ class _$_SessionMissedModel implements _SessionMissedModel {
       this.wallet,
       this.user});
 
-  factory _$_SessionMissedModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SessionMissedModelFromJson(json);
+  factory _$SessionMissedModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionMissedModelImplFromJson(json);
 
   @override
   final String status;
@@ -245,7 +245,7 @@ class _$_SessionMissedModel implements _SessionMissedModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SessionMissedModel &&
+            other is _$SessionMissedModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -263,13 +263,13 @@ class _$_SessionMissedModel implements _SessionMissedModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionMissedModelCopyWith<_$_SessionMissedModel> get copyWith =>
-      __$$_SessionMissedModelCopyWithImpl<_$_SessionMissedModel>(
+  _$$SessionMissedModelImplCopyWith<_$SessionMissedModelImpl> get copyWith =>
+      __$$SessionMissedModelImplCopyWithImpl<_$SessionMissedModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SessionMissedModelToJson(
+    return _$$SessionMissedModelImplToJson(
       this,
     );
   }
@@ -283,10 +283,10 @@ abstract class _SessionMissedModel implements SessionMissedModel {
       required final int ch_id,
       final SessionHistoryModel? data,
       final double? wallet,
-      final UserModel? user}) = _$_SessionMissedModel;
+      final UserModel? user}) = _$SessionMissedModelImpl;
 
   factory _SessionMissedModel.fromJson(Map<String, dynamic> json) =
-      _$_SessionMissedModel.fromJson;
+      _$SessionMissedModelImpl.fromJson;
 
   @override
   String get status;
@@ -304,6 +304,6 @@ abstract class _SessionMissedModel implements SessionMissedModel {
   UserModel? get user;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionMissedModelCopyWith<_$_SessionMissedModel> get copyWith =>
+  _$$SessionMissedModelImplCopyWith<_$SessionMissedModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

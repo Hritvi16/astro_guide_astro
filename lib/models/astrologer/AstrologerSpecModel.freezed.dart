@@ -91,11 +91,11 @@ class _$AstrologerSpecModelCopyWithImpl<$Res, $Val extends AstrologerSpecModel>
 }
 
 /// @nodoc
-abstract class _$$_AstrologerSpecModelCopyWith<$Res>
+abstract class _$$AstrologerSpecModelImplCopyWith<$Res>
     implements $AstrologerSpecModelCopyWith<$Res> {
-  factory _$$_AstrologerSpecModelCopyWith(_$_AstrologerSpecModel value,
-          $Res Function(_$_AstrologerSpecModel) then) =
-      __$$_AstrologerSpecModelCopyWithImpl<$Res>;
+  factory _$$AstrologerSpecModelImplCopyWith(_$AstrologerSpecModelImpl value,
+          $Res Function(_$AstrologerSpecModelImpl) then) =
+      __$$AstrologerSpecModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_AstrologerSpecModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AstrologerSpecModelCopyWithImpl<$Res>
-    extends _$AstrologerSpecModelCopyWithImpl<$Res, _$_AstrologerSpecModel>
-    implements _$$_AstrologerSpecModelCopyWith<$Res> {
-  __$$_AstrologerSpecModelCopyWithImpl(_$_AstrologerSpecModel _value,
-      $Res Function(_$_AstrologerSpecModel) _then)
+class __$$AstrologerSpecModelImplCopyWithImpl<$Res>
+    extends _$AstrologerSpecModelCopyWithImpl<$Res, _$AstrologerSpecModelImpl>
+    implements _$$AstrologerSpecModelImplCopyWith<$Res> {
+  __$$AstrologerSpecModelImplCopyWithImpl(_$AstrologerSpecModelImpl _value,
+      $Res Function(_$AstrologerSpecModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_AstrologerSpecModelCopyWithImpl<$Res>
     Object? data = freezed,
     Object? specs = freezed,
   }) {
-    return _then(_$_AstrologerSpecModel(
+    return _then(_$AstrologerSpecModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -150,8 +150,8 @@ class __$$_AstrologerSpecModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AstrologerSpecModel implements _AstrologerSpecModel {
-  _$_AstrologerSpecModel(
+class _$AstrologerSpecModelImpl implements _AstrologerSpecModel {
+  _$AstrologerSpecModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -160,8 +160,8 @@ class _$_AstrologerSpecModel implements _AstrologerSpecModel {
       : _data = data,
         _specs = specs;
 
-  factory _$_AstrologerSpecModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AstrologerSpecModelFromJson(json);
+  factory _$AstrologerSpecModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AstrologerSpecModelImplFromJson(json);
 
   @override
   final String status;
@@ -198,7 +198,7 @@ class _$_AstrologerSpecModel implements _AstrologerSpecModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AstrologerSpecModel &&
+            other is _$AstrologerSpecModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -219,13 +219,13 @@ class _$_AstrologerSpecModel implements _AstrologerSpecModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AstrologerSpecModelCopyWith<_$_AstrologerSpecModel> get copyWith =>
-      __$$_AstrologerSpecModelCopyWithImpl<_$_AstrologerSpecModel>(
+  _$$AstrologerSpecModelImplCopyWith<_$AstrologerSpecModelImpl> get copyWith =>
+      __$$AstrologerSpecModelImplCopyWithImpl<_$AstrologerSpecModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AstrologerSpecModelToJson(
+    return _$$AstrologerSpecModelImplToJson(
       this,
     );
   }
@@ -237,10 +237,10 @@ abstract class _AstrologerSpecModel implements AstrologerSpecModel {
       required final int code,
       required final String message,
       final List<SpecModel>? data,
-      final List<SpecModel>? specs}) = _$_AstrologerSpecModel;
+      final List<SpecModel>? specs}) = _$AstrologerSpecModelImpl;
 
   factory _AstrologerSpecModel.fromJson(Map<String, dynamic> json) =
-      _$_AstrologerSpecModel.fromJson;
+      _$AstrologerSpecModelImpl.fromJson;
 
   @override
   String get status;
@@ -254,6 +254,6 @@ abstract class _AstrologerSpecModel implements AstrologerSpecModel {
   List<SpecModel>? get specs;
   @override
   @JsonKey(ignore: true)
-  _$$_AstrologerSpecModelCopyWith<_$_AstrologerSpecModel> get copyWith =>
+  _$$AstrologerSpecModelImplCopyWith<_$AstrologerSpecModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

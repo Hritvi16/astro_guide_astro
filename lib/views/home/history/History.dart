@@ -21,6 +21,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class History extends StatelessWidget  {
@@ -110,27 +112,36 @@ class History extends StatelessWidget  {
         ),
         Flexible(
           flex: 1,
-          child: CustomRefreshIndicator(
-            onRefresh: historyController.onRefresh,
-            builder: MaterialIndicatorDelegate(
-              builder: (context, controller) {
-                return Image.asset(
-                  "assets/essential/loading.png",
-                  height: 30,
-                );
-              },
-            ),
-            child: Column(
-              children: [
-                getTabs(),
-                Flexible(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: getTabBody(context),
-                  ),
-                )
-              ],
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                historyController.getUpdate();
+              }
+              return true;
+            },
+            child: CustomRefreshIndicator(
+              onRefresh: historyController.onRefresh,
+              builder: MaterialIndicatorDelegate(
+                builder: (context, controller) {
+                  return Image.asset(
+                    "assets/essential/loading.png",
+                    height: 30,
+                  );
+                },
+              ),
+              child: Column(
+                children: [
+                  getTabs(),
+                  Flexible(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      controller: historyController.scrollController,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: getTabBody(context),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         )
@@ -242,9 +253,9 @@ class History extends StatelessWidget  {
   }
 
   Widget getWalletTransactions(BuildContext context) {
-    return historyController.wallet.isNotEmpty
+    return historyController.swallet.isNotEmpty
         ? ListView.separated(
-        itemCount: historyController.wallet.length,
+        itemCount: historyController.swallet.length,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -261,26 +272,25 @@ class History extends StatelessWidget  {
   }
 
   Widget getPaymentLogs(BuildContext context) {
-    return math.Random().nextInt(10)%2==0 ?
-    ListView.separated(
-        itemCount: 100,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        separatorBuilder: (buildContext, index) {
-          return SizedBox(
-            height: 10,
-          );
-        },
-        itemBuilder: (buildContext, index) {
-          return getPLDesign(index, context);
-        }
-    )
-        : getNoDataWidget("You've not recharged yet!".tr);
+    return historyController.spayment.isNotEmpty ?
+      ListView.separated(
+          itemCount: historyController.spayment.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          separatorBuilder: (buildContext, index) {
+            return const SizedBox(
+              height: 10,
+            );
+          },
+          itemBuilder: (buildContext, index) {
+            return getPLDesign(index, context);
+          }
+      ) : getNoDataWidget("You've not recharged yet!".tr);
   }
 
   Widget getWTDesign(int index, BuildContext context) {
-    WalletHistoryModel walletHistory = historyController.wallet[index];
+    WalletHistoryModel walletHistory = historyController.swallet[index];
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -443,6 +453,7 @@ class History extends StatelessWidget  {
   }
 
   Widget getPLDesign(int index, BuildContext context) {
+    WalletHistoryModel transaction = historyController.spayment[index];
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -461,7 +472,7 @@ class History extends StatelessWidget  {
             children: [
               Flexible(
                 child: Text(
-                  "Recharge".tr,
+                  "Payment".tr,
                   style: GoogleFonts.manrope(
                     fontSize: 14.0,
                     color: MyColors.labelColor(),
@@ -560,27 +571,59 @@ class History extends StatelessWidget  {
 
 
   Widget getCallView(BuildContext context) {
-    return historyController.call.isNotEmpty
-        ? ListView.separated(
-      // itemCount: 1,
-        itemCount: historyController.call.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        separatorBuilder: (buildContext, index) {
-          return SizedBox(
-            height: 10,
-          );
-        },
-        itemBuilder: (buildContext, index) {
-          return getCallDesign(index, context);
-        }
-    )
-        : Essential.getNoDataWidget("You've not taken any call consultations yet!".tr);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 42,
+          child: ListView.separated(
+              itemCount: CommonConstants.session_status.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              separatorBuilder: (buildContext, index) {
+                return Container(
+                  width: 10,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: MyColors.colorBorder,
+                              width: 1.5
+                          )
+                      )
+                  ),
+                );
+              },
+              itemBuilder: (buildContext, index) {
+                return getStatusDesign(index);
+              }
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        historyController.scall.isNotEmpty
+            ? ListView.separated(
+            itemCount: historyController.scall.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            separatorBuilder: (buildContext, index) {
+              return const SizedBox(
+                height: 10,
+              );
+            },
+            itemBuilder: (buildContext, index) {
+              return getCallDesign(index, context);
+            }
+        )
+            : Essential.getNoDataWidget("You've not taken any call consultations yet!".tr)
+      ],
+    );
   }
 
   Widget getCallDesign(int index, BuildContext context) {
-    SessionHistoryModel sessionHistory = historyController.call[index];
+    SessionHistoryModel sessionHistory = historyController.scall[index];
     return Container(
       padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
@@ -709,9 +752,10 @@ class History extends StatelessWidget  {
                     ],
                   ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     // if(sessionHistory.status=='ACTIVE') {
                       print(sessionHistory.toJson());
+
                       historyController.goto("/call",
                           arguments: {
                             "type": sessionHistory.status,
@@ -790,23 +834,55 @@ class History extends StatelessWidget  {
 
 
   Widget getChatView(BuildContext context) {
-    return historyController.chat.isNotEmpty
-        ? ListView.separated(
-        // itemCount: 1,
-        itemCount: historyController.chat.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        separatorBuilder: (buildContext, index) {
-          return SizedBox(
-            height: 10,
-          );
-        },
-        itemBuilder: (buildContext, index) {
-          return getChatDesign(index, context);
-        }
-    )
-        : Essential.getNoDataWidget("You've not taken any chat consultations yet!".tr);
+    return Column(
+      children: [
+        SizedBox(
+          height: 42,
+          child: ListView.separated(
+              itemCount: CommonConstants.session_status.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              separatorBuilder: (buildContext, index) {
+                return Container(
+                  width: 10,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: MyColors.colorBorder,
+                              width: 1.5
+                          )
+                      )
+                  ),
+                );
+              },
+              itemBuilder: (buildContext, index) {
+                return getStatusDesign(index);
+              }
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        historyController.schat.isNotEmpty
+            ? ListView.separated(
+          // itemCount: 1,
+            itemCount: historyController.schat.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            separatorBuilder: (buildContext, index) {
+              return const SizedBox(
+                height: 10,
+              );
+            },
+            itemBuilder: (buildContext, index) {
+              return getChatDesign(index, context);
+            }
+        )
+            : Essential.getNoDataWidget("You've not taken any chat consultations yet!".tr)
+      ],
+    );
   }
 
   Widget getMyAmountDesign() {
@@ -918,7 +994,7 @@ class History extends StatelessWidget  {
   }
 
   Widget getChatDesign(int index, BuildContext context) {
-    SessionHistoryModel sessionHistory = historyController.chat[index];
+    SessionHistoryModel sessionHistory = historyController.schat[index];
     return Container(
       padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
@@ -1153,4 +1229,61 @@ class History extends StatelessWidget  {
     );
   }
 
+  Widget getStatusDesign(int index) {
+    Color bg = MyColors.white;
+    Color border = MyColors.borderColor();
+    Color text = MyColors.black;
+
+    if(historyController.selected==index) {
+      if(index==0) {
+        bg = MyColors.colorLightPrimary;
+        border = MyColors.colorButton;
+        text = border;
+      }
+      else {
+        border = MyColors.statusColor(CommonConstants.session_status[index]);
+        text = border;
+        bg = border.withOpacity(0.3);
+      }
+    }
+
+    return GestureDetector(
+      onTap: () {
+        historyController.changeSelected(index);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    color: MyColors.borderColor(),
+                    width: 1.5
+                )
+            )
+        ),
+        child: Container(
+          alignment: Alignment.center,
+          height: 42,
+          margin: EdgeInsets.only(left: index==0 ? 10 : 0, right: CommonConstants.session_status.length==index+1 ? 10 : 0),
+          padding: EdgeInsets.only(left: 12, right: 12),
+          decoration: historyController.selected==index ? BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: border,
+                      width: 3
+                  )
+              )
+          ) : null,
+          child: Text(
+            CommonConstants.session_status[index],
+            style: GoogleFonts.manrope(
+              fontSize: 16.0,
+              letterSpacing: 0,
+              color: text,
+              fontWeight: historyController.selected==index ? FontWeight.w700 : FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

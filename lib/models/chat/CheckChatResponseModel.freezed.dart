@@ -135,11 +135,12 @@ class _$CheckChatResponseModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CheckChatResponseModelCopyWith<$Res>
+abstract class _$$CheckChatResponseModelImplCopyWith<$Res>
     implements $CheckChatResponseModelCopyWith<$Res> {
-  factory _$$_CheckChatResponseModelCopyWith(_$_CheckChatResponseModel value,
-          $Res Function(_$_CheckChatResponseModel) then) =
-      __$$_CheckChatResponseModelCopyWithImpl<$Res>;
+  factory _$$CheckChatResponseModelImplCopyWith(
+          _$CheckChatResponseModelImpl value,
+          $Res Function(_$CheckChatResponseModelImpl) then) =
+      __$$CheckChatResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -158,12 +159,13 @@ abstract class _$$_CheckChatResponseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CheckChatResponseModelCopyWithImpl<$Res>
+class __$$CheckChatResponseModelImplCopyWithImpl<$Res>
     extends _$CheckChatResponseModelCopyWithImpl<$Res,
-        _$_CheckChatResponseModel>
-    implements _$$_CheckChatResponseModelCopyWith<$Res> {
-  __$$_CheckChatResponseModelCopyWithImpl(_$_CheckChatResponseModel _value,
-      $Res Function(_$_CheckChatResponseModel) _then)
+        _$CheckChatResponseModelImpl>
+    implements _$$CheckChatResponseModelImplCopyWith<$Res> {
+  __$$CheckChatResponseModelImplCopyWithImpl(
+      _$CheckChatResponseModelImpl _value,
+      $Res Function(_$CheckChatResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -179,7 +181,7 @@ class __$$_CheckChatResponseModelCopyWithImpl<$Res>
     Object? type = freezed,
     Object? wallet = freezed,
   }) {
-    return _then(_$_CheckChatResponseModel(
+    return _then(_$CheckChatResponseModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -222,8 +224,8 @@ class __$$_CheckChatResponseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CheckChatResponseModel implements _CheckChatResponseModel {
-  _$_CheckChatResponseModel(
+class _$CheckChatResponseModelImpl implements _CheckChatResponseModel {
+  _$CheckChatResponseModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -235,8 +237,8 @@ class _$_CheckChatResponseModel implements _CheckChatResponseModel {
       this.wallet})
       : _cities = cities;
 
-  factory _$_CheckChatResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CheckChatResponseModelFromJson(json);
+  factory _$CheckChatResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CheckChatResponseModelImplFromJson(json);
 
   @override
   final String status;
@@ -274,7 +276,7 @@ class _$_CheckChatResponseModel implements _CheckChatResponseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CheckChatResponseModel &&
+            other is _$CheckChatResponseModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -304,13 +306,13 @@ class _$_CheckChatResponseModel implements _CheckChatResponseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CheckChatResponseModelCopyWith<_$_CheckChatResponseModel> get copyWith =>
-      __$$_CheckChatResponseModelCopyWithImpl<_$_CheckChatResponseModel>(
-          this, _$identity);
+  _$$CheckChatResponseModelImplCopyWith<_$CheckChatResponseModelImpl>
+      get copyWith => __$$CheckChatResponseModelImplCopyWithImpl<
+          _$CheckChatResponseModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CheckChatResponseModelToJson(
+    return _$$CheckChatResponseModelImplToJson(
       this,
     );
   }
@@ -326,10 +328,10 @@ abstract class _CheckChatResponseModel implements CheckChatResponseModel {
       final String? started_at,
       final int? rate,
       final String? type,
-      final double? wallet}) = _$_CheckChatResponseModel;
+      final double? wallet}) = _$CheckChatResponseModelImpl;
 
   factory _CheckChatResponseModel.fromJson(Map<String, dynamic> json) =
-      _$_CheckChatResponseModel.fromJson;
+      _$CheckChatResponseModelImpl.fromJson;
 
   @override
   String get status;
@@ -351,6 +353,6 @@ abstract class _CheckChatResponseModel implements CheckChatResponseModel {
   double? get wallet;
   @override
   @JsonKey(ignore: true)
-  _$$_CheckChatResponseModelCopyWith<_$_CheckChatResponseModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CheckChatResponseModelImplCopyWith<_$CheckChatResponseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

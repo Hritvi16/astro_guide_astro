@@ -6,9 +6,9 @@ part of 'AstrologerTypeModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AstrologerTypeModel _$$_AstrologerTypeModelFromJson(
+_$AstrologerTypeModelImpl _$$AstrologerTypeModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_AstrologerTypeModel(
+    _$AstrologerTypeModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -20,8 +20,8 @@ _$_AstrologerTypeModel _$$_AstrologerTypeModelFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$_AstrologerTypeModelToJson(
-        _$_AstrologerTypeModel instance) =>
+Map<String, dynamic> _$$AstrologerTypeModelImplToJson(
+        _$AstrologerTypeModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,

@@ -79,21 +79,22 @@ class _$SpecModelCopyWithImpl<$Res, $Val extends SpecModel>
 }
 
 /// @nodoc
-abstract class _$$_SpecModelCopyWith<$Res> implements $SpecModelCopyWith<$Res> {
-  factory _$$_SpecModelCopyWith(
-          _$_SpecModel value, $Res Function(_$_SpecModel) then) =
-      __$$_SpecModelCopyWithImpl<$Res>;
+abstract class _$$SpecModelImplCopyWith<$Res>
+    implements $SpecModelCopyWith<$Res> {
+  factory _$$SpecModelImplCopyWith(
+          _$SpecModelImpl value, $Res Function(_$SpecModelImpl) then) =
+      __$$SpecModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String spec, String? icon, bool? load});
 }
 
 /// @nodoc
-class __$$_SpecModelCopyWithImpl<$Res>
-    extends _$SpecModelCopyWithImpl<$Res, _$_SpecModel>
-    implements _$$_SpecModelCopyWith<$Res> {
-  __$$_SpecModelCopyWithImpl(
-      _$_SpecModel _value, $Res Function(_$_SpecModel) _then)
+class __$$SpecModelImplCopyWithImpl<$Res>
+    extends _$SpecModelCopyWithImpl<$Res, _$SpecModelImpl>
+    implements _$$SpecModelImplCopyWith<$Res> {
+  __$$SpecModelImplCopyWithImpl(
+      _$SpecModelImpl _value, $Res Function(_$SpecModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +105,7 @@ class __$$_SpecModelCopyWithImpl<$Res>
     Object? icon = freezed,
     Object? load = freezed,
   }) {
-    return _then(_$_SpecModel(
+    return _then(_$SpecModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -127,11 +128,11 @@ class __$$_SpecModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SpecModel implements _SpecModel {
-  _$_SpecModel({required this.id, required this.spec, this.icon, this.load});
+class _$SpecModelImpl implements _SpecModel {
+  _$SpecModelImpl({required this.id, required this.spec, this.icon, this.load});
 
-  factory _$_SpecModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SpecModelFromJson(json);
+  factory _$SpecModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SpecModelImplFromJson(json);
 
   @override
   final int id;
@@ -151,7 +152,7 @@ class _$_SpecModel implements _SpecModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpecModel &&
+            other is _$SpecModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.spec, spec) || other.spec == spec) &&
             (identical(other.icon, icon) || other.icon == icon) &&
@@ -165,12 +166,12 @@ class _$_SpecModel implements _SpecModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpecModelCopyWith<_$_SpecModel> get copyWith =>
-      __$$_SpecModelCopyWithImpl<_$_SpecModel>(this, _$identity);
+  _$$SpecModelImplCopyWith<_$SpecModelImpl> get copyWith =>
+      __$$SpecModelImplCopyWithImpl<_$SpecModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SpecModelToJson(
+    return _$$SpecModelImplToJson(
       this,
     );
   }
@@ -181,10 +182,10 @@ abstract class _SpecModel implements SpecModel {
       {required final int id,
       required final String spec,
       final String? icon,
-      final bool? load}) = _$_SpecModel;
+      final bool? load}) = _$SpecModelImpl;
 
   factory _SpecModel.fromJson(Map<String, dynamic> json) =
-      _$_SpecModel.fromJson;
+      _$SpecModelImpl.fromJson;
 
   @override
   int get id;
@@ -196,6 +197,6 @@ abstract class _SpecModel implements SpecModel {
   bool? get load;
   @override
   @JsonKey(ignore: true)
-  _$$_SpecModelCopyWith<_$_SpecModel> get copyWith =>
+  _$$SpecModelImplCopyWith<_$SpecModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

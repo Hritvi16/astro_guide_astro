@@ -80,22 +80,22 @@ class _$UserListModelCopyWithImpl<$Res, $Val extends UserListModel>
 }
 
 /// @nodoc
-abstract class _$$_UserListModelCopyWith<$Res>
+abstract class _$$UserListModelImplCopyWith<$Res>
     implements $UserListModelCopyWith<$Res> {
-  factory _$$_UserListModelCopyWith(
-          _$_UserListModel value, $Res Function(_$_UserListModel) then) =
-      __$$_UserListModelCopyWithImpl<$Res>;
+  factory _$$UserListModelImplCopyWith(
+          _$UserListModelImpl value, $Res Function(_$UserListModelImpl) then) =
+      __$$UserListModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String status, int code, String message, List<UserModel>? data});
 }
 
 /// @nodoc
-class __$$_UserListModelCopyWithImpl<$Res>
-    extends _$UserListModelCopyWithImpl<$Res, _$_UserListModel>
-    implements _$$_UserListModelCopyWith<$Res> {
-  __$$_UserListModelCopyWithImpl(
-      _$_UserListModel _value, $Res Function(_$_UserListModel) _then)
+class __$$UserListModelImplCopyWithImpl<$Res>
+    extends _$UserListModelCopyWithImpl<$Res, _$UserListModelImpl>
+    implements _$$UserListModelImplCopyWith<$Res> {
+  __$$UserListModelImplCopyWithImpl(
+      _$UserListModelImpl _value, $Res Function(_$UserListModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_UserListModelCopyWithImpl<$Res>
     Object? message = null,
     Object? data = freezed,
   }) {
-    return _then(_$_UserListModel(
+    return _then(_$UserListModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -129,16 +129,16 @@ class __$$_UserListModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserListModel implements _UserListModel {
-  _$_UserListModel(
+class _$UserListModelImpl implements _UserListModel {
+  _$UserListModelImpl(
       {required this.status,
       required this.code,
       required this.message,
       final List<UserModel>? data})
       : _data = data;
 
-  factory _$_UserListModel.fromJson(Map<String, dynamic> json) =>
-      _$$_UserListModelFromJson(json);
+  factory _$UserListModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserListModelImplFromJson(json);
 
   @override
   final String status;
@@ -165,7 +165,7 @@ class _$_UserListModel implements _UserListModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserListModel &&
+            other is _$UserListModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -180,12 +180,12 @@ class _$_UserListModel implements _UserListModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserListModelCopyWith<_$_UserListModel> get copyWith =>
-      __$$_UserListModelCopyWithImpl<_$_UserListModel>(this, _$identity);
+  _$$UserListModelImplCopyWith<_$UserListModelImpl> get copyWith =>
+      __$$UserListModelImplCopyWithImpl<_$UserListModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserListModelToJson(
+    return _$$UserListModelImplToJson(
       this,
     );
   }
@@ -196,10 +196,10 @@ abstract class _UserListModel implements UserListModel {
       {required final String status,
       required final int code,
       required final String message,
-      final List<UserModel>? data}) = _$_UserListModel;
+      final List<UserModel>? data}) = _$UserListModelImpl;
 
   factory _UserListModel.fromJson(Map<String, dynamic> json) =
-      _$_UserListModel.fromJson;
+      _$UserListModelImpl.fromJson;
 
   @override
   String get status;
@@ -211,6 +211,6 @@ abstract class _UserListModel implements UserListModel {
   List<UserModel>? get data;
   @override
   @JsonKey(ignore: true)
-  _$$_UserListModelCopyWith<_$_UserListModel> get copyWith =>
+  _$$UserListModelImplCopyWith<_$UserListModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

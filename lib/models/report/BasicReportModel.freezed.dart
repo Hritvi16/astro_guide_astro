@@ -91,11 +91,11 @@ class _$BasicReportModelCopyWithImpl<$Res, $Val extends BasicReportModel>
 }
 
 /// @nodoc
-abstract class _$$_BasicReportModelCopyWith<$Res>
+abstract class _$$BasicReportModelImplCopyWith<$Res>
     implements $BasicReportModelCopyWith<$Res> {
-  factory _$$_BasicReportModelCopyWith(
-          _$_BasicReportModel value, $Res Function(_$_BasicReportModel) then) =
-      __$$_BasicReportModelCopyWithImpl<$Res>;
+  factory _$$BasicReportModelImplCopyWith(_$BasicReportModelImpl value,
+          $Res Function(_$BasicReportModelImpl) then) =
+      __$$BasicReportModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_BasicReportModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BasicReportModelCopyWithImpl<$Res>
-    extends _$BasicReportModelCopyWithImpl<$Res, _$_BasicReportModel>
-    implements _$$_BasicReportModelCopyWith<$Res> {
-  __$$_BasicReportModelCopyWithImpl(
-      _$_BasicReportModel _value, $Res Function(_$_BasicReportModel) _then)
+class __$$BasicReportModelImplCopyWithImpl<$Res>
+    extends _$BasicReportModelCopyWithImpl<$Res, _$BasicReportModelImpl>
+    implements _$$BasicReportModelImplCopyWith<$Res> {
+  __$$BasicReportModelImplCopyWithImpl(_$BasicReportModelImpl _value,
+      $Res Function(_$BasicReportModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_BasicReportModelCopyWithImpl<$Res>
     Object? total_chat = null,
     Object? total_call = null,
   }) {
-    return _then(_$_BasicReportModel(
+    return _then(_$BasicReportModelImpl(
       month: null == month
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
@@ -150,16 +150,16 @@ class __$$_BasicReportModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BasicReportModel implements _BasicReportModel {
-  _$_BasicReportModel(
+class _$BasicReportModelImpl implements _BasicReportModel {
+  _$BasicReportModelImpl(
       {required this.month,
       required this.total_chat_sec,
       required this.total_call_sec,
       required this.total_chat,
       required this.total_call});
 
-  factory _$_BasicReportModel.fromJson(Map<String, dynamic> json) =>
-      _$$_BasicReportModelFromJson(json);
+  factory _$BasicReportModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BasicReportModelImplFromJson(json);
 
   @override
   final String month;
@@ -181,7 +181,7 @@ class _$_BasicReportModel implements _BasicReportModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BasicReportModel &&
+            other is _$BasicReportModelImpl &&
             (identical(other.month, month) || other.month == month) &&
             (identical(other.total_chat_sec, total_chat_sec) ||
                 other.total_chat_sec == total_chat_sec) &&
@@ -201,12 +201,13 @@ class _$_BasicReportModel implements _BasicReportModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BasicReportModelCopyWith<_$_BasicReportModel> get copyWith =>
-      __$$_BasicReportModelCopyWithImpl<_$_BasicReportModel>(this, _$identity);
+  _$$BasicReportModelImplCopyWith<_$BasicReportModelImpl> get copyWith =>
+      __$$BasicReportModelImplCopyWithImpl<_$BasicReportModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BasicReportModelToJson(
+    return _$$BasicReportModelImplToJson(
       this,
     );
   }
@@ -218,10 +219,10 @@ abstract class _BasicReportModel implements BasicReportModel {
       required final int total_chat_sec,
       required final int total_call_sec,
       required final int total_chat,
-      required final int total_call}) = _$_BasicReportModel;
+      required final int total_call}) = _$BasicReportModelImpl;
 
   factory _BasicReportModel.fromJson(Map<String, dynamic> json) =
-      _$_BasicReportModel.fromJson;
+      _$BasicReportModelImpl.fromJson;
 
   @override
   String get month;
@@ -235,6 +236,6 @@ abstract class _BasicReportModel implements BasicReportModel {
   int get total_call;
   @override
   @JsonKey(ignore: true)
-  _$$_BasicReportModelCopyWith<_$_BasicReportModel> get copyWith =>
+  _$$BasicReportModelImplCopyWith<_$BasicReportModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

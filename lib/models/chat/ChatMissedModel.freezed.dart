@@ -132,11 +132,11 @@ class _$ChatMissedModelCopyWithImpl<$Res, $Val extends ChatMissedModel>
 }
 
 /// @nodoc
-abstract class _$$_ChatMissedModelCopyWith<$Res>
+abstract class _$$ChatMissedModelImplCopyWith<$Res>
     implements $ChatMissedModelCopyWith<$Res> {
-  factory _$$_ChatMissedModelCopyWith(
-          _$_ChatMissedModel value, $Res Function(_$_ChatMissedModel) then) =
-      __$$_ChatMissedModelCopyWithImpl<$Res>;
+  factory _$$ChatMissedModelImplCopyWith(_$ChatMissedModelImpl value,
+          $Res Function(_$ChatMissedModelImpl) then) =
+      __$$ChatMissedModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -155,11 +155,11 @@ abstract class _$$_ChatMissedModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChatMissedModelCopyWithImpl<$Res>
-    extends _$ChatMissedModelCopyWithImpl<$Res, _$_ChatMissedModel>
-    implements _$$_ChatMissedModelCopyWith<$Res> {
-  __$$_ChatMissedModelCopyWithImpl(
-      _$_ChatMissedModel _value, $Res Function(_$_ChatMissedModel) _then)
+class __$$ChatMissedModelImplCopyWithImpl<$Res>
+    extends _$ChatMissedModelCopyWithImpl<$Res, _$ChatMissedModelImpl>
+    implements _$$ChatMissedModelImplCopyWith<$Res> {
+  __$$ChatMissedModelImplCopyWithImpl(
+      _$ChatMissedModelImpl _value, $Res Function(_$ChatMissedModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -173,7 +173,7 @@ class __$$_ChatMissedModelCopyWithImpl<$Res>
     Object? wallet = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$_ChatMissedModel(
+    return _then(_$ChatMissedModelImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -208,8 +208,8 @@ class __$$_ChatMissedModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ChatMissedModel implements _ChatMissedModel {
-  _$_ChatMissedModel(
+class _$ChatMissedModelImpl implements _ChatMissedModel {
+  _$ChatMissedModelImpl(
       {required this.status,
       required this.code,
       required this.message,
@@ -218,8 +218,8 @@ class _$_ChatMissedModel implements _ChatMissedModel {
       this.wallet,
       this.user});
 
-  factory _$_ChatMissedModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ChatMissedModelFromJson(json);
+  factory _$ChatMissedModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatMissedModelImplFromJson(json);
 
   @override
   final String status;
@@ -245,7 +245,7 @@ class _$_ChatMissedModel implements _ChatMissedModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChatMissedModel &&
+            other is _$ChatMissedModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
@@ -263,12 +263,13 @@ class _$_ChatMissedModel implements _ChatMissedModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatMissedModelCopyWith<_$_ChatMissedModel> get copyWith =>
-      __$$_ChatMissedModelCopyWithImpl<_$_ChatMissedModel>(this, _$identity);
+  _$$ChatMissedModelImplCopyWith<_$ChatMissedModelImpl> get copyWith =>
+      __$$ChatMissedModelImplCopyWithImpl<_$ChatMissedModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ChatMissedModelToJson(
+    return _$$ChatMissedModelImplToJson(
       this,
     );
   }
@@ -282,10 +283,10 @@ abstract class _ChatMissedModel implements ChatMissedModel {
       required final int ch_id,
       final SessionHistoryModel? data,
       final double? wallet,
-      final UserModel? user}) = _$_ChatMissedModel;
+      final UserModel? user}) = _$ChatMissedModelImpl;
 
   factory _ChatMissedModel.fromJson(Map<String, dynamic> json) =
-      _$_ChatMissedModel.fromJson;
+      _$ChatMissedModelImpl.fromJson;
 
   @override
   String get status;
@@ -303,6 +304,6 @@ abstract class _ChatMissedModel implements ChatMissedModel {
   UserModel? get user;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatMissedModelCopyWith<_$_ChatMissedModel> get copyWith =>
+  _$$ChatMissedModelImplCopyWith<_$ChatMissedModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

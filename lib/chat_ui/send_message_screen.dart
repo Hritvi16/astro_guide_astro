@@ -53,15 +53,15 @@ class SentMessageScreen extends StatelessWidget {
                     Text(
                       chat.message,
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-
-                      ),
-                      // style: GoogleFonts.notoColorEmoji(
-                      //   color: color,
-                      //   fontSize: 14,
-                      //   letterSpacing: 0,
-                      //   height: 0,
+                      // style: TextStyle(
+                      //
                       // ),
+                      style: GoogleFonts.manrope(
+                        color: color,
+                        fontSize: 14,
+                        letterSpacing: 0,
+                        height: 0,
+                      ),
                     ),
                     SizedBox(
                       height: 2,

@@ -31,7 +31,19 @@ class WaitingToJoin extends StatelessWidget {
           children: [
             Column(
               children: [
+                image.isEmpty ?
                 CircleAvatar(
+                  radius: 55,
+                  child: Text(
+                    name.characters.first.toUpperCase(),
+                    style: GoogleFonts.manrope(
+                        fontSize: 40.0,
+                        color: MyColors.colorButton,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
+                : CircleAvatar(
                   radius: 55,
                   backgroundImage: NetworkImage(
                       ApiConstants.userUrl+image
@@ -50,7 +62,12 @@ class WaitingToJoin extends StatelessWidget {
               ],
             ),
             type=="REQUESTED" ?
-            action=="NOT DECIDED" ? getRequestIncoming() : getMessage(action=="ACCEPT" ? "Connecting" : action) : type=="MISSED"  || type=="REJECTED" ? displayMessage(type=="MISSED" ? "$name missed your call request." : "$name rejected your call request") : getMessage("Reconnecting")
+              action=="NOT DECIDED" ?
+                getRequestIncoming()
+                : getMessage(action=="ACCEPT" ? "Connecting" : action)
+              : type=="MISSED"  || type=="REJECTED" || type=="CANCELLED" ?
+                displayMessage(type=="MISSED" ? "$name missed your call request." : "$name ${type.toLowerCase()} your call request")
+                : getMessage("Reconnecting")
 
             // screen ? Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceAround,

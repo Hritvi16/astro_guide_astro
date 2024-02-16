@@ -6,8 +6,8 @@ part of 'UserListModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserListModel _$$_UserListModelFromJson(Map<String, dynamic> json) =>
-    _$_UserListModel(
+_$UserListModelImpl _$$UserListModelImplFromJson(Map<String, dynamic> json) =>
+    _$UserListModelImpl(
       status: json['status'] as String,
       code: json['code'] as int,
       message: json['message'] as String,
@@ -16,7 +16,7 @@ _$_UserListModel _$$_UserListModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_UserListModelToJson(_$_UserListModel instance) =>
+Map<String, dynamic> _$$UserListModelImplToJson(_$UserListModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'code': instance.code,
