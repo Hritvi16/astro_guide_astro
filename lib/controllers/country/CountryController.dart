@@ -18,7 +18,9 @@ class CountryController extends GetxController {
   final storage = GetStorage();
 
   late List<CountryModel> countries;
+  late List<CountryModel> show;
   CountryModel? country;
+  TextEditingController search = TextEditingController();
 
 
   @override
@@ -51,14 +53,31 @@ class CountryController extends GetxController {
       }
     });
   }
-  
+
   void changeCountry (CountryModel? value) {
     country = value!;
     update();
     back(result: {"countries" : countries, "country" : country});
   }
-  
+
   void back({dynamic result}) {
     Get.back(result: result ?? {"countries" : countries, "country" : country});
   }
+
+  void searchCountry() {
+    if(search.text.isNotEmpty) {
+      show = [];
+      for (var element in countries) {
+        if(element.name.toLowerCase().contains(search.text.toLowerCase())) {
+          show.add(element);
+        }
+      }
+    }
+    else {
+      show = countries;
+      update();
+    }
+    update();
+  }
+
 }

@@ -754,7 +754,7 @@ class History extends StatelessWidget  {
                 GestureDetector(
                   onTap: () async {
                     // if(sessionHistory.status=='ACTIVE') {
-                      print(sessionHistory.toJson());
+                      print("sessionHistory.toJson()");
 
                       historyController.goto("/call",
                           arguments: {

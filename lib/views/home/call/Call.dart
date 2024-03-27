@@ -19,7 +19,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class Call extends StatelessWidget {
-  Call({ Key? key }) : super(key: key);
+  // Call({ Key? key }) : super(key: key);
+  Call({ Key? key }) {
+    // callController.onInit();
+    print("callController.globalNotifier.showCallInit");
+    print(callController.globalNotifier.showCallInit);
+    if(callController.globalNotifier.showCallInit.value==false) {
+      callController.onInit();
+    }
+  }
 
   final CallController callController = Get.find();
 
@@ -27,21 +35,28 @@ class Call extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final statusBarHeight = MediaQuery.of(context).padding.top;
-    StorageService.storeCalling(callController);
-    return GetBuilder<CallController>(
-      builder: (controller) {
-        return WillPopScope(
-            onWillPop: callController.onWillPopScope,
-            // child: callController.joined ?
-            child: callController.load ? callController.type!="ACTIVE" && callController.type!="COMPLETED" ?
-            WaitingToJoin(callController.user.name, callController.user.profile??"", callController.cancelMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back) :
-            Scaffold(
-              body: callController.type=="COMPLETED" ? getCompletedDesign(context) : getActiveDesign(context),
-              bottomNavigationBar: callController.type=="COMPLETED" ? getBottom(context) : null,
-            ) : LoadingScreen()
-          // : WaitingToJoin(callController.astrologer.name),
-        );
+    callController.storeCalling(callController);
+    return PopScope(
+      onPopInvoked: (value) {
+        if(value==true) {
+          callController.updateValues();
+        }
       },
+      child: GetBuilder<CallController>(
+        builder: (controller) {
+          return WillPopScope(
+              onWillPop: callController.onWillPopScope,
+              // child: callController.joined ?
+              child: callController.load ? callController.type!="ACTIVE" && callController.type!="COMPLETED" ?
+              WaitingToJoin(callController.user.name, callController.user.profile??"", callController.cancelMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back) :
+              Scaffold(
+                body: callController.type=="COMPLETED" ? getCompletedDesign(context) : getActiveDesign(context),
+                bottomNavigationBar: callController.type=="COMPLETED" ? getBottom(context) : null,
+              ) : LoadingScreen()
+            // : WaitingToJoin(callController.astrologer.name),
+          );
+        },
+      ),
     );
   }
 

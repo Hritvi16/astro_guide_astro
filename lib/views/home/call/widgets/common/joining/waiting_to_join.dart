@@ -12,6 +12,8 @@ class WaitingToJoin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(type);
+    print(action);
     return Scaffold(
       backgroundColor: MyColors.white,
       body: Container(

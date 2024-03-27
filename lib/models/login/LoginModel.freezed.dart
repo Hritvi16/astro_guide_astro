@@ -12,7 +12,7 @@ part of 'LoginModel.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 LoginModel _$LoginModelFromJson(Map<String, dynamic> json) {
   return _LoginModel.fromJson(json);
@@ -25,6 +25,7 @@ mixin _$LoginModel {
   String get message => throw _privateConstructorUsedError;
   String? get access_token => throw _privateConstructorUsedError;
   String? get refresh_token => throw _privateConstructorUsedError;
+  int? get whatsapp => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $LoginModelCopyWith<$Res> {
       String status,
       String message,
       String? access_token,
-      String? refresh_token});
+      String? refresh_token,
+      int? whatsapp});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
     Object? message = null,
     Object? access_token = freezed,
     Object? refresh_token = freezed,
+    Object? whatsapp = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -86,6 +89,10 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
           ? _value.refresh_token
           : refresh_token // ignore: cast_nullable_to_non_nullable
               as String?,
+      whatsapp: freezed == whatsapp
+          ? _value.whatsapp
+          : whatsapp // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$LoginModelImplCopyWith<$Res>
       String status,
       String message,
       String? access_token,
-      String? refresh_token});
+      String? refresh_token,
+      int? whatsapp});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$LoginModelImplCopyWithImpl<$Res>
     Object? message = null,
     Object? access_token = freezed,
     Object? refresh_token = freezed,
+    Object? whatsapp = freezed,
   }) {
     return _then(_$LoginModelImpl(
       code: null == code
@@ -144,6 +153,10 @@ class __$$LoginModelImplCopyWithImpl<$Res>
           ? _value.refresh_token
           : refresh_token // ignore: cast_nullable_to_non_nullable
               as String?,
+      whatsapp: freezed == whatsapp
+          ? _value.whatsapp
+          : whatsapp // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$LoginModelImpl implements _LoginModel {
       required this.status,
       required this.message,
       this.access_token,
-      this.refresh_token});
+      this.refresh_token,
+      this.whatsapp});
 
   factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginModelImplFromJson(json);
@@ -171,14 +185,16 @@ class _$LoginModelImpl implements _LoginModel {
   final String? access_token;
   @override
   final String? refresh_token;
+  @override
+  final int? whatsapp;
 
   @override
   String toString() {
-    return 'LoginModel(code: $code, status: $status, message: $message, access_token: $access_token, refresh_token: $refresh_token)';
+    return 'LoginModel(code: $code, status: $status, message: $message, access_token: $access_token, refresh_token: $refresh_token, whatsapp: $whatsapp)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoginModelImpl &&
@@ -188,13 +204,15 @@ class _$LoginModelImpl implements _LoginModel {
             (identical(other.access_token, access_token) ||
                 other.access_token == access_token) &&
             (identical(other.refresh_token, refresh_token) ||
-                other.refresh_token == refresh_token));
+                other.refresh_token == refresh_token) &&
+            (identical(other.whatsapp, whatsapp) ||
+                other.whatsapp == whatsapp));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, code, status, message, access_token, refresh_token);
+  int get hashCode => Object.hash(runtimeType, code, status, message,
+      access_token, refresh_token, whatsapp);
 
   @JsonKey(ignore: true)
   @override
@@ -216,7 +234,8 @@ abstract class _LoginModel implements LoginModel {
       required final String status,
       required final String message,
       final String? access_token,
-      final String? refresh_token}) = _$LoginModelImpl;
+      final String? refresh_token,
+      final int? whatsapp}) = _$LoginModelImpl;
 
   factory _LoginModel.fromJson(Map<String, dynamic> json) =
       _$LoginModelImpl.fromJson;
@@ -231,6 +250,8 @@ abstract class _LoginModel implements LoginModel {
   String? get access_token;
   @override
   String? get refresh_token;
+  @override
+  int? get whatsapp;
   @override
   @JsonKey(ignore: true)
   _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>

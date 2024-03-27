@@ -206,9 +206,9 @@
 //       if(message.data['category']=="waitlist") {
 //         final storage = GetStorage();
 //
-//         print(storage.read("calling"));
-//         if(storage.read("calling")!=null) {
-//           CallController callController = storage.read("calling");
+//         print(globalNotifier.callController.value);
+//         if(globalNotifier.callController.value!=null) {
+//           CallController callController = globalNotifier.callController.value;
 //           callController.back();
 //         }
 //       }

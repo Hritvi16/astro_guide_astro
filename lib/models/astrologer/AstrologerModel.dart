@@ -20,6 +20,12 @@ class AstrologerModel with _$AstrologerModel {
     int? fav,
     int? follow,
     int? ci_id,
+    double? p_chat,
+    double? p_call,
+    double? f_chat,
+    double? f_call,
+    double? p_commission,
+    double? f_commission,
   }) = _AstrologerModel;
 
   factory AstrologerModel.fromJson(JSON json) => _$AstrologerModelFromJson(json);

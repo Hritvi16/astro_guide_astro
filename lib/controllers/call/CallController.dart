@@ -13,6 +13,7 @@ import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/review/ReviewModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:astro_guide_astro/providers/MeetingProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:camera/camera.dart';
@@ -79,8 +80,11 @@ class CallController extends GetxController {
   late IO.Socket socket;
   late Directory directory;
 
+  final GlobalNotifier globalNotifier = Get.find();
+
   @override
   void onInit() {
+    globalNotifier.updateCallInit(true);
     print("Get.arguments");
     print(Get.arguments);
     print(Get.routing.previous);
@@ -187,6 +191,7 @@ class CallController extends GetxController {
         print("ssweb:gooo $go");
 
         if(go==true) {
+          print(go);
           Get.back();
           Essential.showSnackBar(sessionHistory.reason??"Call has been ${sessionHistory.status}");
         }
@@ -213,36 +218,6 @@ class CallController extends GetxController {
     }
   }
 
-
-  connectSocket() {
-    socket.onConnect((data) => print('Connection established'));
-    socket.onConnectError((data) => print('Connect Error: $data'));
-    socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-
-    socket.on(
-      'endMeeting', (data) async {
-      EndCallResponseModel endCallResponse = EndCallResponseModel.fromJson(json.decode(data));
-
-
-      print("socketttt Meetingggg end responseeeeeeeee");
-
-      endMeeting(endCallResponse.category??"");
-    }
-    );
-
-    socket.on(
-        'backMeeting', (data) async {
-      ResponseModel response = ResponseModel.fromJson(json.decode(data));
-
-      print("socketttt Meetingggg back responseeeeeeeee");
-      print(response.toJson());
-      back();
-
-
-    }
-    );
-
-  }
 
   void startRing(int time) {
     ring = time;
@@ -376,8 +351,8 @@ class CallController extends GetxController {
         SessionConstants.sender : "A",
         SessionConstants.reason : "Chat was cancelled by astrologer",
       };
-      if(storage.read("calling")!=null) {
-        storage.remove("calling");
+      if(globalNotifier.callController.value!=null) {
+        globalNotifier.updateCallController(null);
       }
 
       await meetingProvider.cancel(data, storage.read("access")).then((response) async {
@@ -399,11 +374,11 @@ class CallController extends GetxController {
   }
 
 
-  Future<void> endMeeting(String status, {bool? back, String? path}) async {
-    File file = File("$path/calling.txt");
+  Future<void> endMeeting(String from, String status, {bool? back, String? path}) async {
+    print("ssweb: endddd meeting from $from");
     try {
       print("ssweb: endddd $timer");
-      print("ssweb: endddd ${await file.readAsString()}");
+      print("ssweb: endddd ${globalNotifier.callingStatus}");
       print("ssweb: endddd backk $back");
       if (timer != null) {
         stopTimer();
@@ -555,7 +530,7 @@ class CallController extends GetxController {
           joinRoom();
         }
         else {
-          endMeeting(type);
+          endMeeting("validate meeting 534", type);
         }
       }
       else {
@@ -836,9 +811,9 @@ class CallController extends GetxController {
       SessionConstants.reason : "Call was rejected by astrologer",
     };
 
-    if(storage.read("calling")!=null) {
-      storage.remove("calling");
-    }
+    if(globalNotifier.callController.value!=null) {
+        globalNotifier.updateCallController(null);
+      }
 
     await meetingProvider.reject(data, storage.read("access")).then((response) async {
       if(response.code==1) {
@@ -994,8 +969,8 @@ class CallController extends GetxController {
         }
         disposeObjects();
 
-        if(storage.read("calling")!=null) {
-          storage.remove("calling");
+        if(globalNotifier.callController.value!=null) {
+          globalNotifier.updateCallController(null);
         }
         back();
       }
@@ -1016,9 +991,9 @@ class CallController extends GetxController {
 
     print(data);
 
-    if(storage.read("calling")!=null) {
-      storage.remove("calling");
-    }
+    if(globalNotifier.callController.value!=null) {
+        globalNotifier.updateCallController(null);
+      }
 
     await meetingProvider.waitlist(data, storage.read("access")).then((response) async {
       print("ssweb: response.toJson()");
@@ -1052,9 +1027,9 @@ class CallController extends GetxController {
     };
 
 
-    if(storage.read("calling")!=null) {
-      storage.remove("calling");
-    }
+    if(globalNotifier.callController.value!=null) {
+        globalNotifier.updateCallController(null);
+      }
 
     await meetingProvider.missed(data, storage.read("access")).then((response) async {
       if(timer!=null) {
@@ -1075,15 +1050,6 @@ class CallController extends GetxController {
         Essential.showSnackBar(response.message);
       }
     });
-  }
-  void storeCalling(CallController callController) {
-    print("ssweb: storeeeeeee");
-    try {
-      storage.write("calling", callController);
-    }
-    catch(ex) {
-      print(ex.toString());
-    }
   }
 
   void back() {
@@ -1108,8 +1074,11 @@ class CallController extends GetxController {
     shareStream = videoStream = audioStream = remoteParticipantShareStream = null;
     update();
 
+
     if(cameraController!=null) {
       try {
+        cameraController?.stopImageStream();
+        cameraController?.stopVideoRecording();
         cameraController?.dispose();
         print(cameraController);
         cameraController = null;
@@ -1184,5 +1153,18 @@ class CallController extends GetxController {
 
   void goto(String page, {dynamic? arguments}) {
     Get.toNamed(page, arguments: arguments);
+  }
+
+  void updateValues() {
+    print("sswebnotifier: before chat ${globalNotifier.showSession}");
+    if(globalNotifier.showSession.value=="notification") {
+      globalNotifier.updateValue("session");
+    }
+    globalNotifier.updateCallInit(false);
+    print("sswebnotifier: after chat ${globalNotifier.showSession}");
+  }
+
+  void storeCalling(CallController callController) {
+    globalNotifier.updateCallController(callController);
   }
 }

@@ -97,8 +97,8 @@ class Essential {
     Share.share("https://play.google.com/store/apps/details?id=com.ss.astro_guide", subject: 'Hey, looking for an app to grow your income?\n Here it is!');
   }
 
-  static showSnackBar(String message, {int? time}) {
-    Get.snackbar( "", message, snackPosition: SnackPosition.BOTTOM, backgroundColor: MyColors.black, margin: EdgeInsets.all(5),  colorText: MyColors.white, duration: Duration(seconds: time??2));
+  static showSnackBar(String message, {int? time, int? code}) {
+    Get.snackbar( "", message, snackPosition: SnackPosition.BOTTOM, backgroundColor: code==null ? MyColors.black : code==1 ? MyColors.colorSuccess : MyColors.colorError, margin: EdgeInsets.all(5),  colorText: MyColors.white, duration: Duration(seconds: time??2));
   }
 
   Future<bool> popUp(String text, String btn1, String btn2) {
@@ -159,10 +159,8 @@ class Essential {
     Map<String, String> data = {
       "token" : storage.read("refresh")??""
     };
-    print(data);
 
     return await tokenProvider.access(data, CommonConstants.essential).then((response) async {
-      print(response.toJson());
       if(response.code==1) {
         storage.write("access", response.access_token);
         storage.write("refresh", response.refresh_token);
@@ -223,8 +221,6 @@ class Essential {
   }
 
   static tz.TZDateTime getGMTDate(String date) {
-    print(date);
-    print("$date+0000");
     try {
       return tz.TZDateTime.parse(TimezoneConstants.location, "$date+0000");
     }
@@ -310,9 +306,6 @@ class Essential {
 
 
   static String getChatDuration(int? seconds, String started_at, String ended_at) {
-    print("started_at");
-    print(started_at);
-    print(ended_at);
     if(seconds==null) {
       tz.TZDateTime start = getGMTDate(started_at);
       tz.TZDateTime end = getGMTDate(ended_at);
@@ -340,11 +333,6 @@ class Essential {
   }
 
   static String getDTByStatus(SessionHistoryModel sessionHistory) {
-    print("sessionHistory.status");
-    print(sessionHistory.status);
-    print(sessionHistory.id);
-    print(Essential.getDate(sessionHistory.requested_at));
-    print("sessionHistory.statusssss");
     if(sessionHistory.status=="ACTIVE" || sessionHistory.status=="COMPLETED") {
       return sessionHistory.started_at??"";
     }
@@ -437,4 +425,16 @@ class Essential {
     link("mailto:$email");
   }
 
+  static bool getPlatform() {
+    return Platform.isAndroid;
+  }
+
+  static String getChartDateFormat(String value) {
+    try {
+      return DateFormat('dd MMM, yyyy').format(DateTime.parse(value));
+    }
+    catch (ex) {
+      return "";
+    }
+  }
 }

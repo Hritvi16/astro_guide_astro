@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/size/Spacing.dart';
 import 'package:astro_guide_astro/size/WidgetSize.dart';
 import 'package:flutter/gestures.dart';
@@ -232,35 +233,137 @@ class Login extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                //   child: Image.asset(
-                //     "assets/login/or.png"
-                //   ),
-                // ),
+                if(!Essential.getPlatform())
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Image.asset(
+                            "assets/login/or.png"
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          loginController.loginWithGoogle();
+                        },
+                        child: standardButton(
+                          context: context,
+                          backgroundColor: MyColors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/social/google.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: standardHTIS),
+                                child: Text(
+                                  'Login with Gmail',
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 16.0,
+                                    color: MyColors.black,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      if(Platform.isIOS)
+                        GestureDetector(
+                          onTap: () {
+                            // loginController.loginWithApple();
+                          },
+                          child: standardButton(
+                            context: context,
+                            backgroundColor: MyColors.black,
+                            margin: EdgeInsets.only(top: standardVBS),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/social/apple.png",
+                                  height: 24,
+                                  width: 24,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: standardHTIS),
+                                  child: Text(
+                                    'Login with Apple',
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 16.0,
+                                      color: MyColors.white,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     // loginController.loginWithFacebook();
+                      //   },
+                      //   child: standardButton(
+                      //     context: context,
+                      //     backgroundColor: MyColors.colorFacebook,
+                      //     borderColor: MyColors.white,
+                      //     margin: EdgeInsets.only(top: standardVBS),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Image.asset(
+                      //           "assets/social/facebook.png",
+                      //           height: 24,
+                      //           width: 24,
+                      //         ),
+                      //         Padding(
+                      //           padding: EdgeInsets.only(left: standardHTIS),
+                      //           child: Text(
+                      //             'Login with Facebook',
+                      //             style: GoogleFonts.manrope(
+                      //               fontSize: 16.0,
+                      //               color: MyColors.white,
+                      //               letterSpacing: 0,
+                      //               fontWeight: FontWeight.w600,
+                      //             ),
+                      //           ),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  )
                 // Container(
                 //   padding: EdgeInsets.only(top: standardVTBS, bottom: 10),
                 //   alignment: Alignment.center,
                 //   child: RichText(
                 //     text: TextSpan(
-                //       text: "Don’t have an account? ",
-                //       style: GoogleFonts.manrope(
-                //         fontSize: 16.0,
-                //         color: MyColors.black,
-                //         letterSpacing: 0,
-                //         fontWeight: FontWeight.w500,
-                //       ),
-                //       children: [
-                //         TextSpan(
-                //           text: "Sign Up",
-                //           style: GoogleFonts.manrope(
-                //             fontWeight: FontWeight.w600,
-                //           ),
-                //           recognizer: TapGestureRecognizer()..onTap = () {
-                //             loginController.goto("/signUp", "");
-                //           }
-                //         )
-                //       ]
+                //         text: "Don’t have an account? ",
+                //         style: GoogleFonts.manrope(
+                //           fontSize: 16.0,
+                //           color: MyColors.black,
+                //           letterSpacing: 0,
+                //           fontWeight: FontWeight.w500,
+                //         ),
+                //         children: [
+                //           TextSpan(
+                //               text: "Sign Up",
+                //               style: GoogleFonts.manrope(
+                //                 fontWeight: FontWeight.w600,
+                //               ),
+                //               recognizer: TapGestureRecognizer()..onTap = () {
+                //                 loginController.goto("/signUp", "");
+                //               }
+                //           )
+                //         ]
                 //     ),
                 //   ),
                 // )

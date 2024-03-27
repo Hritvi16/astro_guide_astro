@@ -56,7 +56,6 @@ class SettingController extends GetxController {
 
   Future<void> logout() async {
     Essential.showLoadingDialog();
-    await Future.delayed(Duration(seconds: 2));
 
     await astrologerProvider.settings(storage.read("access"), ApiConstants.logout).then((response) async {
       print(response.toJson());

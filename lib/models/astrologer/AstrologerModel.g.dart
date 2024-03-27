@@ -21,6 +21,12 @@ _$AstrologerModelImpl _$$AstrologerModelImplFromJson(
       fav: json['fav'] as int?,
       follow: json['follow'] as int?,
       ci_id: json['ci_id'] as int?,
+      p_chat: (json['p_chat'] as num?)?.toDouble(),
+      p_call: (json['p_call'] as num?)?.toDouble(),
+      f_chat: (json['f_chat'] as num?)?.toDouble(),
+      f_call: (json['f_call'] as num?)?.toDouble(),
+      p_commission: (json['p_commission'] as num?)?.toDouble(),
+      f_commission: (json['f_commission'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$AstrologerModelImplToJson(
@@ -38,4 +44,10 @@ Map<String, dynamic> _$$AstrologerModelImplToJson(
       'fav': instance.fav,
       'follow': instance.follow,
       'ci_id': instance.ci_id,
+      'p_chat': instance.p_chat,
+      'p_call': instance.p_call,
+      'f_chat': instance.f_chat,
+      'f_call': instance.f_call,
+      'p_commission': instance.p_commission,
+      'f_commission': instance.f_commission,
     };

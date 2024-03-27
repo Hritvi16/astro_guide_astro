@@ -100,6 +100,8 @@ class AstrologerProvider {
   Future<ResponseModel> updateStatus(String token, String endpoint, Map<String, dynamic> data) async {
     var response = await astrologerRepository.updateStatus(token, endpoint, data);
 
+    print(response);
+
     return ResponseModel.fromJson(response);
   }
 

@@ -3,6 +3,7 @@ import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/controllers/service/FreeKundliController.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/horoscope/vimshottari/VimMahaDashaDateModel.dart';
+import 'package:astro_guide_astro/models/horoscope/vimshottari/VimMahaDashaModel.dart';
 import 'package:astro_guide_astro/models/horoscope/yogini/YogAntarDashaModel.dart';
 import 'package:astro_guide_astro/models/horoscope/yogini/YogMahaDashaModel.dart';
 import 'package:astro_guide_astro/shared/CustomClipPath.dart';
@@ -13,6 +14,7 @@ import 'package:astro_guide_astro/size/WidgetSize.dart';
 import 'package:astro_guide_astro/views/loadingScreen/LoadingScreen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -98,6 +100,7 @@ class FreeKundli extends StatelessWidget {
         getTabs(),
         Flexible(
           flex: 1,
+          // child: freeKundliController.detailLoad[freeKundliController.selected] ? SingleChildScrollView(
           child: freeKundliController.load ? SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: getTabBody(context),
@@ -205,7 +208,7 @@ class FreeKundli extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         border: Border.all(
-          color: color
+            color: color
         ),
         borderRadius: BorderRadius.circular(14),
       ),
@@ -215,9 +218,9 @@ class FreeKundli extends StatelessWidget {
           Text(
             title.toTitleCase(),
             style: GoogleFonts.manrope(
-              color: color,
-              fontWeight: FontWeight.w700,
-              fontSize: 14
+                color: color,
+                fontWeight: FontWeight.w700,
+                fontSize: 14
             ),
           ),
           const SizedBox(
@@ -226,9 +229,9 @@ class FreeKundli extends StatelessWidget {
           Text(
             info,
             style: GoogleFonts.manrope(
-              color: MyColors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w500
+                color: MyColors.black,
+                fontSize: 12,
+                fontWeight: FontWeight.w500
             ),
           )
         ],
@@ -252,10 +255,10 @@ class FreeKundli extends StatelessWidget {
         const SizedBox(height: 15),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: MyColors.colorBorder
-            ),
-            borderRadius: BorderRadius.circular(14)
+              border: Border.all(
+                  color: MyColors.colorBorder
+              ),
+              borderRadius: BorderRadius.circular(14)
           ),
           child: Column(
             children: [
@@ -277,22 +280,22 @@ class FreeKundli extends StatelessWidget {
 
   Widget getPanchang() {
     return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "Panchang Details",
-        style: GoogleFonts.manrope(
-          fontSize: 18,
-          fontWeight: FontWeight.w500
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Panchang Details",
+          style: GoogleFonts.manrope(
+              fontSize: 18,
+              fontWeight: FontWeight.w500
+          ),
         ),
-      ),
-      const SizedBox(height: 15),
-      Container(
+        const SizedBox(height: 15),
+        Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: MyColors.colorBorder
-            ),
-            borderRadius: BorderRadius.circular(14)
+              border: Border.all(
+                  color: MyColors.colorBorder
+              ),
+              borderRadius: BorderRadius.circular(14)
           ),
           child: Column(
             children: [
@@ -303,8 +306,8 @@ class FreeKundli extends StatelessWidget {
             ],
           ),
         ),
-    ],
-  );
+      ],
+    );
   }
 
   Widget getAvakhada() {
@@ -314,35 +317,35 @@ class FreeKundli extends StatelessWidget {
         Text(
           "Avakhada Details",
           style: GoogleFonts.manrope(
-            fontSize: 18,
-            fontWeight: FontWeight.w500
+              fontSize: 18,
+              fontWeight: FontWeight.w500
           ),
         ),
         const SizedBox(height: 15),
         Container(
-            decoration: BoxDecoration(
+          decoration: BoxDecoration(
               border: Border.all(
-                color: MyColors.colorBorder
+                  color: MyColors.colorBorder
               ),
               borderRadius: BorderRadius.circular(14)
-            ),
-            child: Column(
-              children: [
-                getTitleInfo("Varna", freeKundliController.basic.varna, MyColors.colorLightPrimary, border: "t"),
-                getTitleInfo("Vashya", freeKundliController.basic.vashya, MyColors.white),
-                getTitleInfo("Yoni", freeKundliController.basic.yoni, MyColors.colorLightPrimary),
-                getTitleInfo("Gan", freeKundliController.basic.gana, MyColors.white),
-                getTitleInfo("Nadi", freeKundliController.basic.nadi, MyColors.colorLightPrimary),
-                getTitleInfo("Sunsign", freeKundliController.basic.sunsign, MyColors.white),
-                getTitleInfo("Moonsign", freeKundliController.basic.moonsign, MyColors.colorLightPrimary),
-                getTitleInfo("Nakshatra-Charan", freeKundliController.basic.nakshatra, MyColors.white),
-                getTitleInfo("Tithi", freeKundliController.basic.tithi, MyColors.colorLightPrimary),
-                getTitleInfo("Tatva", freeKundliController.basic.tatva, MyColors.white),
-                getTitleInfo("Name Alphabet", freeKundliController.basic.rashi_akshar, MyColors.colorLightPrimary),
-                getTitleInfo("Paya", freeKundliController.basic.paya.type, MyColors.white, border: "b"),
-              ],
-            ),
           ),
+          child: Column(
+            children: [
+              getTitleInfo("Varna", freeKundliController.basic.varna, MyColors.colorLightPrimary, border: "t"),
+              getTitleInfo("Vashya", freeKundliController.basic.vashya, MyColors.white),
+              getTitleInfo("Yoni", freeKundliController.basic.yoni, MyColors.colorLightPrimary),
+              getTitleInfo("Gan", freeKundliController.basic.gana, MyColors.white),
+              getTitleInfo("Nadi", freeKundliController.basic.nadi, MyColors.colorLightPrimary),
+              getTitleInfo("Sunsign", freeKundliController.basic.sunsign, MyColors.white),
+              getTitleInfo("Moonsign", freeKundliController.basic.moonsign, MyColors.colorLightPrimary),
+              getTitleInfo("Nakshatra-Charan", freeKundliController.basic.nakshatra, MyColors.white),
+              getTitleInfo("Tithi", freeKundliController.basic.tithi, MyColors.colorLightPrimary),
+              getTitleInfo("Tatva", freeKundliController.basic.tatva, MyColors.white),
+              getTitleInfo("Name Alphabet", freeKundliController.basic.rashi_akshar, MyColors.colorLightPrimary),
+              getTitleInfo("Paya", freeKundliController.basic.paya.type, MyColors.white, border: "b"),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -392,8 +395,14 @@ class FreeKundli extends StatelessWidget {
   }
 
   Widget getChart(String svg) {
+    print("freeKundliController.charts");
+    print(freeKundliController.charts);
+    print("svg");
+    print(svg);
+    // print(svg.replaceAll("\\", "").replaceAll("\n", ""));
+    // print(svg.replaceAll("\\", ""));
     return freeKundliController.charts.isNotEmpty ?
-    SvgPicture.string(svg)
+    SvgPicture.string(svg.replaceAll("\\", "").replaceAll("\n", ""))
         : Container();
   }
 
@@ -427,8 +436,8 @@ class FreeKundli extends StatelessWidget {
         getPlanetTabs(),
         const SizedBox(height: 15),
         Table(
-          border: TableBorder.all(color: MyColors.colorBorder, borderRadius: BorderRadius.circular(14)),
-          children: getPlanetList()
+            border: TableBorder.all(color: MyColors.colorBorder, borderRadius: BorderRadius.circular(14)),
+            children: getPlanetList()
         ),
       ],
     );
@@ -436,8 +445,8 @@ class FreeKundli extends StatelessWidget {
 
   Widget getKPPlanets() {
     return Table(
-      border: TableBorder.all(color: MyColors.colorBorder, borderRadius: BorderRadius.circular(14)),
-      children: getKPPlanetList()
+        border: TableBorder.all(color: MyColors.colorBorder, borderRadius: BorderRadius.circular(14)),
+        children: getKPPlanetList()
     );
   }
 
@@ -459,17 +468,17 @@ class FreeKundli extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 7),
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: border!=null ?
-        border=="t" ?
-        const BorderRadius.only(
-          topLeft: Radius.circular(14),
-          topRight: Radius.circular(14),
-        )
-        : const BorderRadius.only(
-          bottomLeft: Radius.circular(14),
-          bottomRight: Radius.circular(14),
-        ) : null
+          color: color,
+          borderRadius: border!=null ?
+          border=="t" ?
+          const BorderRadius.only(
+            topLeft: Radius.circular(14),
+            topRight: Radius.circular(14),
+          )
+              : const BorderRadius.only(
+            bottomLeft: Radius.circular(14),
+            bottomRight: Radius.circular(14),
+          ) : null
       ),
       child: Row(
         children: [
@@ -493,22 +502,22 @@ class FreeKundli extends StatelessWidget {
 
   Widget getTitle(String title) {
     return Text(
-      title,
-      style: GoogleFonts.manrope(
-        color: MyColors.black,
-        fontSize: 14,
-        fontWeight: FontWeight.w600
-      )
+        title,
+        style: GoogleFonts.manrope(
+            color: MyColors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.w600
+        )
     );
   }
 
   Widget getInfo(String info) {
     return Text(
-      info,
-      style: GoogleFonts.manrope(
-        color: MyColors.black,
-        fontSize: 14,
-      )
+        info,
+        style: GoogleFonts.manrope(
+          color: MyColors.black,
+          fontSize: 14,
+        )
     );
   }
 
@@ -527,16 +536,33 @@ class FreeKundli extends StatelessWidget {
     );
   }
 
-  Widget getTableInfo(String info, {double? vertical}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: vertical??5, horizontal: 5),
-      child: Text(
-        info,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.manrope(
-          color: MyColors.black,
-          fontSize: 12,
-        )
+  Widget getTableInfo(String info, {String? next, VimMahaDashaModel? dasha, double? vertical}) {
+    return GestureDetector(
+      onTap: (next??"").trim().isNotEmpty ? () {
+        freeKundliController.updateDashaLevel(dasha!);
+      } : null,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: vertical??5, horizontal: 5),
+        child: RichText(
+          text: TextSpan(
+              text: info,
+              style: GoogleFonts.manrope(
+                color: MyColors.black,
+                fontSize: 12,
+              ),
+              children: (next??"").trim().isNotEmpty ?
+              [
+                TextSpan(
+                    text: next,
+                    style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700
+                    )
+                )
+              ] : null
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
@@ -544,13 +570,13 @@ class FreeKundli extends StatelessWidget {
   List<TableRow> getPlanetList() {
     List<TableRow> planets = [
       TableRow(
-        decoration: BoxDecoration(
-          color: MyColors.colorLightPrimary,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14),
-            topRight: Radius.circular(14),
-          )
-        ),
+          decoration: BoxDecoration(
+              color: MyColors.colorLightPrimary,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(14),
+                topRight: Radius.circular(14),
+              )
+          ),
           children: freeKundliController.selectedPlanet==0 ?
           [
             getTableTitle("Planet"),
@@ -559,7 +585,7 @@ class FreeKundli extends StatelessWidget {
             getTableTitle("Degree"),
             getTableTitle("House"),
           ]
-          : [
+              : [
             getTableTitle("Planet"),
             getTableTitle("Nakshatra"),
             getTableTitle("Naksh Lord"),
@@ -570,22 +596,22 @@ class FreeKundli extends StatelessWidget {
 
     for (var element in freeKundliController.planet) {
       planets.add(
-        TableRow(
-          children: freeKundliController.selectedPlanet==0 ?
-          [
-            getTableInfo(element.name),
-            getTableInfo(element.sign),
-            getTableInfo(element.rashi_lord),
-            getTableInfo(element.full_degree),
-            getTableInfo(element.house.toString()),
-          ]
-          : [
-            getTableInfo(element.name),
-            getTableInfo(element.nakshatra),
-            getTableInfo(element.nakshatra_lord),
-            getTableInfo(element.house.toString()),
-          ]
-        )
+          TableRow(
+              children: freeKundliController.selectedPlanet==0 ?
+              [
+                getTableInfo(element.name),
+                getTableInfo(element.sign),
+                getTableInfo(element.rashi_lord),
+                getTableInfo(element.full_degree),
+                getTableInfo(element.house.toString()),
+              ]
+                  : [
+                getTableInfo(element.name),
+                getTableInfo(element.nakshatra),
+                getTableInfo(element.nakshatra_lord),
+                getTableInfo(element.house.toString()),
+              ]
+          )
       );
     }
 
@@ -596,13 +622,13 @@ class FreeKundli extends StatelessWidget {
   List<TableRow> getKPPlanetList() {
     List<TableRow> planets = [
       TableRow(
-        decoration: BoxDecoration(
-          color: MyColors.colorLightPrimary,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(14),
-            topRight: Radius.circular(14),
-          )
-        ),
+          decoration: BoxDecoration(
+              color: MyColors.colorLightPrimary,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(14),
+                topRight: Radius.circular(14),
+              )
+          ),
           children: [
             getTableTitle("Planet"),
             getTableTitle("cusp"),
@@ -616,16 +642,16 @@ class FreeKundli extends StatelessWidget {
 
     for (var element in freeKundliController.kpPlanet) {
       planets.add(
-        TableRow(
-          children: [
-            getTableInfo(element.planet),
-            getTableInfo(element.planet_in.toString()),
-            getTableInfo(""),
-            getTableInfo(element.nakshatra_lord.substring(0, 2)),
-            getTableInfo(element.sub_sub_lord.substring(0, 2)),
-            getTableInfo(element.sub_lord.substring(0, 2)),
-          ]
-        )
+          TableRow(
+              children: [
+                getTableInfo(element.planet),
+                getTableInfo(element.planet_in.toString()),
+                getTableInfo(""),
+                getTableInfo(element.nakshatra_lord.substring(0, 2)),
+                getTableInfo(element.sub_sub_lord.substring(0, 2)),
+                getTableInfo(element.sub_lord.substring(0, 2)),
+              ]
+          )
       );
     }
 
@@ -755,7 +781,48 @@ class FreeKundli extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        getTitle("Mahadasha"),
+        // getTitle("Mahadasha"),
+        RichText(
+          text: TextSpan(
+              text: "MahaDasha",
+              style: GoogleFonts.manrope(
+                  color: freeKundliController.dasha_level==0 ?MyColors.black : MyColors.colorInfoGrey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600
+              ),
+              recognizer: TapGestureRecognizer()..onTap = () {
+                freeKundliController.jumpDashaLevel(0);
+              },
+              children: freeKundliController.dasha_level>=1 ?
+              [
+                TextSpan(
+                    text: "> AntarDasha",
+                    style: GoogleFonts.manrope(
+                        color: freeKundliController.dasha_level==1 ?MyColors.black : MyColors.colorInfoGrey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = () {
+                      freeKundliController.jumpDashaLevel(1);
+                    },
+                    children: freeKundliController.dasha_level==2 ?
+                    [
+                      TextSpan(
+                        text: "> PratyantarDasha",
+                        style: GoogleFonts.manrope(
+                            color: MyColors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                          freeKundliController.jumpDashaLevel(2);
+                        },
+                      )
+                    ] : null
+                )
+              ] : null
+          ),
+        ),
         SizedBox(
           height: 10,
         ),
@@ -768,7 +835,7 @@ class FreeKundli extends StatelessWidget {
   }
 
   List<TableRow> getVimMahadashaList() {
-    List<TableRow> mahadasha = [
+    List<TableRow> dasha = [
       TableRow(
           decoration: BoxDecoration(
               color: MyColors.colorLightPrimary,
@@ -785,22 +852,29 @@ class FreeKundli extends StatelessWidget {
       )
     ];
 
-    Map<String, dynamic> mahadashaList = freeKundliController.vimshottari.maha_dasha.toJson();
+    Map<String, dynamic> mahadashaList = freeKundliController.getVimDasha();
 
+    print(mahadashaList);
     for (var element in mahadashaList.keys) {
       VimMahaDashaDateModel mahadashaDateModel = mahadashaList[element];
-      mahadasha.add(
+      print("mahadashaDateModel.start_date");
+      print(mahadashaDateModel.start_date);
+      dasha.add(
           TableRow(
               children: [
                 getTableInfo(element, vertical: 10),
-                getTableInfo(DateFormat('dd MMM, yyyy').format(DateTime.parse(mahadashaDateModel.start_date)), vertical: 10),
-                getTableInfo(DateFormat('dd MMM, yyyy').format(DateTime.parse(mahadashaDateModel.end_date)), vertical: 10),
+                getTableInfo(Essential.getChartDateFormat(mahadashaDateModel.start_date??mahadashaDateModel.start_time??""), vertical: 10),
+                getTableInfo(Essential.getChartDateFormat(mahadashaDateModel.end_date??mahadashaDateModel.end_time??""),
+                    next: (freeKundliController.dasha_level<2 ? " >" : ""), dasha: mahadashaDateModel.antar_dasha??mahadashaDateModel.pratyantar_dasha, vertical: 10),
+                // getTableInfo(DateFormat('dd MMM, yyyy').format(DateTime.parse(mahadashaDateModel.start_date??mahadashaDateModel.start_time??"")), vertical: 10),
+                // getTableInfo(DateFormat('dd MMM, yyyy').format(DateTime.parse(mahadashaDateModel.end_date??mahadashaDateModel.end_time??"")),
+                //     next: (freeKundliController.dasha_level<2 ? " >" : ""), dasha: mahadashaDateModel.antar_dasha??mahadashaDateModel.pratyantar_dasha, vertical: 10),
               ]
           )
       );
     }
 
-    return mahadasha;
+    return dasha;
   }
 
   Widget getYoginiDetails() {

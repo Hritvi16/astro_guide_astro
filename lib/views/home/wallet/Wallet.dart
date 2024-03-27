@@ -218,7 +218,7 @@ class Wallet extends StatelessWidget {
               width: standardHorizontalPagePadding,
             ),
             Flexible(
-                child: getInfoDesign("Commission".tr, "${CommonConstants.rupee}${(walletController.wallet.total-walletController.wallet.earnings).toStringAsFixed(2)}")
+                child: getInfoDesign("AG Comm".tr, "${CommonConstants.rupee}${(walletController.wallet.total-walletController.wallet.earnings).toStringAsFixed(2)}")
             ),
           ],
         ),
@@ -259,7 +259,7 @@ class Wallet extends StatelessWidget {
               width: standardHorizontalPagePadding,
             ),
             Flexible(
-              child: getInfoDesign("Commission".tr, commission)
+              child: getInfoDesign("AG Comm".tr, commission)
             ),
           ],
         ),

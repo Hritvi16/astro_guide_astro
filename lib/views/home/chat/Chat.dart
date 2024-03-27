@@ -30,104 +30,112 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return GetBuilder<ChatController>(
-      builder: (controller) {
-        return chatController.load ? chatController.type!="ACTIVE" && chatController.type!="COMPLETED" ?
-        Waiting(chatController.user.name, chatController.user.profile??"", chatController.cancelChat, chatController.type, chatController.action, chatController.initiateChat, chatController.rejectChat, chatController.back)
-            : Scaffold(
-          appBar: AppBar(
-            backgroundColor: MyColors.colorButton,
-            iconTheme: IconThemeData(
-                color: MyColors.black
-            ),
-            centerTitle: false,
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      // radius: standardServiceOCRadius,
-                      radius: 25,
-                      // backgroundImage: AssetImage(
-                      //   "assets/test/user.jpg"
-                      // ),
-                      backgroundImage: chatController.imageProvider,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          chatController.user.name,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: MyColors.black
-                          ),
-                        ),
-
-                        if(chatController.type=="ACTIVE")
+    return PopScope(
+      onPopInvoked: (value) {
+        if(value==true) {
+          chatController.stopPlayer();
+          chatController.updateDashboard();
+        }
+      },
+      child: GetBuilder<ChatController>(
+        builder: (controller) {
+          return chatController.load ? chatController.type!="ACTIVE" && chatController.type!="COMPLETED" ?
+          Waiting(chatController.user.name, chatController.user.profile??"", chatController.cancelChat, chatController.type, chatController.action, chatController.initiateChat, chatController.rejectChat, chatController.back)
+              : Scaffold(
+            appBar: AppBar(
+              backgroundColor: MyColors.colorButton,
+              iconTheme: IconThemeData(
+                  color: MyColors.black
+              ),
+              centerTitle: false,
+              title: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        // radius: standardServiceOCRadius,
+                        radius: 25,
+                        // backgroundImage: AssetImage(
+                        //   "assets/test/user.jpg"
+                        // ),
+                        backgroundImage: chatController.imageProvider,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            chatController.getChatTime(),
-                            style: GoogleFonts.manrope(
-                                fontSize: 12,
+                            chatController.user.name,
+                            style: TextStyle(
+                                fontSize: 16,
                                 color: MyColors.black
                             ),
                           ),
-                      ],
-                    ),
-
-                  ],
-                ),
-                if(chatController.type=="ACTIVE")
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          chatController.goto("/freeKundli", arguments: chatController.sessionHistory.k_id);
-                        },
-                        child: Image.asset(
-                          "assets/astrology/kundali.png",
-                          height: 50,
+      
+                          if(chatController.type=="ACTIVE")
+                            Text(
+                              chatController.getChatTime(),
+                              style: GoogleFonts.manrope(
+                                  fontSize: 12,
+                                  color: MyColors.black
+                              ),
+                            ),
+                        ],
+                      ),
+      
+                    ],
+                  ),
+                  if(chatController.type=="ACTIVE")
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            chatController.goto("/freeKundli", arguments: chatController.sessionHistory.k_id);
+                          },
+                          child: Image.asset(
+                            "assets/astrology/kundali.png",
+                            height: 50,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          chatController.endChat(false);
-                        },
-                        child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: MyColors.colorError,
+                        SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            chatController.endChat(false);
+                          },
                           child: CircleAvatar(
-                            radius: 10,
+                            radius: 15,
                             backgroundColor: MyColors.colorError,
-                            child: Image.asset(
-                                "assets/call/end.png"
+                            child: CircleAvatar(
+                              radius: 10,
+                              backgroundColor: MyColors.colorError,
+                              child: Image.asset(
+                                  "assets/call/end.png"
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                if(chatController.type=="COMPLETED")
-                  Icon(
-                      Icons.share
-                  )
-              ],
+                      ],
+                    ),
+                  if(chatController.type=="COMPLETED")
+                    Icon(
+                        Icons.share
+                    )
+                ],
+              ),
             ),
-          ),
-          // bottomNavigationBar: getBottomPage(),
-          // backgroundColor: MyColors.white,
-          body: getBody(context),
-        ) : LoadingScreen();
-      },
+            // bottomNavigationBar: getBottomPage(),
+            // backgroundColor: MyColors.white,
+            body: getBody(context),
+          ) : LoadingScreen();
+        },
+      ),
     );
   }
 
@@ -168,7 +176,6 @@ class Chat extends StatelessWidget {
   }
 
   Widget getChatDesign(int index, ChatModel chat) {
-    print(chat);
     return chat.sender=="A" ?
     chat.m_type=="T" ? Column(
       children: [
@@ -590,7 +597,6 @@ class Chat extends StatelessWidget {
   Widget getQRDesign(QuickRepliesModel reply) {
     return GestureDetector(
       onTap: () {
-        print(reply.reply);
         chatController.sendQuickReply(reply.reply);
       },
       child: Container(

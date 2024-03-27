@@ -556,10 +556,13 @@ class Dashboard extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  (dashboardController.session?.astro_profile??"").isNotEmpty ?
+                  (dashboardController.session?.user_profile??"").isNotEmpty ?
                   CircleAvatar(
                     radius: 25,
                     backgroundImage: NetworkImage(
@@ -582,7 +585,7 @@ class Dashboard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        dashboardController.session?.astrologer??"",
+                        dashboardController.session?.user??"",
                         style: GoogleFonts.manrope(
                             color: MyColors.labelColor(),
                             fontWeight: FontWeight.w600,
@@ -601,8 +604,88 @@ class Dashboard extends StatelessWidget {
                   )
                 ],
               ),
+              if(dashboardController.session?.status=="REQUESTED")
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Row(
+                    children: [
+                      getSessionButton("ACCEPT", Icons.call),
+                      SizedBox(width: 10,),
+                      getSessionButton("REJECT", Icons.call_end),
+                    ],
+                  ),
+                )
             ],
           )
+      ),
+    );
+  }
+
+  Widget getSessionButton(String action, IconData icon) {
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.tight,
+      child: GestureDetector(
+        onTap: () {
+          if(dashboardController.session?.category=="CHAT") {
+            dashboardController.goto(
+                "/chat",
+                arguments: {
+                  "type" : dashboardController.session?.status,
+                  "action" : action,
+                  "user_id" : dashboardController.session?.user_id,
+                  "ch_id" : dashboardController.session?.id,
+                  "session_history" : dashboardController.session,
+                  "user" : UserModel(
+                      id: dashboardController.session?.user_id??-1,
+                      name: dashboardController.session?.user??"",
+                      profile: dashboardController.session?.user_profile??""
+                  )
+                }
+            );
+          }
+          else {
+            dashboardController.goto("/call",
+                arguments: {
+                  "type":  dashboardController.session?.status,
+                  "action" : action,
+                  "astro_id": dashboardController.session?.astro_id,
+                  "session_history": dashboardController.session,
+                  "user": UserModel(
+                      id: dashboardController.session?.user_id ?? -1,
+                      name: dashboardController.session?.user ?? "",
+                      profile: dashboardController.session?.user_profile ?? "",
+                      mobile: ''
+                  ),
+                  "meetingID": dashboardController.session?.meeting_id,
+                  "ch_id": dashboardController.session?.id
+                }
+            );
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(
+            color: action=="ACCEPT" ? MyColors.colorSuccess : MyColors.colorError,
+            borderRadius: BorderRadius.circular(8)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(
+                icon,
+                color: MyColors.white,
+              ),
+              Text(
+                action,
+                style: GoogleFonts.manrope(
+                  color: MyColors.white,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

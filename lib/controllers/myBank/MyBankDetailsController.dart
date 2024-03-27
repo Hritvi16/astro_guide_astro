@@ -41,6 +41,7 @@ class MyBankDetailsController extends GetxController {
 
   @override
   void onInit() {
+    print("heeeelooooo");
     current = 0;
     step1 = GlobalKey<FormState>();
     step2 = GlobalKey<FormState>();
@@ -64,6 +65,7 @@ class MyBankDetailsController extends GetxController {
   }
 
   void getMyBankDetails() {
+    print("hello");
     astrologerProvider.fetchBank(storage.read("access"), ApiConstants.bankAPI).then((response) {
       if(response.code==1) {
         bank = response.data??BankModel(id: -1, astro_id: -1, bank_name: "", branch: "", holder_name: "", account_no: "", ifsc: "", cheque: "", created_at: "", status: 0, verified: 0);

@@ -163,6 +163,39 @@ class OTP extends StatelessWidget {
                               ),
                             ),
                           ),
+                          if(otpController.whatsapp==1)
+                            Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    otpController.changeType();
+                                  },
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset("assets/common/whatsapp.png", height: 30,),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                            "VERIFY USING ${otpController.sms ? "WHATSAPP" : "SMS"}",
+                                            style: GoogleFonts.manrope(
+                                              fontSize: 14.0,
+                                              color: MyColors.black,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w500,
+                                              decoration: TextDecoration.underline
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           GestureDetector(
                             onTap: () {
                               otpController.checkOTP(otpController.otp.text);

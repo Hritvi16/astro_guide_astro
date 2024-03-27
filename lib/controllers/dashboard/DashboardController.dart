@@ -6,6 +6,7 @@ import 'package:astro_guide_astro/models/chartData/ChartData.dart';
 import 'package:astro_guide_astro/models/report/BasicReportModel.dart';
 import 'package:astro_guide_astro/models/report/ReportModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
 import 'package:astro_guide_astro/providers/DashboardProvider.dart';
 import 'package:astro_guide_astro/repositories/AstrologerRepository.dart';
@@ -41,9 +42,14 @@ class DashboardController extends GetxController {
 
   SessionHistoryModel? session;
 
+  final GlobalNotifier globalNotifier = Get.find();
+
   @override
   void onInit() {
     super.onInit();
+    globalNotifier.showSession.listen((value) {
+      updateDashboard(value);
+    });
     dashboardProvider = Get.put(DashboardProvider(dashboardRepository));
     astrologerProvider = Get.put(AstrologerProvider(astrologerRepository));
     month_summary = [];
@@ -57,6 +63,14 @@ class DashboardController extends GetxController {
     fload = false;
     oload = false;
     start();
+  }
+
+  void updateDashboard(value) {
+    print("sswebnotifier dashboard: $value");
+    if(globalNotifier.showSession.value=="session") {
+      getDashboard();
+      globalNotifier.updateValue("");
+    }
   }
 
   start() {
@@ -183,9 +197,10 @@ class DashboardController extends GetxController {
   }
 
   double getPrecision(double value, int precision) {
-    if(value.isNaN) {
+    if(value.isNaN || value.isInfinite) {
       value = 0;
     }
+    print(value);
     return value.toPrecision(precision);
   }
 

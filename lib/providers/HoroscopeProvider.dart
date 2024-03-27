@@ -1,3 +1,4 @@
+import 'package:astro_guide_astro/models/horoscope/KundliResponseModel.dart';
 import 'package:astro_guide_astro/models/horoscope/ashtakoot/AshtakootResponseModel.dart';
 import 'package:astro_guide_astro/models/horoscope/basic/BasicKundliResponseModel.dart';
 import 'package:astro_guide_astro/models/horoscope/chart/ChartResponseModel.dart';
@@ -12,6 +13,12 @@ class HoroscopeProvider {
   final HoroscopeRepository horoscopeRepository;
 
   HoroscopeProvider(this.horoscopeRepository);
+
+  Future<KundliResponseModel> fetchKundli(String token, String endpoint, Map<String, dynamic> data) async {
+    var kundliResponseModel = await horoscopeRepository.fetchByData(token, endpoint, data);
+
+    return KundliResponseModel.fromJson(kundliResponseModel);
+  }
 
   Future<BasicKundliResponseModel> fetchBasicKundli(String token, String endpoint, Map<String, dynamic> data) async {
     var basicKundliResponseModel = await horoscopeRepository.fetchByData(token, endpoint, data);

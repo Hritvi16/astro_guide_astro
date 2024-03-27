@@ -12,8 +12,6 @@ class CallBinding implements Bindings {
 
     Get.lazyPut<MeetingRepository>(() => MeetingRepository(Get.find()));
     Get.lazyPut<MeetingProvider>(() => MeetingProvider(Get.find()));
-
-
   }
 
   Future<void> clear() async {

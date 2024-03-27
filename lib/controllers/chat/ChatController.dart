@@ -15,6 +15,7 @@ import 'package:astro_guide_astro/models/chat/CheckChatResponseModel.dart';
 import 'package:astro_guide_astro/models/chat/EndChatResponseModel.dart';
 import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:astro_guide_astro/providers/ChatProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/views/quickReply/QuickReply.dart';
@@ -40,6 +41,8 @@ class ChatController extends GetxController {
 
   final ChatProvider chatProvider = Get.find();
   ScrollController controller = ScrollController();
+
+  final GlobalNotifier globalNotifier = Get.find();
 
 
   int recordDuration = 0;
@@ -105,7 +108,6 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("hellooo init");
     initAudio();
     cancel = false;
     reject = false;
@@ -132,7 +134,6 @@ class ChatController extends GetxController {
 
     if (action == "VIEW") {
       load = false;
-      print(Get.arguments);
       sessionHistory = Get.arguments['session_history'];
       user = UserModel(id: Get.arguments['user_id'], name: "", profile: '', mobile: '', );
     }
@@ -217,7 +218,6 @@ class ChatController extends GetxController {
       }
     }
     else {
-      print("delete");
       File file = File(path!);
       await file.delete();
     }
@@ -273,7 +273,7 @@ class ChatController extends GetxController {
 
 
   start() {
-    print(action);
+    print("sswebchat: $action");
     if(action=="VIEW") {
       getSessionHistory();
     }
@@ -295,14 +295,18 @@ class ChatController extends GetxController {
     );
     connectSocket();
 
+    print("sswebchat: $type");
     if(type=="REQUESTED") {
+      print("sswebchat: $action");
       if(action=="ACCEPT") {
         initiateChat();
       }
+      else if(action=="REJECT") {
+        print("sswebchat: reject");
+        rejectChat();
+      }
       else if(action=="NOT DECIDED"){
-        print("ssweb: not decided");
         bool? go = await getSessionHistory();
-        print("ssweb:gooo ${go}");
 
         if(go==true) {
           Get.back();
@@ -325,9 +329,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> getMyQuickReplies() async {
-    print(storage.read("access"));
     chatProvider.fetchQuickReplies(storage.read("access"), ApiConstants.quickReplies+ApiConstants.active).then((response) {
-      print(response.toJson());
       if (response.code == 1) {
         replies = [];
         replies.addAll(response.data ?? []);
@@ -346,7 +348,6 @@ class ChatController extends GetxController {
 
 
     return await chatProvider.fetchByID(storage.read("access"), ApiConstants.id, data).then((response) async {
-      print(response.toJson());
       if(response.code==1) {
         chats.addAll(response.data??[]);
         user = response.user??user;
@@ -376,9 +377,6 @@ class ChatController extends GetxController {
         wallet = response.wallet??0;
         review = response.review;
         load = false;
-          print("sessionHistory.toJson()");
-        print(sessionHistory.toJson());
-
 
         started_at = tz.TZDateTime.parse(location, "${sessionHistory.started_at??""}+0000");
         cnt = 0;
@@ -386,21 +384,26 @@ class ChatController extends GetxController {
         rate = sessionHistory.rate;
         chat_type = sessionHistory.type;
 
-        print(sessionHistory.status);
-
 
         if(type=="ACTIVE") {
-          if (chat_type == "FREE") {
-            show = false;
+          if(sessionHistory.status=="COMPLETED") {
+            type = "COMPLETED";
+            action = "COMPLETED";
             update();
-            max = 600;
           }
           else {
-            show = true;
-            update();
-            calculateCountdown();
+            if (chat_type == "FREE") {
+              show = false;
+              update();
+              max = 600;
+            }
+            else {
+              show = true;
+              update();
+              calculateCountdown();
+            }
+            startTimer();
           }
-          startTimer();
         }
       }
       load = true;
@@ -518,7 +521,6 @@ class ChatController extends GetxController {
         'reject', (data) async {
       ResponseModel response = ResponseModel.fromJson(json.decode(data));
 
-      print(response.toJson());
 
       if(timer!=null) {
         stopTimer(true);
@@ -606,7 +608,6 @@ class ChatController extends GetxController {
         stopTimer(true);
       }
 
-      print(response.toJson());
 
       if(response.code==1) {
         cnt = 0;
@@ -640,9 +641,6 @@ class ChatController extends GetxController {
     socket.on(
         'cancel', (data) async {
       EndChatResponseModel endChatResponse = EndChatResponseModel.fromJson(json.decode(data));
-
-      print("ssweb cancellll");
-      print(endChatResponse.toJson());
 
 
       if(endChatResponse.code==1) {
@@ -688,7 +686,6 @@ class ChatController extends GetxController {
         'waitlist', (data) async {
       ResponseModel response = ResponseModel.fromJson(json.decode(data));
 
-      print(response.toJson());
 
       if(timer!=null) {
         stopTimer(true);
@@ -727,8 +724,6 @@ class ChatController extends GetxController {
     socket.on(
       'message',
           (data) {
-        print("dataaaaa");
-        print(data);
         ChatResponseModel chatResponseModel = ChatResponseModel.fromJson(json.decode(data));
 
         List<ChatModel> temp = [
@@ -802,8 +797,6 @@ class ChatController extends GetxController {
       SessionConstants.m_type : "T",
     };
 
-    print("dataaaa");
-    print(data['message']);
     sendMessage(data, "");
   }
 
@@ -827,8 +820,6 @@ class ChatController extends GetxController {
 
     if(data['m_type']=="T") {
       socket.emit('message', data);
-      print(data);
-      print("emittttteddd");
       message.clear();
     }
     else {
@@ -853,7 +844,6 @@ class ChatController extends GetxController {
   void sendFile(Map <String, dynamic> data) async {
     late FormData form = FormData(data);
 
-    print(data);
 
     await chatProvider.send(form, storage.read("access")).then((response) async {
       if(response.code==1) {
@@ -865,10 +855,7 @@ class ChatController extends GetxController {
           SessionConstants.sender : "A",
         });
 
-        print("broadcast");
-        print(broadcast);
         socket.emit('broadcastFile', broadcast);
-        print("emiteddd");
 
         for (int i=0; i<chats.length; i++) {
           if(chats[i].id==chatResponseModel.m_id) {
@@ -947,8 +934,6 @@ class ChatController extends GetxController {
   }
 
   void cancelChat() async {
-    print("chat cancelled");
-    print(timer);
     if(timer!=null) {
       stopTimer(true);
     }
@@ -968,7 +953,6 @@ class ChatController extends GetxController {
   }
 
   void rejectChat() async {
-    print("chat rejected");
     stopTimer(false);
     reject = true;
     update();
@@ -978,6 +962,8 @@ class ChatController extends GetxController {
       SessionConstants.sender : "A",
       SessionConstants.reason : "Chat was rejected by astrologer",
     };
+
+    print(data);
 
 
     socket.emit('reject', data);
@@ -1010,6 +996,8 @@ class ChatController extends GetxController {
   }
 
   void startTimer() {
+    print("starttttt");
+    print(timer==null || (timer!=null && timer_type=="ring"));
     var kolkata = tz.getLocation('GMT');
     Duration duration = tz.TZDateTime.now(kolkata).difference(started_at);
     seconds = duration.inSeconds;
@@ -1017,6 +1005,12 @@ class ChatController extends GetxController {
 
     if(timer==null || (timer!=null && timer_type=="ring")) {
       timer_type = "chat";
+      timer = Timer.periodic(Duration(seconds: 1), (_) {setCountDown();});
+    }
+    else {
+      print("hellloooo");
+      timer_type = "chat";
+      timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 1), (_) {setCountDown();});
     }
 
@@ -1035,7 +1029,6 @@ class ChatController extends GetxController {
           player.seek(Duration.zero);
           player.play();
           update();
-          print("completed");
         }
       });
     }
@@ -1048,8 +1041,10 @@ class ChatController extends GetxController {
   }
 
   void setCountDown() {
+    print("settttt");
     seconds+=1;
     update();
+    print(seconds);
     if(max<=seconds) {
       endChat(true);
     }
@@ -1146,8 +1141,6 @@ class ChatController extends GetxController {
       SessionConstants.reply : null,
     };
 
-    print(data);
-
     await chatProvider.manage(storage.read("access"), ApiConstants.rating+ApiConstants.reply, data).then((response) async {
       if(response.code==1) {
         review = review?.copyWith(reply: null, replied_at: null);
@@ -1178,16 +1171,14 @@ class ChatController extends GetxController {
 
       data.addAll({SessionConstants.message : MultipartFile(File(file!.path), filename: basename(path)), SessionConstants.ext : basename(path).substring(basename(path).lastIndexOf(".")+1)});
       // data.addAll({SessionConstants.message : fileBytes, SessionConstants.ext : image.name.substring(image.name.lastIndexOf(".")+1)});
-      print("dataaaaaa");
-      print(basename(path));
+
       sendMessage(data, file.path);
     }
   }
 
   void stopTimer(bool dispose) {
-    if(player.playing) {
-      player.stop();
-    }
+    print("sswebchat: ${player.playing}");
+    stopPlayer();
     if(timer!=null) {
       timer!.cancel();
       update();
@@ -1198,7 +1189,14 @@ class ChatController extends GetxController {
     }
   }
 
+  void stopPlayer() {
+    if(player.playing) {
+      player.stop();
+    }
+  }
+
   void back() {
+    stopPlayer();
     disposeObjects();
     Get.back();
   }
@@ -1208,8 +1206,6 @@ class ChatController extends GetxController {
         isScrollControlled: true,
         QuickReply(replies)
     ).then((value) {
-      print("valueeee");
-      print(value);
 
       if(value!=null){
         replies = value['replies']??replies;
@@ -1222,11 +1218,9 @@ class ChatController extends GetxController {
   }
 
   void disposeObjects() {
-    print("disposeeee objectsss");
     timer = null;
     timer_type = null;
     update();
-    print(timer);
     recordTimer?.cancel();
     recordSub?.cancel();
     amplitudeSub?.cancel();
@@ -1301,5 +1295,13 @@ class ChatController extends GetxController {
     player.pause();
     // playerUrl = "";
     update();
+  }
+
+  void updateDashboard() {
+    print("sswebnotifier: before chat ${globalNotifier.showSession}");
+    if(globalNotifier.showSession.value=="notification") {
+      globalNotifier.updateValue("session");
+    }
+    print("sswebnotifier: after chat ${globalNotifier.showSession}");
   }
 }

@@ -14,8 +14,10 @@ import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/views/country/Country.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -124,14 +126,15 @@ class LoginController extends GetxController {
 
     astrologerProvider.login(data, CommonConstants.essential, ApiConstants.verify).then((response) async {
       print(response.toJson());
-      // if(response.code==1) {
+      print(response.code==1 || response.code==0);
+      if(response.code==1 || response.code==0) {
         Get.back();
-        goto("/otp", {"mobile" : mobile.text, "code" : country.code}, loginModel: response);
+        goto("/otp", {"mobile" : mobile.text, "code" : country.code, "instance_id" : response.refresh_token, "access_token" : response.access_token, "whatsapp" : response.whatsapp}, loginModel: response);
         // goToHome(response);
-      // }
-      // else {
-      //   Essential.showSnackBar(response.message);
-      // }
+      }
+      else {
+        Essential.showSnackBar(response.message);
+      }
     });
   }
 
@@ -157,6 +160,70 @@ class LoginController extends GetxController {
       }
     });
   }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      print("googleUser11");
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      print("googleUser");
+      print(googleUser);
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        print(googleUser);
+
+        loginWithSocial(googleUser);
+        // Use the `credential` to authenticate with Firebase or your backend server
+      }
+    } on PlatformException catch (error) {
+      print("PlatformException error");
+      print(error);
+      print(error.code);
+      print(error.message);
+      print(error.stacktrace);
+      print(error.details);
+    }
+    catch (error) {
+      print("error");
+      print(error);
+    }
+  }
+
+
+  Future<void> loginWithSocial(GoogleSignInAccount googleUser) async {
+    print(googleUser);
+    final Map<String, String> data = {
+      UserConstants.email : googleUser.email,
+      UserConstants.fcm : await NotificationHelper.generateFcmToken()
+    };
+
+    print(data);
+    print(storage.read("access"));
+
+    astrologerProvider.login(data, storage.read("access"), ApiConstants.socialLogin).then((response) async {
+      print(response.toJson());
+      if(response.code==-3) {
+        Essential.showSnackBar(response.message, code: response.code, time: 3);
+      }
+      else {
+        if (response.code == 1) {
+          goToHome(response);
+        }
+        else  {
+          File? image;
+          if((googleUser.photoUrl??"").isNotEmpty) {
+            image = await download(googleUser.photoUrl ?? "");
+          }
+          // register(googleUser.displayName ?? "", googleUser.email, UserConstants.jv['G']!, image);
+        }
+      }
+    });
+  }
+
 
   void goToHome(LoginModel response) {
     storage.write("access", response.access_token);

@@ -12,7 +12,7 @@ part of 'AstrologerModel.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 AstrologerModel _$AstrologerModelFromJson(Map<String, dynamic> json) {
   return _AstrologerModel.fromJson(json);
@@ -32,6 +32,12 @@ mixin _$AstrologerModel {
   int? get fav => throw _privateConstructorUsedError;
   int? get follow => throw _privateConstructorUsedError;
   int? get ci_id => throw _privateConstructorUsedError;
+  double? get p_chat => throw _privateConstructorUsedError;
+  double? get p_call => throw _privateConstructorUsedError;
+  double? get f_chat => throw _privateConstructorUsedError;
+  double? get f_call => throw _privateConstructorUsedError;
+  double? get p_commission => throw _privateConstructorUsedError;
+  double? get f_commission => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +63,13 @@ abstract class $AstrologerModelCopyWith<$Res> {
       String about,
       int? fav,
       int? follow,
-      int? ci_id});
+      int? ci_id,
+      double? p_chat,
+      double? p_call,
+      double? f_chat,
+      double? f_call,
+      double? p_commission,
+      double? f_commission});
 }
 
 /// @nodoc
@@ -85,6 +97,12 @@ class _$AstrologerModelCopyWithImpl<$Res, $Val extends AstrologerModel>
     Object? fav = freezed,
     Object? follow = freezed,
     Object? ci_id = freezed,
+    Object? p_chat = freezed,
+    Object? p_call = freezed,
+    Object? f_chat = freezed,
+    Object? f_call = freezed,
+    Object? p_commission = freezed,
+    Object? f_commission = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -135,6 +153,30 @@ class _$AstrologerModelCopyWithImpl<$Res, $Val extends AstrologerModel>
           ? _value.ci_id
           : ci_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      p_chat: freezed == p_chat
+          ? _value.p_chat
+          : p_chat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p_call: freezed == p_call
+          ? _value.p_call
+          : p_call // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_chat: freezed == f_chat
+          ? _value.f_chat
+          : f_chat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_call: freezed == f_call
+          ? _value.f_call
+          : f_call // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p_commission: freezed == p_commission
+          ? _value.p_commission
+          : p_commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_commission: freezed == f_commission
+          ? _value.f_commission
+          : f_commission // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -159,7 +201,13 @@ abstract class _$$AstrologerModelImplCopyWith<$Res>
       String about,
       int? fav,
       int? follow,
-      int? ci_id});
+      int? ci_id,
+      double? p_chat,
+      double? p_call,
+      double? f_chat,
+      double? f_call,
+      double? p_commission,
+      double? f_commission});
 }
 
 /// @nodoc
@@ -185,6 +233,12 @@ class __$$AstrologerModelImplCopyWithImpl<$Res>
     Object? fav = freezed,
     Object? follow = freezed,
     Object? ci_id = freezed,
+    Object? p_chat = freezed,
+    Object? p_call = freezed,
+    Object? f_chat = freezed,
+    Object? f_call = freezed,
+    Object? p_commission = freezed,
+    Object? f_commission = freezed,
   }) {
     return _then(_$AstrologerModelImpl(
       id: null == id
@@ -235,6 +289,30 @@ class __$$AstrologerModelImplCopyWithImpl<$Res>
           ? _value.ci_id
           : ci_id // ignore: cast_nullable_to_non_nullable
               as int?,
+      p_chat: freezed == p_chat
+          ? _value.p_chat
+          : p_chat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p_call: freezed == p_call
+          ? _value.p_call
+          : p_call // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_chat: freezed == f_chat
+          ? _value.f_chat
+          : f_chat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_call: freezed == f_call
+          ? _value.f_call
+          : f_call // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p_commission: freezed == p_commission
+          ? _value.p_commission
+          : p_commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      f_commission: freezed == f_commission
+          ? _value.f_commission
+          : f_commission // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -254,7 +332,13 @@ class _$AstrologerModelImpl implements _AstrologerModel {
       required this.about,
       this.fav,
       this.follow,
-      this.ci_id});
+      this.ci_id,
+      this.p_chat,
+      this.p_call,
+      this.f_chat,
+      this.f_call,
+      this.p_commission,
+      this.f_commission});
 
   factory _$AstrologerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$AstrologerModelImplFromJson(json);
@@ -283,14 +367,26 @@ class _$AstrologerModelImpl implements _AstrologerModel {
   final int? follow;
   @override
   final int? ci_id;
+  @override
+  final double? p_chat;
+  @override
+  final double? p_call;
+  @override
+  final double? f_chat;
+  @override
+  final double? f_call;
+  @override
+  final double? p_commission;
+  @override
+  final double? f_commission;
 
   @override
   String toString() {
-    return 'AstrologerModel(id: $id, name: $name, mobile: $mobile, email: $email, gender: $gender, dob: $dob, experience: $experience, profile: $profile, about: $about, fav: $fav, follow: $follow, ci_id: $ci_id)';
+    return 'AstrologerModel(id: $id, name: $name, mobile: $mobile, email: $email, gender: $gender, dob: $dob, experience: $experience, profile: $profile, about: $about, fav: $fav, follow: $follow, ci_id: $ci_id, p_chat: $p_chat, p_call: $p_call, f_chat: $f_chat, f_call: $f_call, p_commission: $p_commission, f_commission: $f_commission)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AstrologerModelImpl &&
@@ -306,13 +402,39 @@ class _$AstrologerModelImpl implements _AstrologerModel {
             (identical(other.about, about) || other.about == about) &&
             (identical(other.fav, fav) || other.fav == fav) &&
             (identical(other.follow, follow) || other.follow == follow) &&
-            (identical(other.ci_id, ci_id) || other.ci_id == ci_id));
+            (identical(other.ci_id, ci_id) || other.ci_id == ci_id) &&
+            (identical(other.p_chat, p_chat) || other.p_chat == p_chat) &&
+            (identical(other.p_call, p_call) || other.p_call == p_call) &&
+            (identical(other.f_chat, f_chat) || other.f_chat == f_chat) &&
+            (identical(other.f_call, f_call) || other.f_call == f_call) &&
+            (identical(other.p_commission, p_commission) ||
+                other.p_commission == p_commission) &&
+            (identical(other.f_commission, f_commission) ||
+                other.f_commission == f_commission));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, mobile, email, gender,
-      dob, experience, profile, about, fav, follow, ci_id);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      mobile,
+      email,
+      gender,
+      dob,
+      experience,
+      profile,
+      about,
+      fav,
+      follow,
+      ci_id,
+      p_chat,
+      p_call,
+      f_chat,
+      f_call,
+      p_commission,
+      f_commission);
 
   @JsonKey(ignore: true)
   @override
@@ -342,7 +464,13 @@ abstract class _AstrologerModel implements AstrologerModel {
       required final String about,
       final int? fav,
       final int? follow,
-      final int? ci_id}) = _$AstrologerModelImpl;
+      final int? ci_id,
+      final double? p_chat,
+      final double? p_call,
+      final double? f_chat,
+      final double? f_call,
+      final double? p_commission,
+      final double? f_commission}) = _$AstrologerModelImpl;
 
   factory _AstrologerModel.fromJson(Map<String, dynamic> json) =
       _$AstrologerModelImpl.fromJson;
@@ -371,6 +499,18 @@ abstract class _AstrologerModel implements AstrologerModel {
   int? get follow;
   @override
   int? get ci_id;
+  @override
+  double? get p_chat;
+  @override
+  double? get p_call;
+  @override
+  double? get f_chat;
+  @override
+  double? get f_call;
+  @override
+  double? get p_commission;
+  @override
+  double? get f_commission;
   @override
   @JsonKey(ignore: true)
   _$$AstrologerModelImplCopyWith<_$AstrologerModelImpl> get copyWith =>

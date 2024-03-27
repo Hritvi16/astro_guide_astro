@@ -89,58 +89,55 @@ class Routes {
         name: '/home',
         page: () => Home(),
         binding: HomeBinding(),
-        middlewares: [InternetMiddleware()]
+        
     ),
     GetPage(
         name: '/language',
         page: () => Language(),
         binding: LanguageBinding(),
-        middlewares: [InternetMiddleware()]
+        
     ),
     GetPage(
       name: '/call',
       page: () => Call(),
       binding: CallBinding(),
+      
     ),
-    // GetPage(
-    //   name: '/oneToOneMeet',
-    //   page: () => OneToOneMeet(),
-    //   binding: OneToOneMeetBinding(),
-    // ),
-    // GetPage(
-    //   name: '/joinScreen',
-    //   page: () => JoinScreen(),
-    //   binding: JoinScreenBinding(),
-    // ),
     GetPage(
       name: '/chat',
       page: () => Chat(),
       binding: ChatBinding(),
+      
     ),
     GetPage(
         name: '/wishlist',
         page: () => Wishlist(),
-        binding: WishlistBinding()
+        binding: WishlistBinding(),
+        
     ),
     GetPage(
         name: '/following',
         page: () => Following(),
-        binding: FollowingBinding()
+        binding: FollowingBinding(),
+        
     ),
     GetPage(
         name: '/review',
         page: () => Review(),
-        binding: ReviewBinding()
+        binding: ReviewBinding(),
+        
     ),
     GetPage(
       name: '/myProfile',
       page: () => MyProfile(),
       binding: MyProfileBinding(),
+      
     ),
     GetPage(
       name: '/myLanguage',
       page: () => MyLanguage(),
       binding: MyLanguageBinding(),
+      
     ),
     GetPage(
       name: '/mySkill',

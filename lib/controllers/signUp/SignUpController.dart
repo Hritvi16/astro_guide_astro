@@ -94,9 +94,11 @@ class SignUpController extends GetxController {
   // late bool verified;
 
   late String error_p, error_d, error_i, error_g, error_pri, error_spec, error_lang;
+  late bool agree;
 
   @override
   void onInit() {
+    agree = false;
     current = 0;
     // verified = false;
     step = GlobalKey<FormState>();
@@ -129,6 +131,8 @@ class SignUpController extends GetxController {
 
     date = DateTime.now();
     edate = DateTime(date.year, date.month, 01);
+
+    agree = false;
 
     start();
     super.onInit();
@@ -378,6 +382,7 @@ class SignUpController extends GetxController {
 
   void validate() {
     if(eval1 == 1 && eval2 == 1 && eval3 ==1 && eval4 ==1) {
+      // print("validated");
       register();
     }
   }
@@ -686,6 +691,22 @@ class SignUpController extends GetxController {
         update();
       }
     });
+  }
+
+  Future<void> changeAgree(bool? value) async {
+    if(value!=agree) {
+      if(value==true) {
+        if(await Essential.showBasicDialog(CommonConstants.tc, "Yes", "No").then((value) {
+          if(value!="Yes") {
+            return true;
+          }
+        })==true) {
+          return;
+        }
+      }
+      agree = value??false;
+    }
+    update();
   }
 
 }

@@ -1,4 +1,5 @@
 import 'package:astro_guide_astro/colors/MyColors.dart';
+import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/controllers/setting/SettingController.dart';
 import 'package:astro_guide_astro/controllers/theme/ThemesController.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
@@ -182,6 +183,10 @@ class Setting extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
+                  getRateTable(),
+                  SizedBox(
+                    height: 16,
+                  ),
                   settingsTabWI('Update Rate'.tr, '', null, theme, onTab: () => settingController.updateRate()),
                   SizedBox(
                     height: 16,
@@ -448,5 +453,69 @@ class Setting extends StatelessWidget {
     ).then((value) {
       settingController.update();
     });
+  }
+
+  Widget getRateTable() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Table(
+        border: TableBorder.all(color: MyColors.borderInverseColor(), borderRadius: BorderRadius.circular(10)),
+        children: [
+          TableRow(
+            children: [
+              getRateTitle("Rates"),
+              getRateTitle("Call\n(${CommonConstants.rupee}/min)"),
+              getRateTitle("Chat\n(${CommonConstants.rupee}/min)"),
+              getRateTitle("AG Comm\n(%)"),
+            ]
+          ),
+          TableRow(
+            children: [
+              getRateTitle("Free"),
+              getRateInfo((settingController.astrologer.f_call??"-").toString()),
+              getRateInfo((settingController.astrologer.f_chat??"-").toString()),
+              getRateInfo((settingController.astrologer.f_commission??"-").toString()),
+            ]
+          ),
+          TableRow(
+            children: [
+              getRateTitle("Paid"),
+              getRateInfo((settingController.astrologer.p_call??"-").toString()),
+              getRateInfo((settingController.astrologer.p_chat??"-").toString()),
+              getRateInfo((settingController.astrologer.p_commission??"-").toString()),
+            ]
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getRateTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Text(
+        title,
+        style: GoogleFonts.manrope(
+          fontWeight: FontWeight.w600,
+          color: MyColors.labelColor()
+        ),
+      ),
+    );
+  }
+
+  Widget getRateInfo(String info) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Text(
+        getRateText(info),
+        style: GoogleFonts.manrope(
+          color: MyColors.labelColor()
+        ),
+      ),
+    );
+  }
+
+  String getRateText(String rate) {
+    return rate.endsWith(".0") ? rate.substring(0, rate.lastIndexOf(".0")) : rate;
   }
 }

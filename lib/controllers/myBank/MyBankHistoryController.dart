@@ -16,12 +16,12 @@ class MyBankHistoryController extends GetxController {
 
   final storage = GetStorage();
 
-  late TextEditingController bank_name;
-  late TextEditingController branch;
-  late TextEditingController holder_name;
-  late TextEditingController about;
-  late TextEditingController account_no;
-  late TextEditingController ifsc;
+  // late TextEditingController bank_name;
+  // late TextEditingController branch;
+  // late TextEditingController holder_name;
+  // late TextEditingController about;
+  // late TextEditingController account_no;
+  // late TextEditingController ifsc;
 
 
   late BankModel bank;
@@ -33,11 +33,11 @@ class MyBankHistoryController extends GetxController {
 
   @override
   void onInit() {
-    bank_name = TextEditingController();
-    branch = TextEditingController();
-    holder_name = TextEditingController();
-    account_no = TextEditingController();
-    ifsc = TextEditingController();
+    // bank_name = TextEditingController();
+    // branch = TextEditingController();
+    // holder_name = TextEditingController();
+    // account_no = TextEditingController();
+    // ifsc = TextEditingController();
 
 
     load = false;
@@ -91,11 +91,11 @@ class MyBankHistoryController extends GetxController {
 
 
   void setBankData() {
-    bank_name.text = bank.bank_name;
-    branch.text = bank.branch;
-    holder_name.text = bank.holder_name;
-    ifsc.text = bank.ifsc;
-    account_no.text = bank.account_no;
+    // bank_name.text = bank.bank_name;
+    // branch.text = bank.branch;
+    // holder_name.text = bank.holder_name;
+    // ifsc.text = bank.ifsc;
+    // account_no.text = bank.account_no;
     load = true;
     update();
   }

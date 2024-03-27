@@ -324,6 +324,10 @@ class MyColors
     return Get.isDarkMode ? colorBorderDark : colorBorder;
   }
 
+  static Color borderInverseColor() {
+    return Get.isDarkMode ? colorBorder : colorBorderDark;
+  }
+
   static Color selectedColor() {
     return Get.isDarkMode ? black : white;
   }

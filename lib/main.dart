@@ -5,6 +5,7 @@ import 'package:astro_guide_astro/controllers/GlobalVariables.dart';
 import 'package:astro_guide_astro/controllers/call/CallController.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/languages/Languages.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,10 @@ import 'package:astro_guide_astro/routes/routes.dart';
 import 'package:astro_guide_astro/themes/Themes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:month_year_picker/month_year_picker.dart';
+// import 'package:month_year_picker/month_year_picker.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -45,6 +47,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
     await NotificationHelper.initFcm();
 
+    final storage = GetStorage();
+
+    if(storage.read("permission")!=true) {
+      await checkPermission();
+    }
+
   tz.initializeTimeZones();
 
   ByteData data=await PlatformAssetBundle().load('assets/ca/cert.pem');
@@ -53,6 +61,20 @@ void main() async {
   Directory directory = await getApplicationDocumentsDirectory();
 
   runApp(LifecycleAwareWidget(child: MyApp(), directory: directory,));
+}
+
+Future<void> checkPermission() async {
+  // await Essential.requestMediaPermission();
+
+  print("await Permission.microphone.status");
+  print(await Permission.microphone.status);
+
+  print("await Permission.microphone.status");
+  print(await Permission.camera.request());
+  print(await Permission.camera.status);
+
+  final storage = GetStorage();
+  storage.write("permission", true);
 }
 
 class MyApp extends StatelessWidget {
@@ -68,7 +90,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       localizationsDelegates: [
         // GlobalMaterialLocalizations.delegate,
-        MonthYearPickerLocalizations.delegate,
+        // MonthYearPickerLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
       translations: Languages(),
@@ -129,45 +151,46 @@ class _LifecycleAwareWidgetState extends State<LifecycleAwareWidget> with Widget
   }
 
   void manageCall() async {
-    final storage = GetStorage();
+    final GlobalNotifier globalNotifier = Get.find();
     print("ssweb: lifecycle callController");
-    print(storage.read("calling"));
+    print(globalNotifier.callController);
 
-    
-    File file = File("${widget.directory.path}/calling.txt");
-    print("sswebmain filee: calling_status ${await file.readAsString()}");
-    String calling_status = await file.readAsString();
+
+    print("sswebmain filee: calling_status ${globalNotifier.callingStatus.value}");
+    String calling_status = globalNotifier.callingStatus.value;
     calling_status = calling_status.isEmpty ? "CANCELLED" : calling_status;
 
-    if(storage.read("calling")!=null) {
-      CallController callController = storage.read("calling");
+    if(globalNotifier.callController.value!=null) {
+      CallController callController = globalNotifier.callController.value!;
       if(calling_status=="back") {
-        callController.back();
+        //for call back commented this
+        // callController.back();
       }
       else if(calling_status.isNotEmpty){
-        callController.endMeeting(calling_status, path: widget.directory.path);
+        //purposely commented
+        // callController.endMeeting("manage call main.dart 149", calling_status, path: widget.directory.path);
       }
       // else {
       //   callController.stopTimer(back: true);
       // }
-      storage.remove("calling");
-      file.writeAsString("");
+      globalNotifier.updateCallController(null);
+      globalNotifier.updateCallingStatus("");
     }
-    else {
-      CallController callController = Get.put<CallController>(CallController());
-      if(calling_status=="back") {
-        callController.back();
-      }
-      else if((calling_status??"").isNotEmpty){
-        callController.endMeeting(calling_status, path: widget.directory.path);
-      }
-      // else {
-      //   callController.stopTimer(back: true);
-      // }
-      file.writeAsString("");
-    }
+    // else {
+    //   CallController callController = Get.put<CallController>(CallController());
+    //   if(calling_status=="back") {
+    //     callController.back();
+    //   }
+    //   else if((calling_status??"").isNotEmpty){
+    //     callController.endMeeting("manage call main.dart 163", calling_status, path: widget.directory.path);
+    //   }
+    //   // else {
+    //   //   callController.stopTimer(back: true);
+    //   // }
+    //   file.writeAsString("");
+    // }
 
-    print("sswebmain afterr filee: calling_status ${await file.readAsString()}");
+    print("sswebmain afterr filee: calling_status ${globalNotifier.callingStatus.value}");
   }
 
   @override

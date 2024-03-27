@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/controllers/signUp/SignUpController.dart';
@@ -1845,6 +1846,41 @@ class SignUp extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Checkbox(
+                value: signUpController.agree,
+                onChanged: (value) {
+                  signUpController.changeAgree(value);
+                },
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: RichText(
+                      text: TextSpan(
+                          text: "I agree with company's ",
+                          style: GoogleFonts.manrope(
+                            fontSize: 14.0,
+                            color: MyColors.black,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Terms & Conditions",
+                              style: GoogleFonts.manrope(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ]
+                      )
+                  ),
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

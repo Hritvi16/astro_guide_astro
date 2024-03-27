@@ -7,6 +7,7 @@ import 'package:astro_guide_astro/controllers/call/CallController.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:astro_guide_astro/providers/MeetingProvider.dart';
 import 'package:astro_guide_astro/repositories/MeetingRepository.dart';
 import 'package:astro_guide_astro/services/networking/ApiService.dart';
@@ -55,6 +56,8 @@ class NotificationHelper {
 
   // Notification lib
   static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
+
+  static final GlobalNotifier globalNotifier = Get.find();
 
   /// this function will initialize firebase and fcm instance
   static Future<void> initFcm() async {
@@ -170,9 +173,9 @@ class NotificationHelper {
       if(message.data['category']=="waitlist" || message.data['category']=="cancelled") {
         final storage = GetStorage();
 
-        print(storage.read("calling"));
-        if(storage.read("calling")!=null) {
-          CallController callController = storage.read("calling");
+        print(globalNotifier.callController.value);
+        if(globalNotifier.callController.value!=null) {
+          CallController callController = globalNotifier.callController.value!;
           callController.back();
           storage.remove("calling");
         }
@@ -181,9 +184,9 @@ class NotificationHelper {
       // else if(message.data['category']=="cancelled") {
       //   final storage = GetStorage();
       //
-      //   print(storage.read("calling"));
-      //   if(storage.read("calling")!=null) {
-      //     CallController callController = storage.read("calling");
+      //   print(globalNotifier.callController.value);
+      //   if(globalNotifier.callController.value!=null) {
+      //     CallController callController = globalNotifier.callController.value;
       //     callController.back();
       //     storage.remove("calling");
       //   }
@@ -192,10 +195,10 @@ class NotificationHelper {
       else if(message.data['category']=="rejected" || message.data['category']=="ended") {
         final storage = GetStorage();
 
-        print(storage.read("calling"));
-        if(storage.read("calling")!=null) {
-          CallController callController = storage.read("calling");
-          callController.endMeeting(message.data['category']=="rejected" ? "REJECTED" : "COMPLETED");
+        print(globalNotifier.callController.value);
+        if(globalNotifier.callController.value!=null) {
+          CallController callController = globalNotifier.callController.value!;
+          callController.endMeeting("foreground notification 198", message.data['category']=="rejected" ? "REJECTED" : "COMPLETED");
           storage.remove("calling");
         }
       }
@@ -203,9 +206,9 @@ class NotificationHelper {
       // else if(message.data['category']=="ended") {
       //   final storage = GetStorage();
       //
-      //   print(storage.read("calling"));
-      //   if(storage.read("calling")!=null) {
-      //     CallController callController = storage.read("calling");
+      //   print(globalNotifier.callController.value);
+      //   if(globalNotifier.callController.value!=null) {
+      //     CallController callController = globalNotifier.callController.value;
       //     callController.endMeeting("COMPLETED");
       //     storage.remove("calling");
       //   }

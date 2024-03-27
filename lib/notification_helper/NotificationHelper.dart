@@ -1,9 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
+import 'package:astro_guide_astro/cache_manager/CacheManager.dart';
 import 'package:astro_guide_astro/controllers/GlobalVariables.dart';
 import 'package:astro_guide_astro/models/meeting/EndCallResponseModel.dart';
 import 'package:astro_guide_astro/models/response/ResponseModel.dart';
+import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
+import 'package:flutter_callkit_incoming/entities/android_params.dart';
+import 'package:flutter_callkit_incoming/entities/call_event.dart';
+import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
+import 'package:flutter_callkit_incoming/entities/ios_params.dart';
+import 'package:flutter_callkit_incoming/entities/notification_params.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -25,6 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:uuid/uuid.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 //////////////////////////////////////////////////////////
@@ -62,6 +72,7 @@ class NotificationHelper {
 
   // Notification lib
   static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
+  static final GlobalNotifier globalNotifier = Get.find();
 
   /// this function will initialize firebase and fcm instance
   static Future<void> initFcm() async {
@@ -76,6 +87,7 @@ class NotificationHelper {
 
       // initialize notifications channel and libraries
       await initNotification();
+      // await initCallKit();
 
       // notification settings handler
       await setupFcmNotificationSettings();
@@ -109,6 +121,58 @@ class NotificationHelper {
       onNotificationDisplayedMethod:  NotificationController.onNotificationDisplayedMethod,
       onDismissActionReceivedMethod:  NotificationController.onDismissActionReceivedMethod
     );
+  }
+
+  static initCallKit() {
+    FlutterCallkitIncoming.onEvent.listen((CallEvent? event) {
+      switch (event!.event) {
+        case Event.actionCallIncoming:
+        // TODO: received an incoming call
+          break;
+        case Event.actionCallStart:
+        // TODO: started an outgoing call
+        // TODO: show screen calling in Flutter
+          break;
+        case Event.actionCallAccept:
+          print("hello call incoming");
+        // TODO: accepted an incoming call
+        // TODO: show screen calling in Flutter
+          break;
+        case Event.actionCallDecline:
+        // TODO: declined an incoming call
+          break;
+        case Event.actionCallEnded:
+        // TODO: ended an incoming/outgoing call
+          break;
+        case Event.actionCallTimeout:
+        // TODO: missed an incoming call
+          break;
+        case Event.actionCallCallback:
+        // TODO: only Android - click action `Call back` from missed call notification
+          break;
+        case Event.actionCallToggleHold:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleMute:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleDmtf:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleGroup:
+        // TODO: only iOS
+          break;
+        case Event.actionCallToggleAudioSession:
+        // TODO: only iOS
+          break;
+        case Event.actionDidUpdateDevicePushTokenVoip:
+        // TODO: only iOS
+          break;
+        case Event.actionCallCustom:
+        // TODO: for custom action
+          break;
+      }
+    });
   }
 
   ///handle fcm notification settings (sound,badge..etc)
@@ -151,45 +215,126 @@ class NotificationHelper {
   static Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
     print("categoryyyyy backk");
     print(message.data);
-    print(message.data['category']);
+    String category = message.data['category'].toString().toLowerCase();
+    print(category);
+    print(message.data['title']);
+    print(message.data['title']);
     Directory directory = await getApplicationDocumentsDirectory();
-    _showNotification(
-        id: 1,
-        title: message.notification?.title ?? 'Title',
-        body: message.notification?.body ?? 'Body',
-        payload: message.data.cast(),
-        notificationLayout: NotificationLayout.BigText,
-        category: message.data['category']=="call" || message.data['category']=="chat"  ? NotificationCategory.Call : message.data['category']=="cancelled" ? NotificationCategory.MissedCall : null
-    );
 
-    if(message.data['category']=="rejected" || message.data['category']=="ended" || message.data['category']=="missed" || message.data['category']=="cancelled") {
+    // if(category=="call" || category=="chat") {
+    //   showIncomingCall(message.data);
+    // }
+    // else {
+    var random = Random();
+      _showNotification(
+          id: random.nextInt(pow(2, 31).toInt() - 1),
+          title: message.notification?.title ?? message?.data['title'] ?? '',
+          body: message.notification?.body ?? message?.data['body'] ?? '',
+          payload: message.data.cast(),
+          notificationLayout: NotificationLayout.BigText,
+          category: category == "call" ||
+              category == "chat"
+              ? NotificationCategory.Call
+              : category == "cancelled" ? NotificationCategory
+              .MissedCall : null
+      );
+    // }
+
+    if(category=="rejected" || category=="ended" || category=="missed" || category=="cancelled") {
       final storage = GetStorage();
 
       print("storage.read(calling) cancelled");
-      print(storage.read("calling"));
 
-      String status = message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : message.data['category']=="cancelled" ? "CANCELLED" : "COMPLETED";
+      String status = category=="rejected" ? "REJECTED" : category=="missed" ? "MISSED" : category=="cancelled" ? "CANCELLED" : "COMPLETED";
 
-      if(storage.read("calling")!=null) {
+      if(globalNotifier.callController.value!=null) {
         print("sswebnoti: calling callllllll");
-        CallController callController = storage.read("calling");
-        callController.endMeeting(status, back: true, path: directory.path);
-        storage.remove("calling");
+        CallController callController = globalNotifier.callController.value!;
+        callController.endMeeting("background notification 255", status, back: true, path: directory.path);
+        globalNotifier.updateCallController(null);
       }
       else {
-        print("sswebnoti filee: path ${directory.path}/calling.txt");
-        File file = File("${directory.path}/calling.txt");
-        await file.writeAsString(status);
-        print("sswebnoti filee: calling_status ${await file.readAsString()}");
+        globalNotifier.updateCallingStatus(status);
+        print("sswebnoti filee: calling_status ${globalNotifier.callingStatus.value}");
 
         
 
 
-        CallController callController = Get.put<CallController>(CallController());
-        callController.endMeeting(status, back: true, path: directory.path);
+        CallController callController = globalNotifier.callController.value!;
+        callController.endMeeting("background notification 267", status, back: true, path: directory.path);
         // socketMeeting(message.data['ch_id'], status);
       }
     }
+  }
+  static Future<void> showIncomingCall(Map<String, dynamic> data) async {
+    var params = <String, dynamic>{
+      'id': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+      'nameCaller': data['name'] ?? "Test",
+      'handle': data['title'] ?? "7228988032",
+      'type': 0,
+      'extra': data,
+    };
+
+    if (Platform.isAndroid) {
+      params['ringtonePath'] = 'system_ringtone_default';
+    }
+
+    print(data);
+    print(data['title']);
+    print((data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile']);
+
+    final cparams = CallKitParams(
+      id: const Uuid().v4(),
+      nameCaller: data['name']+"\n"+data['title'],
+      appName: 'AstroGuide For Astrologer',
+      // avatar: (data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile'],
+      avatar: 'https://astroguide4u.com:9000/assets/astrologer/AGDE1OCQEMR.png',
+      // avatar: 'https://i.pravatar.cc/100',
+      handle: data['title'],
+      type: 0,
+      duration: 30000,
+      textAccept: 'Accept',
+      textDecline: 'Decline',
+      missedCallNotification: const NotificationParams(
+        showNotification: true,
+        isShowCallback: true,
+        subtitle: 'Missed call',
+        callbackText: 'Call back',
+      ),
+      extra: <String, dynamic>{'userId': '1a2b3c4d'},
+      headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+      android: const AndroidParams(
+        isCustomNotification: true,
+        isShowLogo: false,
+        ringtonePath: 'system_ringtone_default',
+        backgroundColor: '#F4C23E',
+        backgroundUrl: 'assets/test.png',
+        actionColor: '#4CAF50',
+        textColor: '#ffffff',
+        incomingCallNotificationChannelName: 'Incoming Call',
+        missedCallNotificationChannelName: 'Missed Call',
+      ),
+      ios: const IOSParams(
+        iconName: 'CallKitLogo',
+        handleType: '',
+        supportsVideo: true,
+        maximumCallGroups: 2,
+        maximumCallsPerCallGroup: 1,
+        audioSessionMode: 'default',
+        audioSessionActive: true,
+        audioSessionPreferredSampleRate: 44100.0,
+        audioSessionPreferredIOBufferDuration: 0.005,
+        supportsDTMF: true,
+        supportsHolding: true,
+        supportsGrouping: false,
+        supportsUngrouping: false,
+        ringtonePath: 'system_ringtone_default',
+      ),
+    );
+    await FlutterCallkitIncoming.showCallkitIncoming(cparams);
   }
 
   //handle fcm notification when app is open
@@ -198,124 +343,121 @@ class NotificationHelper {
     print("categoryyyyy");
     print(message);
     print(message.data);
-    print(message.data['category']=="call");
+    String category = message.data['category'].toString().toLowerCase();
+    print(category);
+    print(category=="call");
     bool go = true;
     Directory directory = await getApplicationDocumentsDirectory();
 
-    if(message.data['category']=="chat" || message.data['category']=="call") {
+
+    if(category=="chat" || category=="call") {
       go = false;
       session(message.data);
     }
 
     if(go) {
-      // if(message.data['category']=="cancelled") {
+      globalNotifier.updateValue("session");
+      // if(category=="cancelled") {
       print("inner goooo");
-      print(message.data['category']=="cancelled");
-      if(message.data['category']=="waitlist" || message.data['category']=="cancelled") {
-        final storage = GetStorage();
+      print(category=="cancelled");
+      if(category=="waitlist" || category=="cancelled") {
 
         print("sswebnoti: storage.read calling cancelled");
-        print(storage.read("calling"));
-        if(storage.read("calling")!=null) {
-          CallController callController = storage.read("calling");
+        if(globalNotifier.callController.value!=null) {
+          CallController callController = globalNotifier.callController.value!;
           if(callController.user.id==int.parse(message.data['user_id'])) {
             callController.back();
-            storage.remove("calling");
+            globalNotifier.updateCallController(null);
           }
           else {
-            File file = File("${directory.path}/calling.txt");
-            await file.writeAsString("back");
+            globalNotifier.updateCallingStatus("back");
             // socketMeeting(message.data['ch_id'], "");
           }
         }
         else {
-          CallController callController = Get.put<CallController>(CallController());
-          callController.endMeeting("CANCELLED", path: directory.path);
+          CallController callController =  Get.put<CallController>(CallController());
+          callController.endMeeting("foreground notification 385", "CANCELLED", path: directory.path);
         }
       }
 
-      // else if(message.data['category']=="cancelled") {
+      // else if(category=="cancelled") {
       //   final storage = GetStorage();
       //
-      //   print(storage.read("calling"));
-      //   if(storage.read("calling")!=null) {
-      //     CallController callController = storage.read("calling");
+      //   print(globalNotifier.callController.value);
+      //   if(globalNotifier.callController.value!=null) {
+      //     CallController callController = globalNotifier.callController.value;
       //     callController.back();
       //     storage.remove("calling");
       //   }
       // }
 
-      // else if(message.data['category']=="rejected" || message.data['category']=="ended") {
+      // else if(category=="rejected" || category=="ended") {
       //   final storage = GetStorage();
       //
-      //   print(storage.read("calling"));
-      //   if(storage.read("calling")!=null) {
-      //     CallController callController = storage.read("calling");
-      //     callController.endMeeting(message.data['category']=="rejected" ? "REJECTED" : "COMPLETED");
+      //   print(globalNotifier.callController.value);
+      //   if(globalNotifier.callController.value!=null) {
+      //     CallController callController = globalNotifier.callController.value;
+      //     callController.endMeeting(category=="rejected" ? "REJECTED" : "COMPLETED");
       //     storage.remove("calling");
       //   }
       // }
-      else if(message.data['category']=="cancelled") {
+      else if(category=="cancelled") {
         final storage = GetStorage();
 
         print("storage.read calling cancelled");
-        print(storage.read("calling"));
-        if(storage.read("calling")!=null) {
-          CallController callController = storage.read("calling");
+        if(globalNotifier.callController.value!=null) {
+          CallController callController = globalNotifier.callController.value!;
           callController.back();
-          storage.remove("calling");
+          globalNotifier.updateCallController(null);
         }
         else {
           final storage = GetStorage();
 
-          File file = File("${directory.path}/calling.txt");
-          await file.writeAsString("back");
+          globalNotifier.updateCallingStatus("back");
           // socketMeeting(message.data['ch_id'], "");
         }
       }
 
-      else if(message.data['category']=="rejected" || message.data['category']=="ended" || message.data['category']=="missed") {
+      else if(category=="rejected" || category=="ended" || category=="missed") {
         final storage = GetStorage();
 
-        String status = message.data['category']=="rejected" ? "REJECTED" : message.data['category']=="missed" ? "MISSED" : "COMPLETED";
-        print(storage.read("calling"));
-        if(storage.read("calling")!=null) {
-          CallController callController = storage.read("calling");
-          callController.endMeeting(status, path: directory.path);
-          storage.remove("calling");
+        String status = category=="rejected" ? "REJECTED" : category=="missed" ? "MISSED" : "COMPLETED";
+        if(globalNotifier.callController.value!=null) {
+          CallController callController = globalNotifier.callController.value!;
+          callController.endMeeting("foreground notification 436", status, path: directory.path);
+          globalNotifier.updateCallController(null);
         }
         else {
-          final storage = GetStorage();
-          File file = File("${directory.path}/calling.txt");
-          await file.writeAsString(status);
+          globalNotifier.updateCallingStatus(status);
           CallController callController = Get.put<CallController>(CallController());
-          callController.endMeeting(status, path: directory.path);
+          callController.endMeeting("foreground notification 444", status, path: directory.path);
           // socketMeeting(message.data['ch_id'], status);
         }
       }
 
-      // else if(message.data['category']=="ended") {
+      // else if(category=="ended") {
       //   final storage = GetStorage();
       //
-      //   print(storage.read("calling"));
-      //   if(storage.read("calling")!=null) {
-      //     CallController callController = storage.read("calling");
+      //   print(globalNotifier.callController.value);
+      //   if(globalNotifier.callController.value!=null) {
+      //     CallController callController = globalNotifier.callController.value;
       //     callController.endMeeting("COMPLETED");
       //     storage.remove("calling");
       //   }
       // }
 
+      var random = Random();
       _showNotification(
-          id: 1,
-          title: message.notification?.title ?? 'Title',
-          body: message.notification?.body ?? 'Body',
+          id: random.nextInt(pow(2, 31).toInt() - 1),
+          title: message.notification?.title ?? message?.data['title'] ?? '',
+          body: message.notification?.body ?? message?.data['body'] ?? '',
           payload: message.data.cast(),
           // pass payload to the notification card so you can use it (when user click on notification)
           notificationLayout: NotificationLayout.BigText,
-          category: message.data['category'] == "call" ||
-              message.data['category'] == "chat"
+          category: category == "call" ||
+              category == "chat"
               ? NotificationCategory.Call
-              : message.data['category'] == "cancelled" || message.data['category']=="waitlist" ? NotificationCategory.MissedCall : null
+              : category == "cancelled" || category=="waitlist" ? NotificationCategory.MissedCall : null
       );
     }
   }
@@ -337,33 +479,54 @@ class NotificationHelper {
         awesomeNotifications.requestPermissionToSendNotifications();
       } else {
         // u can show notification
-        awesomeNotifications.createNotification(
-            content: NotificationContent(
+        if(body.isEmpty&&title.isEmpty) {
+
+        }
+        else {
+          awesomeNotifications.createNotification(
+              content: NotificationContent(
                 id: id,
                 title: title,
                 body: body,
                 category: category,
                 groupKey: groupKey ?? NotificationChannels.generalGroupKey,
                 channelKey: channelKey ?? NotificationChannels.generalChannelKey,
-                showWhen: true, // Hide/show the time elapsed since notification was displayed
-                payload: payload, // data of the notification (it will be used when user clicks on notification)
+                showWhen: true,
+                // Hide/show the time elapsed since notification was displayed
+                payload: payload,
+                // data of the notification (it will be used when user clicks on notification)
                 // notificationLayout: NotificationLayout.BigPicture, // notification shape (message,media player..etc) For ex => NotificationLayout.Messaging
-                notificationLayout: notificationLayout ?? NotificationLayout.Default, // notification shape (message,media player..etc) For ex => NotificationLayout.Messaging
-                autoDismissible: true, // dismiss notification when user clicks on it
-                summary: summary, // for ex: New message (it will be shown on status bar before notificaiton shows up)
-                largeIcon: largeIcon, // image of sender for ex (when someone send you message his image will be shown)
+                notificationLayout: notificationLayout ??
+                    NotificationLayout.Default,
+                // notification shape (message,media player..etc) For ex => NotificationLayout.Messaging
+                autoDismissible: true,
+                // dismiss notification when user clicks on it
+                summary: summary,
+                timeoutAfter: category==NotificationCategory.Call ? Duration.zero : Duration(seconds: 5),
+                // for ex: New message (it will be shown on status bar before notificaiton shows up)
+                largeIcon: largeIcon,
+                // image of sender for ex (when someone send you message his image will be shown)
                 fullScreenIntent: true,
                 wakeUpScreen: true,
-                locked: true,
+                locked: category==NotificationCategory.Call ? true : false,
+
                 // customSound: 'resource://raw/res_notification',
                 // customSound: 'asset://assets/audio/notification'
-            ),
-            actionButtons: category==NotificationCategory.Call ?
-            [
-              NotificationActionButton(key: "ACCEPT", label: "ACCEPT", color: MyColors.colorSuccess, autoDismissible: true),
-              NotificationActionButton(key: "REJECT", label: "REJECT", color: MyColors.colorError, autoDismissible: true, actionType: ActionType.DismissAction),
-            ] : null
-        );
+              ),
+              actionButtons: category == NotificationCategory.Call ?
+              [
+                NotificationActionButton(key: "ACCEPT",
+                    label: "ACCEPT",
+                    color: MyColors.colorSuccess,
+                    autoDismissible: true),
+                NotificationActionButton(key: "REJECT",
+                    label: "REJECT",
+                    color: MyColors.colorError,
+                    autoDismissible: true,
+                    actionType: ActionType.DismissAction),
+              ] : null,
+          );
+        }
       }
     });
 
@@ -411,7 +574,8 @@ class NotificationHelper {
             channelGroupKey: NotificationChannels.generalChannelGroupKey,
             channelGroupName: NotificationChannels.generalChannelGroupName,
           ),
-        ]);
+        ]
+    );
   }
 
   static Future<void> rejectCall(String meetingID, String sessionID, String token, String meet_id) async {
@@ -475,6 +639,7 @@ class NotificationHelper {
   static void session(Map<String, dynamic> data) {
     print("message.data['wallet']");
     print(data['wallet']);
+    print(data);
     Map<String, dynamic> arguments= {
       "user": UserModel(
           id: int.parse(data['user_id'] ?? "-1"),
@@ -488,7 +653,7 @@ class NotificationHelper {
       "wallet": double.parse(data['wallet'] ?? "0"),
     };
 
-    if(data['category']=="call") {
+    if(data['category'].toString().toLowerCase()=="call") {
       arguments.addAll(
           {
             "session_history" : SessionHistoryModel.fromJson(json.decode(data['session_history'])),
@@ -497,6 +662,11 @@ class NotificationHelper {
           }
       );
     }
+
+    print("sswebnotifier: before notification ${globalNotifier.showSession}");
+    globalNotifier.updateValue("notification");
+    print("sswebnotifier: after notification ${globalNotifier.showSession}");
+
 
     Get.toNamed(
         data['path'] ?? "/splash",
@@ -527,7 +697,7 @@ Future<void> rejectCall(String ch_id) async {
   final MeetingRepository meetingRepository = Get.put(MeetingRepository(Get.put(ApiService(Get.find()), permanent: true)));
   final MeetingProvider meetingProvider = Get.put(MeetingProvider(meetingRepository));;
 
-  final storage = GetStorage();
+  final GlobalNotifier globalNotifier = Get.find();
 
   Map <String, dynamic> data = {
     SessionConstants.ch_id : ch_id,
@@ -535,8 +705,8 @@ Future<void> rejectCall(String ch_id) async {
     SessionConstants.reason : "Chat was rejected by astrologer",
   };
 
-  if(storage.read("calling")!=null) {
-    storage.remove("calling");
+  if(globalNotifier.callController.value!=null) {
+    globalNotifier.updateCallController(null);
   }
 
   await meetingProvider.reject(data, storage.read("access")).then((response) async {
@@ -645,15 +815,34 @@ class NotificationController {
     print("createdddddd");
     print(receivedNotification);
     print(receivedNotification.payload);
+
+    if(receivedNotification.category!=NotificationCategory.Call) {
+      print("last call id ${storage.read("current_id")}");
+      if(storage.read("current_id")!=null) {
+        AwesomeNotifications().cancel(storage.read("current_id"));
+        storage.remove("current_id");
+      }
+    }
     // Your code goes here
   }
 
   /// Use this method to detect every time that a new notification is displayed
   @pragma("vm:entry-point")
   static Future <void> onNotificationDisplayedMethod(ReceivedNotification receivedNotification) async {
-    print("display");
+    print("display Notification");
     print(receivedNotification);
     print(receivedNotification.payload);
+    if(receivedNotification.category==NotificationCategory.Call) {
+      storage.write("current_id", receivedNotification.id ?? -1);
+      print("display Notification current call id ${receivedNotification.id}");
+    }
+    else {
+      Future.delayed(Duration(seconds: 5)).then((value) async {
+        print("display Notification last call id ${receivedNotification.id}");
+        await AwesomeNotifications().dismiss(receivedNotification.id ?? -1);
+        print("display Notification cancelled");
+      });
+    }
     // Your code goes here
   }
 
@@ -728,6 +917,7 @@ class NotificationController {
                   profile: payload?['profile'] ?? "",
                   mobile: ''
               ),
+              "user_id" : int.parse(payload?['user_id'] ?? "-1"),
               "ch_id": int.parse(payload?['ch_id'] ?? "-1"),
               "type": "REQUESTED",
               "action": "ACCEPT",

@@ -12,42 +12,44 @@ class BasicDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       child: Container(
         padding: EdgeInsets.only(left: 15, right: 10, top: 15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            new Text(text,
-              style: TextStyle(
-                  fontSize: 16
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              new Text(text,
+                style: TextStyle(
+                    fontSize: 16
+                ),
               ),
-            ),
-            new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                new TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, btn1);
-                    },
-                    child: Text(btn1,
-                      style: TextStyle(
-                          color: MyColors.colorPrimary
-                      ),
-                    )
-                ),
-                new TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, btn2);
-                    },
-                    child: Text(btn2,
-                      style: TextStyle(
-                          color: MyColors.colorPrimary
-                      ),
-                    )
-                ),
-              ],
-            ),
-          ],
+              new Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  new TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, btn1);
+                      },
+                      child: Text(btn1,
+                        style: TextStyle(
+                            color: MyColors.colorPrimary
+                        ),
+                      )
+                  ),
+                  new TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, btn2);
+                      },
+                      child: Text(btn2,
+                        style: TextStyle(
+                            color: MyColors.colorPrimary
+                        ),
+                      )
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
