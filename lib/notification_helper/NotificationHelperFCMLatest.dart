@@ -3,6 +3,12 @@ import 'dart:io';
 import 'dart:math';
 import 'package:astro_guide_astro/cache_manager/CacheManager.dart';
 import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
+// import 'package:flutter_callkit_incoming/entities/android_params.dart';
+// import 'package:flutter_callkit_incoming/entities/call_event.dart';
+// import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
+// import 'package:flutter_callkit_incoming/entities/ios_params.dart';
+// import 'package:flutter_callkit_incoming/entities/notification_params.dart';
+// import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:astro_guide_astro/colors/MyColors.dart';
@@ -22,61 +28,81 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+import 'package:uuid/uuid.dart';
+// import 'package:permission_handler/permission_handler.dart';
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// IMPORTANT NOTE
+// if you have errors here (undefined or awesome notifications doesnt have this funcition)
+// this mean you are using old version of awesome notifications so you just need to go to
+// template on github and copy older version of fcm_helper.dart class and paste it here
+// link: https://github.com/EmadBeltaje/flutter_getx_template/commits/master/lib/utils/fcm_helper.dart
+// you can copy the hole file of initial commit and paste here and everything would be fine
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// DUPLICATED NOTIFICATION ISSUE
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// you may get 2 notifications shown while you only sent 1 but why ?
+// simply bcz one notification is from fcm and the other one is from us (awesome notification)
+// but what does that mean!
+// if you take a look here at this link https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages
+// you will know that notifications are 2 types
+// - Notification message (which automatically show notification which lead to duplicated)
+// - Data message (dont show notification so you must show it using awesome notifications)
+// so if you want to get rid of duplicated notifications just stop sending (Notification message) and start sending (data message) instead
+// and this is in most of time (api developer) responsibility
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
 class NotificationHelper {
   // FCM Messaging
   static late FirebaseMessaging messaging;
-  static bool? init;
 
   // Notification lib
   static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
   static final GlobalNotifier globalNotifier = Get.find();
-  static final storage = GetStorage();
-  static late IO.Socket socket;
 
   /// this function will initialize firebase and fcm instance
   static Future<void> initFcm() async {
     try {
       await Firebase.initializeApp();
+      // TODO: uncomment this line if you connected to firebase via cli
+      //options: DefaultFirebaseOptions.currentPlatform,
 
       messaging = FirebaseMessaging.instance;
-      init = true;
 
+
+      // initialize notifications channel and libraries
       await initNotification();
+      // await initCallKit();
+
+      // notification settings handler
       await setupFcmNotificationSettings();
+
+      // generate token if it not already generated and store it on shared pref
+      // await generateFcmToken();
+
+      // background and foreground handlers
       FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
       FirebaseMessaging.onBackgroundMessage(_fcmBackgroundHandler);
+
+      // listen to notifications click and actions
       listenToActionButtons();
+      // }
     } catch (error) {
       print("error.toString()");
       print(error.toString());
+      // if you are connected to firebase and still get error
+      // check the todo up in the function else ignore the error
+      // or stop fcm service from main.dart class
+      // Logger().e(error);
     }
-  }
-
-  static initializeSocket() async {
-    print("initialize socket noti");
-    socket = IO.io(
-      ApiConstants.urlS,
-      IO.OptionBuilder()
-          .setTransports(['websocket']).setQuery(
-          {
-            "username" : storage.read("access"),
-            "id" : storage.read("fcm"),
-            "sender" : "A",
-          }).build(),
-    );
-    connectSocket();
-  }
-
-  static void connectSocket() {
-    socket.onConnect((data) => print('Connection established'));
-    socket.onConnectError((data) => print('Connect Error: $data'));
-    socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-    socket.on('notifier', (data) async {
-        print("socket notifier");
-        print(data);
-      },
-    );
   }
 
   /// when user click on notification or click on button on the notification
@@ -90,6 +116,57 @@ class NotificationHelper {
     );
   }
 
+  // static initCallKit() {
+  //   FlutterCallkitIncoming.onEvent.listen((CallEvent? event) {
+  //     switch (event!.event) {
+  //       case Event.actionCallIncoming:
+  //       // TODO: received an incoming call
+  //         break;
+  //       case Event.actionCallStart:
+  //       // TODO: started an outgoing call
+  //       // TODO: show screen calling in Flutter
+  //         break;
+  //       case Event.actionCallAccept:
+  //         print("hello call incoming");
+  //       // TODO: accepted an incoming call
+  //       // TODO: show screen calling in Flutter
+  //         break;
+  //       case Event.actionCallDecline:
+  //       // TODO: declined an incoming call
+  //         break;
+  //       case Event.actionCallEnded:
+  //       // TODO: ended an incoming/outgoing call
+  //         break;
+  //       case Event.actionCallTimeout:
+  //       // TODO: missed an incoming call
+  //         break;
+  //       case Event.actionCallCallback:
+  //       // TODO: only Android - click action `Call back` from missed call notification
+  //         break;
+  //       case Event.actionCallToggleHold:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleMute:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleDmtf:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleGroup:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleAudioSession:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionDidUpdateDevicePushTokenVoip:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallCustom:
+  //       // TODO: for custom action
+  //         break;
+  //     }
+  //   });
+  // }
 
   ///handle fcm notification settings (sound,badge..etc)
   static Future<void> setupFcmNotificationSettings() async {
@@ -110,13 +187,12 @@ class NotificationHelper {
   }
 
   /// generate and save fcm token if its not already generated (generate only for 1 time)
+  // static Future<String> generateFcmToken(AstroProvider astroProvider) async {
   static Future<String> generateFcmToken() async {
-    if(init!=true) {
-      await initFcm();
-    }
+    await initFcm();
     try {
-      String? token = storage.read("fcm")??(await messaging.getToken());
-      storage.write("fcm", token);
+      String? token = await messaging.getToken();
+
       return token??"";
     } catch (error) {
       print(error.toString());
@@ -191,7 +267,78 @@ class NotificationHelper {
       }
     }
   }
+  // static Future<void> showIncomingCall(Map<String, dynamic> data) async {
+  //   var params = <String, dynamic>{
+  //     'id': DateTime
+  //         .now()
+  //         .millisecondsSinceEpoch
+  //         .toString(),
+  //     'nameCaller': data['name'] ?? "Test",
+  //     'handle': data['title'] ?? "7228988032",
+  //     'type': 0,
+  //     'extra': data,
+  //   };
+  //
+  //   if (Platform.isAndroid) {
+  //     params['ringtonePath'] = 'system_ringtone_default';
+  //   }
+  //
+  //   print(data);
+  //   print(data['title']);
+  //   print((data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile']);
+  //
+  //   final cparams = CallKitParams(
+  //     id: const Uuid().v4(),
+  //     nameCaller: data['name']+"\n"+data['title'],
+  //     appName: 'AstroGuide For Astrologer',
+  //     // avatar: (data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile'],
+  //     avatar: 'https://astroguide4u.com:9000/assets/astrologer/AGDE1OCQEMR.png',
+  //     // avatar: 'https://i.pravatar.cc/100',
+  //     handle: data['title'],
+  //     type: 0,
+  //     duration: 30000,
+  //     textAccept: 'Accept',
+  //     textDecline: 'Decline',
+  //     missedCallNotification: const NotificationParams(
+  //       showNotification: true,
+  //       isShowCallback: true,
+  //       subtitle: 'Missed call',
+  //       callbackText: 'Call back',
+  //     ),
+  //     extra: <String, dynamic>{'userId': '1a2b3c4d'},
+  //     headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+  //     android: const AndroidParams(
+  //       isCustomNotification: true,
+  //       isShowLogo: false,
+  //       ringtonePath: 'system_ringtone_default',
+  //       backgroundColor: '#F4C23E',
+  //       backgroundUrl: 'assets/test.png',
+  //       actionColor: '#4CAF50',
+  //       textColor: '#ffffff',
+  //       incomingCallNotificationChannelName: 'Incoming Call',
+  //       missedCallNotificationChannelName: 'Missed Call',
+  //     ),
+  //     ios: const IOSParams(
+  //       iconName: 'CallKitLogo',
+  //       handleType: '',
+  //       supportsVideo: true,
+  //       maximumCallGroups: 2,
+  //       maximumCallsPerCallGroup: 1,
+  //       audioSessionMode: 'default',
+  //       audioSessionActive: true,
+  //       audioSessionPreferredSampleRate: 44100.0,
+  //       audioSessionPreferredIOBufferDuration: 0.005,
+  //       supportsDTMF: true,
+  //       supportsHolding: true,
+  //       supportsGrouping: false,
+  //       supportsUngrouping: false,
+  //       ringtonePath: 'system_ringtone_default',
+  //     ),
+  //   );
+  //   await FlutterCallkitIncoming.showCallkitIncoming(cparams);
+  //  }
 
+  //handle fcm notification when app is open
   @pragma('vm:entry-point')
   static Future<void> _fcmForegroundHandler(RemoteMessage message) async {
     final storage = GetStorage();

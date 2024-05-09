@@ -45,7 +45,8 @@ void main() async {
 
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-    await NotificationHelper.initFcm();
+  await NotificationHelper.initFcm();
+  await deleteAllFilesInDocumentsDirectory();
 
     final storage = GetStorage();
 
@@ -61,6 +62,30 @@ void main() async {
   Directory directory = await getApplicationDocumentsDirectory();
 
   runApp(LifecycleAwareWidget(child: MyApp(), directory: directory,));
+}
+
+Future<void> deleteAllFilesInDirectory(String directoryPath) async {
+  final dir = Directory(directoryPath);
+  if (await dir.exists()) {
+    final files = await dir.list().toList();
+    for (final file in files) {
+      print("deleted filesss ${file.path}");
+      if (file is File) {
+        if (file.path.endsWith('.mp4') || file.path.endsWith('.m4a')) {
+          await file.delete();
+        }
+      }
+      // else if (file is Directory) {
+      //   await deleteAllFilesInDirectory(file.path);
+      // }
+    }
+  }
+}
+
+Future<void> deleteAllFilesInDocumentsDirectory() async {
+  final directory = await getApplicationDocumentsDirectory();
+  await deleteAllFilesInDirectory(directory.path);
+  print("deleted filesss completed");
 }
 
 Future<void> checkPermission() async {

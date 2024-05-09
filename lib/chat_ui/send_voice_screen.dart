@@ -5,6 +5,7 @@ import 'package:astro_guide_astro/models/chat/ChatModel.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_audio/just_audio.dart';
 
 class SentVoiceScreen extends StatelessWidget {
   final Color color;
@@ -62,6 +63,13 @@ class SentVoiceScreen extends StatelessWidget {
                       child: Icon(
                           Icons.pause
                       ),
+                    )
+                        : (player.processingState==ProcessingState.loading || player.processingState==ProcessingState.buffering) && playerUrl==ApiConstants.chatUrl+chat.message ?
+                    Container(
+                        width: 20.0,
+                        height: 20.0,
+                        margin: EdgeInsets.symmetric(vertical: 3, horizontal: 2),
+                        child: CircularProgressIndicator(color: MyColors.colorPrimary,strokeWidth: 3,)
                     )
                         : GestureDetector(
                       onTap: () async {

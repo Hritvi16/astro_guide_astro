@@ -30,6 +30,7 @@ mixin _$ReportModel {
   int get total_call_user => throw _privateConstructorUsedError;
   int get free => throw _privateConstructorUsedError;
   int get online => throw _privateConstructorUsedError;
+  int get conline => throw _privateConstructorUsedError;
   int get offer => throw _privateConstructorUsedError;
   String get created_at => throw _privateConstructorUsedError;
   String get current_date => throw _privateConstructorUsedError;
@@ -59,6 +60,7 @@ abstract class $ReportModelCopyWith<$Res> {
       int total_call_user,
       int free,
       int online,
+      int conline,
       int offer,
       String created_at,
       String current_date,
@@ -88,6 +90,7 @@ class _$ReportModelCopyWithImpl<$Res, $Val extends ReportModel>
     Object? total_call_user = null,
     Object? free = null,
     Object? online = null,
+    Object? conline = null,
     Object? offer = null,
     Object? created_at = null,
     Object? current_date = null,
@@ -134,6 +137,10 @@ class _$ReportModelCopyWithImpl<$Res, $Val extends ReportModel>
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
               as int,
+      conline: null == conline
+          ? _value.conline
+          : conline // ignore: cast_nullable_to_non_nullable
+              as int,
       offer: null == offer
           ? _value.offer
           : offer // ignore: cast_nullable_to_non_nullable
@@ -173,6 +180,7 @@ abstract class _$$ReportModelImplCopyWith<$Res>
       int total_call_user,
       int free,
       int online,
+      int conline,
       int offer,
       String created_at,
       String current_date,
@@ -200,6 +208,7 @@ class __$$ReportModelImplCopyWithImpl<$Res>
     Object? total_call_user = null,
     Object? free = null,
     Object? online = null,
+    Object? conline = null,
     Object? offer = null,
     Object? created_at = null,
     Object? current_date = null,
@@ -246,6 +255,10 @@ class __$$ReportModelImplCopyWithImpl<$Res>
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
               as int,
+      conline: null == conline
+          ? _value.conline
+          : conline // ignore: cast_nullable_to_non_nullable
+              as int,
       offer: null == offer
           ? _value.offer
           : offer // ignore: cast_nullable_to_non_nullable
@@ -280,6 +293,7 @@ class _$ReportModelImpl implements _ReportModel {
       required this.total_call_user,
       required this.free,
       required this.online,
+      required this.conline,
       required this.offer,
       required this.created_at,
       required this.current_date,
@@ -310,6 +324,8 @@ class _$ReportModelImpl implements _ReportModel {
   @override
   final int online;
   @override
+  final int conline;
+  @override
   final int offer;
   @override
   final String created_at;
@@ -325,7 +341,7 @@ class _$ReportModelImpl implements _ReportModel {
 
   @override
   String toString() {
-    return 'ReportModel(total_chat_sec: $total_chat_sec, total_call_sec: $total_call_sec, total_chat: $total_chat, total_call: $total_call, total_chat_rating: $total_chat_rating, total_call_rating: $total_call_rating, total_chat_user: $total_chat_user, total_call_user: $total_call_user, free: $free, online: $online, offer: $offer, created_at: $created_at, current_date: $current_date, month_summary: $month_summary)';
+    return 'ReportModel(total_chat_sec: $total_chat_sec, total_call_sec: $total_call_sec, total_chat: $total_chat, total_call: $total_call, total_chat_rating: $total_chat_rating, total_call_rating: $total_call_rating, total_chat_user: $total_chat_user, total_call_user: $total_call_user, free: $free, online: $online, conline: $conline, offer: $offer, created_at: $created_at, current_date: $current_date, month_summary: $month_summary)';
   }
 
   @override
@@ -351,6 +367,7 @@ class _$ReportModelImpl implements _ReportModel {
                 other.total_call_user == total_call_user) &&
             (identical(other.free, free) || other.free == free) &&
             (identical(other.online, online) || other.online == online) &&
+            (identical(other.conline, conline) || other.conline == conline) &&
             (identical(other.offer, offer) || other.offer == offer) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
@@ -374,6 +391,7 @@ class _$ReportModelImpl implements _ReportModel {
       total_call_user,
       free,
       online,
+      conline,
       offer,
       created_at,
       current_date,
@@ -405,6 +423,7 @@ abstract class _ReportModel implements ReportModel {
       required final int total_call_user,
       required final int free,
       required final int online,
+      required final int conline,
       required final int offer,
       required final String created_at,
       required final String current_date,
@@ -433,6 +452,8 @@ abstract class _ReportModel implements ReportModel {
   int get free;
   @override
   int get online;
+  @override
+  int get conline;
   @override
   int get offer;
   @override

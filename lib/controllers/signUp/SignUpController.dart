@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
+import 'package:astro_guide_astro/colors/MyColors.dart';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/constants/UserConstants.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
@@ -16,10 +17,14 @@ import 'package:astro_guide_astro/providers/StateProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/views/country/Country.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_cropping/image_cropping.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../notification_helper/NotificationHelper.dart';
 
@@ -474,7 +479,7 @@ class SignUpController extends GetxController {
   }
 
 
-  void chooseSource(String type) {
+  void chooseSource(String type, BuildContext context) {
     Get.dialog(
       BasicDialog(
         text: "Choose one",
@@ -484,54 +489,107 @@ class SignUpController extends GetxController {
       barrierDismissible: false,
     ).then((value) {
       if (value == "Camera") {
-        openCamera(type);
+        pickImage(type, ImageSource.camera, context);
       }
       else if (value == "Gallery") {
-        openFiles(type);
+        pickImage(type, ImageSource.gallery, context);
+        // openFiles();
       }
     });
   }
 
-
-  Future<void> openCamera(String type) async {
+  Future<void> pickImage(String type, ImageSource imageSource, BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
     XFile? file = await picker.pickImage(
-      source: ImageSource.camera, imageQuality: 40,);
+      source: imageSource, imageQuality: 40,);
 
     if (file != null) {
-      if(type=="P") {
+      if (type == "P") {
         image = file;
       }
-      else if(type=="D") {
+      else if (type == "D") {
         degree_image = file;
       }
-      else if(type=="I") {
+      else if (type == "I") {
         identity_image = file;
       }
       update();
+
+      Uint8List? imageBytes;
+
+      if (type == "P") {
+        imageBytes = await image?.readAsBytes();
+      }
+      else if (type == "D") {
+        imageBytes = await degree_image?.readAsBytes();
+      }
+      else if (type == "I") {
+        {
+          imageBytes = await identity_image?.readAsBytes();
+        }
+
+        if (imageBytes != null) {
+          ImageCropping.cropImage(
+              context: context,
+              imageBytes: imageBytes!,
+              onImageDoneListener: (data) async {
+                imageBytes = data;
+
+                final tempDir = await getTemporaryDirectory();
+                final tempPath = path.join(tempDir.path, '${DateTime
+                    .now()
+                    .millisecondsSinceEpoch}.png');
+
+                final file = File(tempPath);
+                await file.writeAsBytes(imageBytes!);
+
+                if (type == "P") {
+                  image = XFile(file.path);
+                }
+                else if (type == "D") {
+                  degree_image = XFile(file.path);
+                }
+                else if (type == "I") {
+                  identity_image = XFile(file.path);
+                }
+                update();
+              },
+              customAspectRatios: [
+                const CropAspectRatio(
+                  ratioX: 4,
+                  ratioY: 5,
+                ),
+              ],
+              onImageStartLoading: showLoader,
+              onImageEndLoading: hideLoader,
+              visibleOtherAspectRatios: true,
+              squareBorderWidth: 2,
+              isConstrain: false,
+              squareCircleColor: MyColors.red,
+              defaultTextColor: MyColors.black,
+              selectedTextColor: MyColors.orange,
+              colorForWhiteSpace: MyColors.white,
+              makeDarkerOutside: true,
+              outputImageFormat: OutputImageFormat.jpg,
+              encodingQuality: 10);
+        }
+
+        // updateProfile();
+      }
     }
   }
 
-  Future<void> openFiles(String type) async {
-    final ImagePicker picker = ImagePicker();
-
-    final XFile? pickedFileList = await picker.pickImage(
-      imageQuality: 40, source: ImageSource.gallery,
-    );
-
-    if (pickedFileList!=null) {
-      if(type=="P") {
-        image = pickedFileList;
-      }
-      else if(type=="D") {
-        degree_image = pickedFileList;
-      }
-      else if(type=="I") {
-        identity_image = pickedFileList;
-      }
-      update();
+  void showLoader() {
+    if (EasyLoading.isShow) {
+      return;
     }
+    EasyLoading.show(status: "Loading");
+  }
+
+  /// To hide loader
+  void hideLoader() {
+    EasyLoading.dismiss();
   }
 
   String getStepTitle(int step) {

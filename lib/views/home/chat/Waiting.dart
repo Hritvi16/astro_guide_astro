@@ -51,7 +51,12 @@ class Waiting extends StatelessWidget {
               ],
             ),
             type=="REQUESTED" ?
-                action=="NOT DECIDED" ? getRequestIncoming() : getMessage(action=="ACCEPT" ? "Connecting" : action) : type=="MISSED" ? displayMessage("$name missed your chat request.") : getMessage("Reconnecting")
+              action=="NOT DECIDED" ?
+                getRequestIncoming()
+              : getMessage(action=="ACCEPT" ? "Connecting" : action)
+            : type=="MISSED" ?
+              displayMessage("$name missed your chat request.")
+            : getMessage(type=="RECONNECT" ? "Reconnecting" : "Processing")
 
 
           ],

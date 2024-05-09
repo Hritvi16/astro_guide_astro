@@ -1,6 +1,6 @@
 class ApiConstants {
-  // static const url = "http://192.168.29.244:9000/";
-  // static const urlS = "http://192.168.29.244:3000/";
+  // static const url = "http://192.168.29.245:9000/";
+  // static const urlS = "http://192.168.29.245:3000/";
   // static const urlES = "http://192.168.29.244:8888/";
   // static const url = "http://15.206.164.99:9000/";
   // static const urlS = "http://15.206.164.99:3000/";

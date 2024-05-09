@@ -50,6 +50,7 @@ class Home extends StatelessWidget {
 
   Widget getInactiveScreen(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
         child: Column(
@@ -57,33 +58,36 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              "assets/common/no_data.png",
+              // "assets/common/no_data.png",
+              "assets/app_icon/icon2.png",
               height: 240,
               width: 240,
             ),
             SizedBox(
               height: 24,
             ),
+            // Text(
+            //   "Uh-Oh!".tr,
+            //   style: GoogleFonts.manrope(
+            //     fontSize: 22.0,
+            //     color: MyColors.labelColor(),
+            //     letterSpacing: 0,
+            //     fontWeight: FontWeight.w600,
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 4,
+            // ),
             Text(
-              "Uh-Oh!".tr,
-              style: GoogleFonts.manrope(
-                fontSize: 22.0,
-                color: MyColors.labelColor(),
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              "Seems like you are inactive! Contact to admin!",
+              // "Seems like you are inactive! Contact to admin!",
+              "Thank you for registering.\nAstroGuide team will contact you soon.",
               textAlign: TextAlign.center,
               style: GoogleFonts.manrope(
-                fontSize: 14.0,
-                color: MyColors.colorGrey,
+                fontSize: 16.0,
+                color: MyColors.black,
+                // color: MyColors.colorGrey,
                 letterSpacing: 0,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
 

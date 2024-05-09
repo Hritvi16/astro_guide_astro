@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
 import 'package:astro_guide_astro/constants/SessionConstants.dart';
-import 'package:astro_guide_astro/controllers/GlobalVariables.dart';
 import 'package:astro_guide_astro/dialogs/BasicDialog.dart';
 import 'package:astro_guide_astro/dialogs/RatingDialog.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
-import 'package:astro_guide_astro/models/meeting/EndCallResponseModel.dart';
-import 'package:astro_guide_astro/models/response/ResponseModel.dart';
 import 'package:astro_guide_astro/models/review/ReviewModel.dart';
 import 'package:astro_guide_astro/models/session/SessionHistoryModel.dart';
 import 'package:astro_guide_astro/models/user/UserModel.dart';
@@ -17,11 +13,12 @@ import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
 import 'package:astro_guide_astro/providers/MeetingProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:camera/camera.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_internet_signal/flutter_internet_signal.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:videosdk/videosdk.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -35,12 +32,15 @@ class CallController extends GetxController {
 
   late MeetingProvider meetingProvider = Get.find();
 
+  final Connectivity connectivity = Connectivity();
+  final FlutterInternetSignal internetSignal = FlutterInternetSignal();
 
   CameraController? cameraController;
   late UserModel user;
   
   late String meetingID, token;
   late bool micEnabled, camEnabled, speakerEnabled;
+  late int poor;
   
   // Meeting
   Room? meeting;
@@ -91,6 +91,7 @@ class CallController extends GetxController {
     rate = 0;
     wallet = 0;
     seconds = 0;
+    poor = 1;
 
     if(Get.arguments!=null) {
       user = Get.arguments['user'];
@@ -182,7 +183,7 @@ class CallController extends GetxController {
         rate = sessionHistory.rate;
         accept();
       }
-      else if(action=="REJECTED") {
+      else if(action=="REJECTED" || action=="REJECT") {
         reject();
       }
       else if(action=="NOT DECIDED"){
@@ -298,6 +299,10 @@ class CallController extends GetxController {
   void setCountDown() {
     seconds+=1;
     update();
+
+    if(seconds%3==0) {
+      checkInternet();
+    }
     print(max);
     print(seconds);
     if(max<=seconds) {
@@ -644,7 +649,7 @@ class CallController extends GetxController {
               };
 
               print("ssweb: Recordingggggg : Start Joined");
-              // meeting?.startRecording(config: config);
+              meeting?.startRecording(config: config);
             }
         }
         // else {
@@ -688,7 +693,7 @@ class CallController extends GetxController {
                     "orientation": "portrait",
                   };
                   print("ssweb: Recordingggggg : Start Participant Joined");
-                  // meeting?.startRecording(config: config);
+                  meeting?.startRecording(config: config);
                 }
             }
       },
@@ -976,6 +981,7 @@ class CallController extends GetxController {
       }
       else if (response.code == -2) {}
       else {
+        back();
         Essential.showSnackBar(response.message);
       }
     });
@@ -1156,15 +1162,76 @@ class CallController extends GetxController {
   }
 
   void updateValues() {
-    print("sswebnotifier: before chat ${globalNotifier.showSession}");
+    print("sswebnotifier: before call ${globalNotifier.showSession}");
     if(globalNotifier.showSession.value=="notification") {
       globalNotifier.updateValue("session");
     }
     globalNotifier.updateCallInit(false);
-    print("sswebnotifier: after chat ${globalNotifier.showSession}");
+    print("sswebnotifier: after call ${globalNotifier.showSession}");
   }
 
   void storeCalling(CallController callController) {
     globalNotifier.updateCallController(callController);
+  }
+
+  Future<void> checkInternet() async {
+
+    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+
+    if (connectivityResult.contains(ConnectivityResult.none)) {
+      print("Resulttt connectivity none");
+      poor = 0;
+      // Mobile network available.
+    }
+    else if (connectivityResult.contains(ConnectivityResult.mobile)) {
+      print("Resulttt connectivity mobile");
+      final int? strength = await internetSignal.getMobileSignalStrength();
+      print('Resulttt mobile dBm -> $strength');
+      if (strength == null) {
+        print('No mobile connection');
+        poor = 0;
+      }
+
+      if ((strength??0) >= -50) {
+        print('Excellent mobile signal');
+        poor = 1;
+      } else if ((strength??0) >= -70) {
+        print('Good mobile signal');
+        poor = 1;
+      } else if ((strength??0) >= -90) {
+        print('Fair mobile signal');
+        poor = 1;
+      } else {
+        print('Poor mobile signal');
+        poor = 2;
+      }
+      // Mobile network available.
+    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
+      print("Resulttt connectivity wifi");
+      final int? rssi = await internetSignal.getWifiSignalStrength();
+      print('Resulttt wifi dBm -> $rssi');
+      if (rssi == null) {
+        print('No Wi-Fi connection');
+        poor = 0;
+      }
+
+      if ((rssi??0) >= -30) {
+        print('Excellent Wi-Fi signal');
+        poor = 1;
+      } else if ((rssi??0) >= -67) {
+        print('Good Wi-Fi signal');
+        poor = 1;
+      } else if ((rssi??0) >= -70) {
+        print('Fair Wi-Fi signal');
+        poor = 1;
+      } else {
+        print('Poor Wi-Fi signal');
+        poor = 2;
+      }
+      update();
+      // Wi-fi is available.
+      // Note for Android:
+      // When both mobile and Wi-Fi are turned on system will return Wi-Fi only as active network type
+    }
   }
 }

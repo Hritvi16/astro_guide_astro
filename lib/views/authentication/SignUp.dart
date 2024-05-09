@@ -440,7 +440,7 @@ class SignUp extends StatelessWidget {
                   bottom: 0,
                   child: GestureDetector(
                     onTap: () {
-                      signUpController.chooseSource("P");
+                      signUpController.chooseSource("P", context);
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),
@@ -568,14 +568,16 @@ class SignUp extends StatelessWidget {
             child: TextFormField(
               onTap: () {
                 BottomPicker.date(
-                  title:  "Set your Date of Birth",
-                  initialDateTime: signUpController.date,
-                  titleStyle: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.colorButton,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
+                  pickerTitle:  Text(
+                    "Set your Date of Birth",
+                    style: GoogleFonts.manrope(
+                      fontSize: 16.0,
+                      color: MyColors.colorButton,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  initialDateTime: signUpController.date,
                   onSubmit: (value) {
                     signUpController.setDOB(value);
                   },
@@ -1005,14 +1007,16 @@ class SignUp extends StatelessWidget {
             child: TextFormField(
               onTap: () {
                 BottomPicker.date(
-                  title:  "Enter your experience",
-                  initialDateTime: signUpController.edate,
-                  titleStyle: GoogleFonts.manrope(
-                    fontSize: 16.0,
-                    color: MyColors.colorButton,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w600,
+                  pickerTitle:  Text(
+                    "Enter your experience",
+                    style: GoogleFonts.manrope(
+                      fontSize: 16.0,
+                      color: MyColors.colorButton,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  initialDateTime: signUpController.edate,
                   onSubmit: (value) {
                     signUpController.setExperience(value);
                   },
@@ -1350,7 +1354,7 @@ class SignUp extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              signUpController.chooseSource("D");
+              signUpController.chooseSource("D", context);
             },
             behavior: HitTestBehavior.opaque,
             child: Container(
@@ -1465,7 +1469,7 @@ class SignUp extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              signUpController.chooseSource("I");
+              signUpController.chooseSource("I", context);
             },
             behavior: HitTestBehavior.opaque,
             child: Container(

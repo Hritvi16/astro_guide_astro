@@ -113,6 +113,7 @@ class LoginController extends GetxController {
   void validate() {
     if(formKey.currentState!.validate()) {
       verify();
+      // login();
     }
   }
 
@@ -129,7 +130,8 @@ class LoginController extends GetxController {
       print(response.code==1 || response.code==0);
       if(response.code==1 || response.code==0) {
         Get.back();
-        goto("/otp", {"mobile" : mobile.text, "code" : country.code, "instance_id" : response.refresh_token, "access_token" : response.access_token, "whatsapp" : response.whatsapp}, loginModel: response);
+        goto("/otp", {"mobile" : mobile.text, "code" : country.code, "whatsapp_url" : response.whatsapp_url,  "instance_id" : response.refresh_token, "access_token" : response.access_token, "whatsapp" : response.whatsapp}, loginModel: response);
+        // goto("/signUp", {"mobile" : mobile.text, "code" : country.code, "instance_id" : response.refresh_token, "access_token" : response.access_token, "whatsapp" : response.whatsapp}, loginModel: response);
         // goToHome(response);
       }
       else {
@@ -225,13 +227,16 @@ class LoginController extends GetxController {
   }
 
 
-  void goToHome(LoginModel response) {
+  Future<void> goToHome(LoginModel response) async {
     storage.write("access", response.access_token);
     storage.write("refresh", response.refresh_token);
     storage.write("status", "logged in");
+
+    await NotificationHelper.initializeSocket();
+
     print('storage.read("access")');
     print(storage.read("access"));
-    Get.offAllNamed("/home");
+    // Get.offAllNamed("/home");
   }
 
   void changeCode() {

@@ -54,6 +54,13 @@ class ReceivedVoiceScreen extends StatelessWidget {
                       Icons.pause
                   ),
                 )
+                    : (player.processingState==ProcessingState.loading || player.processingState==ProcessingState.buffering) && playerUrl==ApiConstants.chatUrl+chat.message ?
+                    Container(
+                        width: 20.0,
+                        height: 20.0,
+                        margin: EdgeInsets.symmetric(vertical: 3, horizontal: 2),
+                        child: CircularProgressIndicator(color: MyColors.colorPrimary,strokeWidth: 3,)
+                    )
                     : GestureDetector(
                   onTap: () async {
                     play(ApiConstants.chatUrl+chat.message);

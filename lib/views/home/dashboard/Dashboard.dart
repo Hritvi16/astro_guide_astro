@@ -693,7 +693,8 @@ class Dashboard extends StatelessWidget {
   Widget getStatus(BuildContext context) {
     return Column(
       children: [
-        getStatusDesign("Online".tr, "online", dashboardController.report.online==1, dashboardController.lload, context),
+        getStatusDesign("Chat Online".tr, "online", dashboardController.report.online==1, dashboardController.lload, context),
+        getStatusDesign("Call Online".tr, "conline", dashboardController.report.conline==1, dashboardController.cload, context),
         getStatusDesign("Free Session".tr, "free", dashboardController.report.free==1, dashboardController.fload, context),
         getStatusDesign("Offers".tr, "offer", dashboardController.report.offer==1, dashboardController.oload, context)
       ],

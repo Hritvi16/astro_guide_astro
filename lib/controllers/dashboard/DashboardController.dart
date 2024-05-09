@@ -37,6 +37,7 @@ class DashboardController extends GetxController {
   late List<ChartData> user_rating;
   late bool load;
   late bool lload;
+  late bool cload;
   late bool fload;
   late bool oload;
 
@@ -60,6 +61,7 @@ class DashboardController extends GetxController {
     user_rating = [];
     load = false;
     lload = false;
+    cload = false;
     fload = false;
     oload = false;
     start();
@@ -67,6 +69,7 @@ class DashboardController extends GetxController {
 
   void updateDashboard(value) {
     print("sswebnotifier dashboard: $value");
+    print("sswebnotifier dashboard: ${globalNotifier.showSession.value=="session"}");
     if(globalNotifier.showSession.value=="session") {
       getDashboard();
       globalNotifier.updateValue("");
@@ -79,6 +82,7 @@ class DashboardController extends GetxController {
 
   Future<void> getDashboard() async {
     await dashboardProvider.fetch(storage.read("access"), ApiConstants.astrologerAPI).then((response) async {
+      print("response.toJson()....");
       print(response.toJson());
       if(response.code==1) {
         report = response.data!;
@@ -104,7 +108,7 @@ class DashboardController extends GetxController {
 
     await astrologerProvider.updateStatus(storage.read("access"), ApiConstants.visibility, data).then((response) async {
       print(response.toJson());
-      type=="online" ? lload = false : type=="free" ? fload = false : oload = false;
+      type=="online" ? lload = false : type=="conline" ? cload = false : type=="free" ? fload = false : oload = false;
       if(response.code==1) {
       }
       else if(response.code!=-1){
@@ -314,6 +318,12 @@ class DashboardController extends GetxController {
       );
       lload = true;
     }
+    else if(type=="conline") {
+      report = report.copyWith(
+        conline: value ? 1 : 0
+      );
+      cload = true;
+    }
     else if(type=="free") {
       report = report.copyWith(
         free: value ? 1 : 0
@@ -327,7 +337,7 @@ class DashboardController extends GetxController {
       oload = true;
     }
     update();
-    await Future.delayed(Duration(seconds: 3), () {
+    await Future.delayed(Duration(seconds: 1), () {
       updateStatus(type, value ? 1 : 0, temp);
     });
   }

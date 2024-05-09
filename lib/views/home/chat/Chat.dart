@@ -123,10 +123,10 @@ class Chat extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if(chatController.type=="COMPLETED")
-                    Icon(
-                        Icons.share
-                    )
+                  // if(chatController.type=="COMPLETED")
+                  //   Icon(
+                  //       Icons.share
+                  //   )
                 ],
               ),
             ),

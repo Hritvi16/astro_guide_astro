@@ -35,6 +35,9 @@ class Call extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final statusBarHeight = MediaQuery.of(context).padding.top;
+    print("Get.routing.previous");
+    print(Get.routing.previous);
+    print(Get.arguments);
     callController.storeCalling(callController);
     return PopScope(
       onPopInvoked: (value) {
@@ -147,7 +150,7 @@ class Call extends StatelessWidget {
                   callController.updateFullScreen();
                 },
                 // child: callController.joined ?
-                child: OneToOneMeetingContainer(callController: callController, meeting: callController.meeting!, token: callController.token, timer: Duration(seconds: callController.seconds),)
+                child: OneToOneMeetingContainer(callController: callController, meeting: callController.meeting!, poor: callController.poor,  token: callController.token, timer: Duration(seconds: callController.seconds),)
               // : WaitingToJoin(callController.user.name, callController.user.profile, callController.endMeeting, callController.type, callController.action, callController.accept,  callController.reject, callController.back)
             ),
           ),

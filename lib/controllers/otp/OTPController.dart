@@ -30,6 +30,7 @@ class OTPController extends GetxController {
   late PinTheme defaultPinTheme;
   late PinTheme focusedPinTheme;
   late PinTheme submittedPinTheme;
+  late String whatsapp_url;
   late String instance_id;
   late String access_token;
   late int whatsapp;
@@ -64,6 +65,7 @@ class OTPController extends GetxController {
 
     mobile = Get.arguments['mobile'];
     code = Get.arguments['code'];
+    whatsapp_url = Get.arguments['whatsapp_url'];
     instance_id = Get.arguments['instance_id'];
     access_token = Get.arguments['access_token'];
     whatsapp = Get.arguments['whatsapp'];
@@ -171,7 +173,7 @@ class OTPController extends GetxController {
     generatedOTP = generateOTP(6);
     update();
     String text = 'Your AstroGuide Application OTP is *${generatedOTP}* Kindly login with this OTP.\nPlease keep it confidential.\n*Thank you*.';
-    String url = 'https://auto.merabatuva.in/api/send?number=${code.substring(1)}${mobile}&type=media&message=${Uri.encodeComponent(text)}&instance_id=${instance_id}&access_token=${access_token}';
+    String url = '${whatsapp_url}/api/send?number=${code.substring(1)}${mobile}&type=media&message=${Uri.encodeComponent(text)}&instance_id=${instance_id}&access_token=${access_token}';
     print(url);
     var res = await http.get(Uri.parse(url));print(res);
     print(res.body);
