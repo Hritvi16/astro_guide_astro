@@ -157,6 +157,7 @@ void main() async {
 
 @pragma('vm:entry-point')
 void callbackDispatcher() async {
+  print("dispatcher called");
   final service = FlutterBackgroundService();
   if (!(await service.isRunning())) {
     await initializeService();

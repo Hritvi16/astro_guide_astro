@@ -3,6 +3,12 @@ import 'dart:io';
 import 'dart:math';
 import 'package:astro_guide_astro/cache_manager/CacheManager.dart';
 import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
+// import 'package:flutter_callkit_incoming/entities/android_params.dart';
+// import 'package:flutter_callkit_incoming/entities/call_event.dart';
+// import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
+// import 'package:flutter_callkit_incoming/entities/ios_params.dart';
+// import 'package:flutter_callkit_incoming/entities/notification_params.dart';
+// import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:astro_guide_astro/colors/MyColors.dart';
@@ -22,10 +28,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
+// import 'package:permission_handler/permission_handler.dart';
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// IMPORTANT NOTE
+// if you have errors here (undefined or awesome notifications doesnt have this funcition)
+// this mean you are using old version of awesome notifications so you just need to go to
+// template on github and copy older version of fcm_helper.dart class and paste it here
+// link: https://github.com/EmadBeltaje/flutter_getx_template/commits/master/lib/utils/fcm_helper.dart
+// you can copy the hole file of initial commit and paste here and everything would be fine
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// DUPLICATED NOTIFICATION ISSUE
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// you may get 2 notifications shown while you only sent 1 but why ?
+// simply bcz one notification is from fcm and the other one is from us (awesome notification)
+// but what does that mean!
+// if you take a look here at this link https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages
+// you will know that notifications are 2 types
+// - Notification message (which automatically show notification which lead to duplicated)
+// - Data message (dont show notification so you must show it using awesome notifications)
+// so if you want to get rid of duplicated notifications just stop sending (Notification message) and start sending (data message) instead
+// and this is in most of time (api developer) responsibility
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
 class NotificationHelper {
+  // FCM Messaging
   static late FirebaseMessaging messaging;
 
+  // Notification lib
   static AwesomeNotifications awesomeNotifications = AwesomeNotifications();
   static final GlobalNotifier globalNotifier = Get.find();
 
@@ -34,19 +72,36 @@ class NotificationHelper {
   static Future<void> initFcm() async {
     try {
       await Firebase.initializeApp();
+      // TODO: uncomment this line if you connected to firebase via cli
+      //options: DefaultFirebaseOptions.currentPlatform,
 
       messaging = FirebaseMessaging.instance;
 
+
+      // initialize notifications channel and libraries
       await initNotification();
+      // await initCallKit();
+
+      // notification settings handler
       await setupFcmNotificationSettings();
 
+      // generate token if it not already generated and store it on shared pref
+      // await generateFcmToken();
+
+      // background and foreground handlers
       FirebaseMessaging.onMessage.listen(_fcmForegroundHandler);
       FirebaseMessaging.onBackgroundMessage(_fcmBackgroundHandler);
 
+      // listen to notifications click and actions
       listenToActionButtons();
+      // }
     } catch (error) {
       print("error.toString()");
       print(error.toString());
+      // if you are connected to firebase and still get error
+      // check the todo up in the function else ignore the error
+      // or stop fcm service from main.dart class
+      // Logger().e(error);
     }
   }
 
@@ -61,14 +116,68 @@ class NotificationHelper {
     );
   }
 
+  // static initCallKit() {
+  //   FlutterCallkitIncoming.onEvent.listen((CallEvent? event) {
+  //     switch (event!.event) {
+  //       case Event.actionCallIncoming:
+  //       // TODO: received an incoming call
+  //         break;
+  //       case Event.actionCallStart:
+  //       // TODO: started an outgoing call
+  //       // TODO: show screen calling in Flutter
+  //         break;
+  //       case Event.actionCallAccept:
+  //         print("hello call incoming");
+  //       // TODO: accepted an incoming call
+  //       // TODO: show screen calling in Flutter
+  //         break;
+  //       case Event.actionCallDecline:
+  //       // TODO: declined an incoming call
+  //         break;
+  //       case Event.actionCallEnded:
+  //       // TODO: ended an incoming/outgoing call
+  //         break;
+  //       case Event.actionCallTimeout:
+  //       // TODO: missed an incoming call
+  //         break;
+  //       case Event.actionCallCallback:
+  //       // TODO: only Android - click action `Call back` from missed call notification
+  //         break;
+  //       case Event.actionCallToggleHold:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleMute:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleDmtf:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleGroup:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallToggleAudioSession:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionDidUpdateDevicePushTokenVoip:
+  //       // TODO: only iOS
+  //         break;
+  //       case Event.actionCallCustom:
+  //       // TODO: for custom action
+  //         break;
+  //     }
+  //   });
+  // }
+
   ///handle fcm notification settings (sound,badge..etc)
   static Future<void> setupFcmNotificationSettings() async {
+    //show notification with sound and badge
     messaging.setForegroundNotificationPresentationOptions(
       alert: true,
       sound: true,
       badge: true,
     );
 
+    //NotificationSettings settings
     await messaging.requestPermission(
       alert: true,
       badge: true,
@@ -77,7 +186,8 @@ class NotificationHelper {
     );
   }
 
-
+  /// generate and save fcm token if its not already generated (generate only for 1 time)
+  // static Future<String> generateFcmToken(AstroProvider astroProvider) async {
   static Future<String> generateFcmToken() async {
     await initFcm();
     try {
@@ -91,6 +201,9 @@ class NotificationHelper {
     return "";
   }
 
+  ///handle fcm notification when app is closed/terminated
+  /// if you are wondering about this annotation read the following
+  /// https://stackoverflow.com/a/67083337
   @pragma('vm:entry-point')
   static Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
     final storage = GetStorage();
@@ -154,7 +267,78 @@ class NotificationHelper {
       }
     }
   }
+  // static Future<void> showIncomingCall(Map<String, dynamic> data) async {
+  //   var params = <String, dynamic>{
+  //     'id': DateTime
+  //         .now()
+  //         .millisecondsSinceEpoch
+  //         .toString(),
+  //     'nameCaller': data['name'] ?? "Test",
+  //     'handle': data['title'] ?? "7228988032",
+  //     'type': 0,
+  //     'extra': data,
+  //   };
+  //
+  //   if (Platform.isAndroid) {
+  //     params['ringtonePath'] = 'system_ringtone_default';
+  //   }
+  //
+  //   print(data);
+  //   print(data['title']);
+  //   print((data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile']);
+  //
+  //   final cparams = CallKitParams(
+  //     id: const Uuid().v4(),
+  //     nameCaller: data['name']+"\n"+data['title'],
+  //     appName: 'AstroGuide For Astrologer',
+  //     // avatar: (data['profile']??"").isEmpty ? "https://astroguide4u.com:9000/assets/zodiac/AGCHAJCDE7X.png" : data['profile'],
+  //     avatar: 'https://astroguide4u.com:9000/assets/astrologer/AGDE1OCQEMR.png',
+  //     // avatar: 'https://i.pravatar.cc/100',
+  //     handle: data['title'],
+  //     type: 0,
+  //     duration: 30000,
+  //     textAccept: 'Accept',
+  //     textDecline: 'Decline',
+  //     missedCallNotification: const NotificationParams(
+  //       showNotification: true,
+  //       isShowCallback: true,
+  //       subtitle: 'Missed call',
+  //       callbackText: 'Call back',
+  //     ),
+  //     extra: <String, dynamic>{'userId': '1a2b3c4d'},
+  //     headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+  //     android: const AndroidParams(
+  //       isCustomNotification: true,
+  //       isShowLogo: false,
+  //       ringtonePath: 'system_ringtone_default',
+  //       backgroundColor: '#F4C23E',
+  //       backgroundUrl: 'assets/test.png',
+  //       actionColor: '#4CAF50',
+  //       textColor: '#ffffff',
+  //       incomingCallNotificationChannelName: 'Incoming Call',
+  //       missedCallNotificationChannelName: 'Missed Call',
+  //     ),
+  //     ios: const IOSParams(
+  //       iconName: 'CallKitLogo',
+  //       handleType: '',
+  //       supportsVideo: true,
+  //       maximumCallGroups: 2,
+  //       maximumCallsPerCallGroup: 1,
+  //       audioSessionMode: 'default',
+  //       audioSessionActive: true,
+  //       audioSessionPreferredSampleRate: 44100.0,
+  //       audioSessionPreferredIOBufferDuration: 0.005,
+  //       supportsDTMF: true,
+  //       supportsHolding: true,
+  //       supportsGrouping: false,
+  //       supportsUngrouping: false,
+  //       ringtonePath: 'system_ringtone_default',
+  //     ),
+  //   );
+  //   await FlutterCallkitIncoming.showCallkitIncoming(cparams);
+  //  }
 
+  //handle fcm notification when app is open
   @pragma('vm:entry-point')
   static Future<void> _fcmForegroundHandler(RemoteMessage message) async {
     final storage = GetStorage();
@@ -201,6 +385,27 @@ class NotificationHelper {
           }
         }
 
+        // else if(category=="cancelled") {
+        //   final storage = GetStorage();
+        //
+        //   print(globalNotifier.callController.value);
+        //   if(globalNotifier.callController.value!=null) {
+        //     CallController callController = globalNotifier.callController.value;
+        //     callController.back();
+        //     storage.remove("calling");
+        //   }
+        // }
+
+        // else if(category=="rejected" || category=="ended") {
+        //   final storage = GetStorage();
+        //
+        //   print(globalNotifier.callController.value);
+        //   if(globalNotifier.callController.value!=null) {
+        //     CallController callController = globalNotifier.callController.value;
+        //     callController.endMeeting(category=="rejected" ? "REJECTED" : "COMPLETED");
+        //     storage.remove("calling");
+        //   }
+        // }
         else if (category == "cancelled") {
           final storage = GetStorage();
 
@@ -242,6 +447,17 @@ class NotificationHelper {
           }
         }
 
+        // else if(category=="ended") {
+        //   final storage = GetStorage();
+        //
+        //   print(globalNotifier.callController.value);
+        //   if(globalNotifier.callController.value!=null) {
+        //     CallController callController = globalNotifier.callController.value;
+        //     callController.endMeeting("COMPLETED");
+        //     storage.remove("calling");
+        //   }
+        // }
+
         var random = Random();
         _showNotification(
             id: random.nextInt(pow(2, 31).toInt() - 1),
@@ -261,7 +477,7 @@ class NotificationHelper {
     }
   }
 
-
+  //display notification for user with sound
   static _showNotification(
       {required String title,
         required String body,
@@ -344,7 +560,13 @@ class NotificationHelper {
       sound: true,
     );
 
-
+    // if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    //   print('User granted permission');
+    // } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    //   print('User granted provisional permission');
+    // } else {
+    //   print('User declined or has not accepted permission');
+    // }
     await awesomeNotifications.initialize(
         null, // null mean it will show app icon on the notification (status bar)
         [
@@ -363,6 +585,7 @@ class NotificationHelper {
             // soundSource: 'asset://assets/audio/notification',
           ),
         ],
+
         channelGroups: [
           NotificationChannelGroup(
             channelGroupKey: NotificationChannels.generalChannelGroupKey,
@@ -402,6 +625,31 @@ class NotificationHelper {
 
   static Future<void> rejectChat(String ch_id) async {
     print("CHAT REJECTED $ch_id");
+    // final MeetingRepository meetingRepository = Get.put(MeetingRepository(Get.put(ApiService(Get.find()), permanent: true)));
+    // final MeetingProvider meetingProvider = Get.put(MeetingProvider(meetingRepository));;
+    //
+    // final storage = GetStorage();
+    //
+    // Map<String, String> data = {
+    //   MeetingConstants.meetingID: meetingID,
+    //   MeetingConstants.sessionID: sessionID,
+    //   MeetingConstants.token: token,
+    //   MeetingConstants.meet_id: meet_id.toString(),
+    //   MeetingConstants.status: "REJECTED",
+    // };
+    // print(data);
+    //
+    //
+    //
+    // await meetingProvider.end(data, storage.read("access")).then((
+    //     response) async {
+    //   print(response.toJson());
+    //   if (response.code == 1) {}
+    //   else if (response.code == -2) {}
+    //   else {
+    //     Essential.showSnackBar(response.message);
+    //   }
+    // });
   }
 
   // static void session(RemoteMessage message) {
@@ -450,12 +698,21 @@ class NotificationHelper {
 }
 
 class NotificationChannels {
-  static String get generalChannelKey => "basic_channel_id";
+  // chat channel (for messages only)
+  // static String get chatChannelKey => "chat_channel";
+  // static String get chatChannelName => "Chat channel";
+  // static String get chatGroupKey => "chat group key";
+  // static String get chatChannelGroupKey => "chat_channel_group";
+  // static String get chatChannelGroupName => "Chat notifications channels";
+  // static String get chatChannelDescription => "Chat notifications channels";
+
+  // general channel (for all other notifications)
+  static String get generalChannelKey => "default_channel_id";
   static String get generalGroupKey => "basic group key";
   static String get generalChannelGroupKey => "basic_channel_group";
   static String get generalChannelGroupName => "Basic group";
-  static String get generalChannelName => "Basic Notifications";
-  static String get generalChannelDescription => "This is the basic channel";
+  static String get generalChannelName => "Default Notifications";
+  static String get generalChannelDescription => "This is the default channel";
 }
 
 Future<void> rejectCall(String ch_id) async {
@@ -510,6 +767,66 @@ Future<void> rejectChat(String ch_id, String user_id) async {
 
   socket.emit('reject', data);
 }
+
+// Future<void> socketMeeting(String ch_id, String status) async {
+//   print("socketttt Meetingggg");
+//   final storage = GetStorage();
+//   print(storage.getKeys());
+//   IO.Socket socket =  IO.io(
+//     ApiConstants.urlES,
+//     IO.OptionBuilder().setTransports(['websocket']).setQuery(
+//         {
+//           // SessionConstants.username : storage.read("access"),
+//           "meet_id" : ch_id,
+//           SessionConstants.sender : "A",
+//         }).build(),
+//   );
+//   socket.onConnect((data) => print('Connection established'));
+//   socket.onConnectError((data) => print('Connect Error: $data'));
+//   socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+//
+//   socket.on(
+//       'endMeeting', (data) async {
+//     EndCallResponseModel endCallResponse = EndCallResponseModel.fromJson(json.decode(data));
+//
+//
+//     print("socketttt Meetingggg end responseeeeeeeee notiii");
+//
+//     // endMeeting(endCallResponse.category??"");
+//   }
+//   );
+//
+//   socket.on(
+//       'backMeeting', (data) async {
+//     ResponseModel response = ResponseModel.fromJson(json.decode(data));
+//
+//     print("socketttt Meetingggg back responseeeeeeeee notiii");
+//     print(response.toJson());
+//     // back();
+//
+//
+//   }
+//   );
+//   Map <String, dynamic> data = {
+//     // SessionConstants.username : storage.read("access"),
+//     SessionConstants.sender : "A",
+//     "meet_id" : ch_id,
+//   };
+//
+//   print(data);
+//   if(status.isNotEmpty) {
+//     print("end status");
+//     data.addAll({"status" : status});
+//     socket.emit('endMeeting', data);
+//   }
+//   else {
+//     print("back status");
+//     socket.emit('backMeeting', data);
+//   }
+//   // socket.close();
+//   // socket.dispose();
+//   // Get.offAllNamed('/splash');
+// }
 
 class NotificationController {
 
@@ -677,6 +994,119 @@ class NotificationController {
       }
     }
   }
+
+
+// awesomeNotifications.setListeners(
+//     onActionReceivedMethod: (receivedAction) async {
+//       print("receivedAction.buttonKeyPressed");
+//       print(receivedAction.buttonKeyPressed);
+//       print(receivedAction.buttonKeyPressed=="ACCEPT");
+//
+//       if(receivedAction.buttonKeyPressed=="ACCEPT") {
+//         print("created");
+//         print(receivedAction);
+//         print("payload");
+//         print(receivedAction.payload);
+//         print(payload?['category']=="call" || payload?['path']=="/call");
+//
+//         if(payload?['category']=="call" || payload?['path']=="/call") {
+//           print(payload?['path'] ?? "/splash");
+//           print(payload?['path'] ?? "/splash");
+//           Get.toNamed(
+//               payload?['path'] ?? "/splash",
+//               arguments: {
+//                 "user": UserModel(
+//                     id: int.parse(payload?['user_id'] ?? "-1"),
+//                     name: payload?['name'] ?? "",
+//                     profile: payload?['profile'] ?? "",
+//                     mobile: ''
+//                 ),
+//                 "ch_id": int.parse(payload?['ch_id'] ?? "-1"),
+//                 "meet_id": payload?['meet_id'] ?? "",
+//                 "meetingID": payload?['meetingID'] ?? "",
+//                 "sessionID": payload?['sessionID'] ?? "",
+//                 "wallet": double.parse(payload?['wallet'] ?? "0"),
+//                 "type": "call",
+//                 "type": "REQUESTED",
+//                 "action" : "ACCEPT",
+//                 "session_history" : SessionHistoryModel.fromJson(json.decode(payload?['session_history']??"{}")),
+//               }
+//           );
+//         }
+//         else if(payload?['category']=="chat" || payload?['path']=="/chat") {
+//           Get.toNamed(
+//               payload?['path'] ?? "/splash",
+//               arguments: {
+//                 "user": UserModel(
+//                     id: int.parse(payload?['user_id'] ?? "-1"),
+//                     name: payload?['name'] ?? "",
+//                     profile: payload?['profile'] ?? "",
+//                     mobile: ''
+//                 ),
+//                 "ch_id": int.parse(payload?['ch_id'] ?? "-1"),
+//                 "type": "REQUESTED",
+//                 "action" : "ACCEPT"
+//               }
+//           );
+//         }
+//       }
+//       else if(receivedAction.buttonKeyPressed=="REJECT") {
+//         print("rejectedddd");
+//         if(payload?['category']=="call") {
+//           rejectCall(payload?['meetingID'] ?? "", payload?['sessionID'] ?? "", payload?['token'] ?? "", payload?['meet_id'] ?? "");
+//         }
+//         else if(payload?['category']=="chat") {
+//           rejectChat(payload?['ch_id'] ?? "");
+//         }
+//
+//       }
+//       else {
+//         print("hhhd");
+//         Map<String,String?>? payload = receivedAction.payload;
+//         print(payload);
+//         session(payload??{});
+//         // if(payload?['category']=="call") {
+//         //   Get.toNamed(
+//         //       payload?['path'] ?? "/splash",
+//         //       arguments: (payload?['path'] ?? "/splash") == "/call" ?
+//         //       {
+//         //         "user": UserModel(
+//         //             id: int.parse(payload?['user_id'] ?? "-1"),
+//         //             name: payload?['name'] ?? "",
+//         //             profile: payload?['profile'] ?? "",
+//         //             mobile: ''
+//         //         ),
+//         //         "meetingID": payload?['meetingID'] ?? "",
+//         //         "wallet": double.parse(payload?['wallet'] ?? "0"),
+//         //         "type": "REQUESTED",
+//         //         "action" : "NOT DECIDED",
+//         //       } : null
+//         //   );
+//         // }
+//         // else if(payload?['category']=="chat") {
+//         //   Get.toNamed(
+//         //       payload?['path'] ?? "/splash",
+//         //       arguments: {
+//         //         "user": UserModel(
+//         //             id: int.parse(payload?['user_id'] ?? "-1"),
+//         //             name: payload?['name'] ?? "",
+//         //             profile: payload?['profile'] ?? "",
+//         //             mobile: ''
+//         //         ),
+//         //         "ch_id": payload?['ch_id'] ?? "",
+//         //         "type": "REQUESTED",
+//         //         "action" : "NOT DECIDED"
+//         //       }
+//         //   );
+//         // }
+//       }
+//
+//     },
+//     onDismissActionReceivedMethod: (receivedAction) async {
+//       print("receivedAction");
+//       print(receivedAction);
+//     }
+// );
 }
 
 
