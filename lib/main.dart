@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:astro_guide_astro/colors/MyColors.dart';
-import 'package:astro_guide_astro/controllers/GlobalVariables.dart';
 import 'package:astro_guide_astro/controllers/call/CallController.dart';
 import 'package:astro_guide_astro/essential/Essential.dart';
 import 'package:astro_guide_astro/languages/Languages.dart';
 import 'package:astro_guide_astro/notifier/GlobalNotifier.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +24,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 // import 'package:month_year_picker/month_year_picker.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -40,11 +45,85 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 
 
+
+
+Future<void> initializeService() async {
+
+  final service = FlutterBackgroundService();
+  /// OPTIONAL, using custom notification channel id
+  // const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  //   'my_foreground', // id
+  //   'MY FOREGROUND SERVICE', // title
+  //   description:
+  //   'This channel is used for important notifications.', // description
+  //   importance: Importance.low, // importance must be at low or higher level
+  // );
+
+  AwesomeNotifications().initialize(
+    null, // icon for your app notification
+    [
+      NotificationChannel(
+        channelKey: 'my_foreground',
+        channelName: 'MY FOREGROUND SERVICE',
+        channelDescription: 'This channel is used for important notifications.',
+        importance: NotificationImportance.Low,
+      ),
+    ],
+  );
+
+
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  // FlutterLocalNotificationsPlugin();
+  //
+  // if (Platform.isIOS || Platform.isAndroid) {
+  //   await flutterLocalNotificationsPlugin.initialize(
+  //     const InitializationSettings(
+  //       iOS: DarwinInitializationSettings(),
+  //       android: AndroidInitializationSettings('ic_bg_service_small'),
+  //     ),
+  //   );
+  // }
+
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //     AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
+
+  await service.configure(
+    androidConfiguration: AndroidConfiguration(
+      // this will be executed when app is in foreground or background in separated isolate
+      onStart: onStart,
+
+      // auto start service
+      autoStart: true,
+      isForegroundMode: true,
+
+      notificationChannelId: 'my_foreground',
+      initialNotificationTitle: 'ASTROGUIDE SERVICE',
+      initialNotificationContent: 'Initializing',
+      foregroundServiceNotificationId: 888,
+    ),
+    iosConfiguration: IosConfiguration(
+      // auto start service
+      autoStart: true,
+
+      // this will be executed when app is in foreground in separated isolate
+      onForeground: onStart,
+
+      // you have to enable background fetch capability on xcode project
+      // onBackground: onIosBackground,
+    ),
+  );
+}
+
 void main() async {
   //HttpOverrides.global = MyHttpOverrides();
 
   await GetStorage.init();
+
   WidgetsFlutterBinding.ensureInitialized();
+  AndroidAlarmManager.initialize();
+
   await NotificationHelper.initFcm();
   await deleteAllFilesInDocumentsDirectory();
 
@@ -61,7 +140,30 @@ void main() async {
 
   Directory directory = await getApplicationDocumentsDirectory();
 
+
+  final int alarmManagerPort = 4711;
+  AndroidAlarmManager.periodic(
+    const Duration(minutes: 5), // Repeat every hour
+    alarmManagerPort,
+    callbackDispatcher,
+    startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
+        DateTime.now().hour, DateTime.now().minute + 1),
+    exact: true,
+    wakeup: true,
+  );
+
   runApp(LifecycleAwareWidget(child: MyApp(), directory: directory,));
+}
+
+@pragma('vm:entry-point')
+void callbackDispatcher() async {
+  final service = FlutterBackgroundService();
+  if (!(await service.isRunning())) {
+    await initializeService();
+  }
+
+  // Check if the service is running, and if not, start it
+
 }
 
 Future<void> deleteAllFilesInDirectory(String directoryPath) async {
@@ -80,6 +182,96 @@ Future<void> deleteAllFilesInDirectory(String directoryPath) async {
       // }
     }
   }
+}
+
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service) async {
+  // Only available for flutter 3.0.0 and later
+  DartPluginRegistrant.ensureInitialized();
+
+  // For flutter prior to version 3.0.0
+  // We have to register the plugin manually
+
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.setString("hello", "world");
+
+  /// OPTIONAL when use custom notification
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  // FlutterLocalNotificationsPlugin();
+
+  if (service is AndroidServiceInstance) {
+    service.on('setAsForeground').listen((event) {
+      service.setAsForegroundService();
+    });
+
+    service.on('setAsBackground').listen((event) {
+      service.setAsBackgroundService();
+    });
+  }
+
+  service.on('stopService').listen((event) {
+    service.stopSelf();
+  });
+
+  // bring to foreground
+  Timer.periodic(const Duration(seconds: 1), (timer) async {
+    if (service is AndroidServiceInstance) {
+      if (await service.isForegroundService()) {
+        /// OPTIONAL for use custom notification
+        /// the notification id must be equals with AndroidConfiguration when you call configure() method.
+        // flutterLocalNotificationsPlugin.show(
+        //   888,
+        //   'COOL SERVICE',
+        //   'Awesome ${DateTime.now()}',
+        //   const NotificationDetails(
+        //     android: AndroidNotificationDetails(
+        //       'my_foreground',
+        //       'MY FOREGROUND SERVICE',
+        //       icon: 'ic_bg_service_small',
+        //       ongoing: true,
+        //     ),
+        //   ),
+        // );
+
+        // if you don't using custom notification, uncomment this
+        // service.setForegroundNotificationInfo(
+        //   title: "TrueSender Service",
+        //   content: "Running background service",
+        // );
+      }
+    }
+
+    /// you can see this log in logcat
+    // print('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
+
+    // test using external plugin
+    final deviceInfo = DeviceInfoPlugin();
+    String? device;
+    try {
+      if (Platform.isAndroid) {
+        final androidInfo = await deviceInfo.androidInfo;
+        device = androidInfo.model;
+      }
+
+      if (Platform.isIOS) {
+        final iosInfo = await deviceInfo.iosInfo;
+        device = iosInfo.model;
+      }
+    }
+    catch(ex) {
+      print("ex");
+      print(ex);
+    }
+
+    service.invoke(
+      'update',
+      {
+        "current_date": DateTime.now().toIso8601String(),
+        "device": device,
+      },
+    );
+  });
 }
 
 Future<void> deleteAllFilesInDocumentsDirectory() async {

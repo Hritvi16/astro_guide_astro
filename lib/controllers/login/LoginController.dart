@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:astro_guide_astro/constants/CommonConstants.dart';
@@ -232,11 +231,11 @@ class LoginController extends GetxController {
     storage.write("refresh", response.refresh_token);
     storage.write("status", "logged in");
 
-    await NotificationHelper.initializeSocket();
+    // await NotificationHelper.initializeSocket();
 
     print('storage.read("access")');
     print(storage.read("access"));
-    // Get.offAllNamed("/home");
+    Get.offAllNamed("/home");
   }
 
   void changeCode() {

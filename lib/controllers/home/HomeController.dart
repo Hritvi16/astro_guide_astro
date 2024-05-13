@@ -1,4 +1,5 @@
 import 'package:astro_guide_astro/essential/Essential.dart';
+import 'package:astro_guide_astro/main.dart';
 import 'package:astro_guide_astro/providers/AstrologerProvider.dart';
 import 'package:astro_guide_astro/services/networking/ApiConstants.dart';
 import 'package:astro_guide_astro/shared/widgets/bottomNavigation/BottomNavigation.dart';
@@ -6,7 +7,9 @@ import 'package:astro_guide_astro/views/home/dashboard/Dashboard.dart';
 import 'package:astro_guide_astro/views/home/history/History.dart';
 import 'package:astro_guide_astro/views/home/settings/Setting.dart';
 import 'package:astro_guide_astro/views/home/support/Support.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -51,6 +54,7 @@ class HomeController extends GetxController {
     load = false;
     verify = false;
     check();
+    // initializeService();
     super.onInit();
   }
 
@@ -117,5 +121,4 @@ class HomeController extends GetxController {
       }
     });
   }
-
 }
